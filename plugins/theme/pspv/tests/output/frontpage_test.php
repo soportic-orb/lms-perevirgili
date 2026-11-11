@@ -71,6 +71,8 @@ final class frontpage_test extends \advanced_testcase {
         $generator->create_course(['category' => $sub->id, 'fullname' => 'Falls', 'startdate' => time() - WEEKSECS]);
         $generator->create_course(['category' => $external->id, 'fullname' => 'Hidden', 'visible' => 0]);
         $generator->create_course(['category' => $other->id, 'fullname' => 'Hand hygiene']);
+        // The catalogue is the theme's own unless a shop plugin offers one.
+        set_config('category', '', 'local_pspvshop');
         $this->setGuestUser();
 
         $data = $this->export();
