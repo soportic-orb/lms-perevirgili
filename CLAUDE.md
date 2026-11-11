@@ -55,7 +55,7 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 | Router | tot el que no és un fitxer va a `public/r.php` (`$CFG->routerconfigured`) | codi de `v5.3.0` |
 | Bootstrap de Moodle | 5.3.x (`package.json` del core: `^5.3.8`) | codi de `v5.3.0` |
 | moodle-plugin-ci | 4.5.11, amb suport de `public/` | changelog del projecte |
-| Tabler | última versió 1.7.4 | github.com/tabler/tabler/releases |
+| Tabler | 1.7.4 (`@tabler/core`); Tabler Icons 3.51.0 (`@tabler/icons-webfont`) | npm |
 
 Pendent de verificar quan toqui: versió de Bootstrap que porta Tabler (fase 3)
 i compatibilitat amb 5.3 de `paygw_stripe` (fase 4) i `mod_customcert` (fase 5).
@@ -72,7 +72,7 @@ docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cr
 deploy/cloudpanel/       install.sh i vhost de Nginx
 scripts/                 ota-keygen.sh, ota-bundle.sh
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
-docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md
+docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, maquetes/
 moodle/                  core de Moodle (no versionat)
 ```
 

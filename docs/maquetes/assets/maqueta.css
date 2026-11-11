@@ -1,0 +1,266 @@
+/*
+ * Campus PSPV — estils propis de les maquetes, a sobre de Tabler.
+ *
+ * Els colors són MARCADORS DE POSICIÓ fins que arribi el manual d'identitat
+ * de l'hospital: canviant aquestes dues variables canvia tota la interfície,
+ * que és el que farà la configuració de theme_pspv.
+ */
+:root,
+[data-bs-theme="light"] {
+    --pspv-primary: #0b6b7a;
+    --pspv-primary-rgb: 11, 107, 122;
+    --pspv-secondary: #c2410c;
+
+    --tblr-primary: var(--pspv-primary);
+    --tblr-primary-rgb: var(--pspv-primary-rgb);
+    --tblr-link-color: var(--pspv-primary);
+    --tblr-link-color-rgb: var(--pspv-primary-rgb);
+    --tblr-link-hover-color: #084f5a;
+    --tblr-link-hover-color-rgb: 8, 79, 90;
+}
+
+[data-bs-theme="dark"] {
+    --pspv-primary: #4fc3d4;
+    --pspv-primary-rgb: 79, 195, 212;
+    --tblr-primary: var(--pspv-primary);
+    --tblr-primary-rgb: var(--pspv-primary-rgb);
+    --tblr-link-color: var(--pspv-primary);
+    --tblr-link-color-rgb: var(--pspv-primary-rgb);
+}
+
+/* Enllaç per saltar al contingut (WCAG 2.4.1). */
+.pspv-skip {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 2000;
+    padding: .5rem 1rem;
+    background: var(--tblr-bg-surface);
+}
+.pspv-skip:focus {
+    left: .5rem;
+    top: .5rem;
+}
+
+/* Focus sempre visible (WCAG 2.4.7). */
+:focus-visible {
+    outline: 2px solid var(--pspv-primary);
+    outline-offset: 2px;
+}
+
+/* Marca provisional. */
+.pspv-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .625rem;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+.pspv-brand:hover {
+    color: inherit;
+    text-decoration: none;
+}
+.pspv-brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--tblr-border-radius);
+    background: var(--pspv-primary);
+    color: #fff;
+    font-size: 1.125rem;
+}
+[data-bs-theme="dark"] .pspv-brand-mark {
+    color: #06262c;
+}
+.pspv-brand small {
+    display: block;
+    font-weight: 400;
+    font-size: .6875rem;
+    color: var(--tblr-secondary);
+    letter-spacing: 0;
+}
+
+/* Capçalera de la portada. */
+.pspv-hero {
+    padding: 3.5rem 0 3rem;
+    background:
+        radial-gradient(60rem 22rem at 85% -10%, rgba(var(--pspv-primary-rgb), .12), transparent 70%),
+        var(--tblr-bg-surface);
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+.pspv-hero h1 {
+    font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    text-wrap: balance;
+}
+.pspv-hero .lead {
+    max-width: 38rem;
+    color: var(--tblr-secondary);
+    font-size: 1.0625rem;
+}
+
+/* Les dues portes d'entrada. */
+.pspv-door {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius-lg);
+    background: var(--tblr-bg-surface);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.pspv-door:hover {
+    border-color: var(--pspv-primary);
+    box-shadow: 0 .25rem 1rem rgba(var(--pspv-primary-rgb), .12);
+    color: inherit;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+.pspv-door .avatar {
+    flex: none;
+}
+.pspv-door strong {
+    display: block;
+    font-size: 1.0625rem;
+}
+
+/* Portada d'un curs sense imatge: color de l'àrea i icona. */
+.pspv-cover {
+    --cover: var(--pspv-primary-rgb);
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 8;
+    background:
+        radial-gradient(18rem 9rem at 100% 0, rgba(var(--cover), .28), transparent 70%),
+        rgba(var(--cover), .1);
+    color: rgb(var(--cover));
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+.pspv-cover > .ti {
+    font-size: 3rem;
+}
+[data-bs-theme="dark"] .pspv-cover {
+    background: rgba(var(--cover), .18);
+}
+.pspv-cover .badge {
+    position: absolute;
+    left: .75rem;
+    top: .75rem;
+}
+.pspv-cover-geriatria { --cover: 11, 107, 122; }
+.pspv-cover-rehab { --cover: 47, 110, 178; }
+.pspv-cover-palliatius { --cover: 124, 77, 168; }
+.pspv-cover-infermeria { --cover: 190, 75, 60; }
+.pspv-cover-seguretat { --cover: 176, 112, 20; }
+.pspv-cover-gestio { --cover: 60, 120, 80; }
+
+.pspv-course {
+    transition: box-shadow .15s, transform .15s;
+}
+.pspv-course:hover {
+    box-shadow: var(--tblr-box-shadow-card-hover, 0 .5rem 1.25rem rgba(0, 0, 0, .08));
+    transform: translateY(-2px);
+}
+.pspv-course .card-title a {
+    color: inherit;
+}
+.pspv-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    color: var(--tblr-secondary);
+    font-size: .8125rem;
+}
+.pspv-meta .ti {
+    margin-right: .25rem;
+}
+.pspv-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.pspv-price-xl {
+    font-size: 2.25rem;
+    line-height: 1;
+    letter-spacing: -.02em;
+}
+
+/* Targeta de compra enganxada en desplaçar-se. */
+@media (min-width: 992px) {
+    .pspv-sticky {
+        position: sticky;
+        top: 1rem;
+    }
+}
+
+/* Avís de maqueta. */
+.pspv-draft {
+    padding: .375rem 1rem;
+    background: #1f2937;
+    color: #f9fafb;
+    font-size: .8125rem;
+    text-align: center;
+}
+.pspv-draft a {
+    color: #a5f3fc;
+}
+
+.pspv-footer {
+    border-top: 1px solid var(--tblr-border-color);
+    background: var(--tblr-bg-surface);
+    padding: 2rem 0;
+    color: var(--tblr-secondary);
+    font-size: .875rem;
+}
+.pspv-footer h2 {
+    font-size: .8125rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--tblr-body-color);
+}
+.pspv-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.pspv-footer li {
+    margin-bottom: .375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pspv-door,
+    .pspv-course {
+        transition: none;
+    }
+    .pspv-door:hover,
+    .pspv-course:hover {
+        transform: none;
+    }
+}
+
+/* En pantalles estretes el canal de 1,5rem de .g-4 sobresurt del contenidor. */
+@media (max-width: 575.98px) {
+    .row.g-4 {
+        --tblr-gutter-x: 1rem;
+    }
+}
+
+/* Barra superior en mòbil: amb la sessió iniciada, l'idioma passa al menú desplegable. */
+@media (max-width: 575.98px) {
+    .pspv-brand small {
+        display: none;
+    }
+    .pspv-logged .pspv-lang {
+        display: none;
+    }
+}

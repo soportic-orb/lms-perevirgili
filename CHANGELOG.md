@@ -1,5 +1,13 @@
 # Registre de canvis
 
+## Fase 3 — Imatge gràfica (en curs)
+
+### Afegit
+
+- `docs/maquetes/`: tres maquetes estàtiques amb Tabler 1.7.4 i Tabler Icons
+  (portada pública amb catàleg, tauler de l'alumne i fitxa de curs de
+  pagament), amb captures d'escriptori i de mòbil. Pendents d'aprovació.
+
 ## Fase 2 — Accés i identitat (11-11-2026)
 
 ### Afegit
