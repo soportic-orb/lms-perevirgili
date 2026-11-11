@@ -34,6 +34,9 @@ class catalogue {
     /** @var int Number of cover colours the stylesheets define. */
     protected const TONES = 6;
 
+    /** @var string Shortname of the course custom field with the accreditation credits. */
+    public const CREDITS_FIELD = 'pspv_credits';
+
     /**
      * The category whose courses can be sold.
      *
@@ -66,7 +69,7 @@ class catalogue {
      * Searches the products on sale.
      *
      * @param array $filters Optional keys: q (text), area (category id), mode, price (key of PRICE_RANGES),
-     *                       start ("upcoming" or "open").
+     *                       start ("upcoming" or "open"), credits (true for courses with accreditation credits).
      * @param int $page Page number, from 0.
      * @param int $perpage Cards per page; 0 for all.
      * @return array cards (see card()) and total (int).
@@ -116,11 +119,24 @@ class catalogue {
             $params['startnow'] = $now;
         }
 
+        // Accreditation credits, when the course custom field that holds them exists.
+        $credits = 'NULL AS credits';
+        $creditsjoin = '';
+        if ($fieldid = self::credits_field()) {
+            $credits = 'cr.decvalue AS credits';
+            $creditsjoin = 'LEFT JOIN {customfield_data} cr ON cr.instanceid = c.id AND cr.fieldid = :creditsfield';
+            $params['creditsfield'] = $fieldid;
+            if (!empty($filters['credits'])) {
+                $where[] = 'cr.decvalue > 0';
+            }
+        }
+
         // Courses that have not started yet come first, soonest first.
         $rows = $DB->get_records_sql(
-            "SELECT p.*, c.fullname, c.summary, c.summaryformat, c.category, c.startdate
+            "SELECT p.*, c.fullname, c.summary, c.summaryformat, c.category, c.startdate, $credits
                FROM {local_pspvshop_product} p
                JOIN {course} c ON c.id = p.courseid
+                    $creditsjoin
               WHERE " . implode(' AND ', $where) . "
            ORDER BY CASE WHEN c.startdate > :now3 THEN 0 ELSE 1 END, c.startdate, c.fullname, p.id",
             $params,
@@ -151,9 +167,26 @@ class catalogue {
     }
 
     /**
+     * Id of the course custom field with the accreditation credits (the one local_pspvaccredit creates).
+     *
+     * @return int 0 when there is no such field.
+     */
+    public static function credits_field(): int {
+        global $DB;
+
+        $sql = "SELECT f.id
+                  FROM {customfield_field} f
+                  JOIN {customfield_category} c ON c.id = f.categoryid
+                 WHERE c.component = :component AND c.area = :area AND f.shortname = :shortname AND f.type = :type";
+        $params = ['component' => 'core_course', 'area' => 'course', 'shortname' => self::CREDITS_FIELD, 'type' => 'number'];
+        return (int) $DB->get_field_sql($sql, $params, IGNORE_MULTIPLE);
+    }
+
+    /**
      * A product as the templates show it.
      *
-     * @param \stdClass $row Product with the fullname, summary, summaryformat, category and startdate of its course.
+     * @param \stdClass $row Product with the fullname, summary, summaryformat, category and startdate of its course,
+     *                       and optionally its accreditation credits.
      * @param \core_course_category $category
      * @param int|null $userid The current user, when they have an account.
      * @return array
@@ -170,6 +203,7 @@ class catalogue {
         [, , $generaltopay] = money::split($general, product::tax_rate($row));
         $seats = product::seats_left($row);
         $image = self::image((int) $row->courseid);
+        $rowcredits = (float) ($row->credits ?? 0);
 
         return [
             'id' => (int) $row->id,
@@ -186,6 +220,8 @@ class catalogue {
             'mode' => empty($row->mode) ? '' : get_string('mode_' . $row->mode, 'local_pspvshop'),
             'hasstart' => $row->startdate > time(),
             'start' => userdate($row->startdate, get_string('strftimedate', 'core_langconfig')),
+            'hascredits' => $rowcredits > 0,
+            'credits' => get_string('credits_n', 'local_pspvshop', format_float($rowcredits, 1, true, true)),
             'price' => money::format($topay),
             'isfree' => $topay === 0,
             'hasreduction' => $mine < $general,

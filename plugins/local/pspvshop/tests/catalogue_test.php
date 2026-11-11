@@ -42,6 +42,36 @@ final class catalogue_test extends shop_testcase {
         return array_column(catalogue::search($filters, 0, 0)['cards'], 'name');
     }
 
+    public function test_courses_with_accreditation_credits_show_them_and_can_be_filtered(): void {
+        global $DB;
+
+        // The field is the one local_pspvaccredit creates; here the test makes its own if it is missing.
+        if (!catalogue::credits_field()) {
+            $generator = $this->getDataGenerator()->get_plugin_generator('core_customfield');
+            $category = $generator->create_category(['component' => 'core_course', 'area' => 'course']);
+            $generator->create_field([
+                'categoryid' => $category->get('id'), 'type' => 'number', 'shortname' => catalogue::CREDITS_FIELD,
+                'configdata' => ['decimalplaces' => 1],
+            ]);
+        }
+        $this->assertGreaterThan(0, catalogue::credits_field());
+        $this->setGuestUser();
+        $this->create_product(40, [], ['fullname' => 'Accredited', 'customfield_' . catalogue::CREDITS_FIELD => 2.5]);
+        $this->create_product(40, [], ['fullname' => 'Plain']);
+
+        $this->assertEqualsCanonicalizing(['Accredited', 'Plain'], $this->names());
+        $this->assertSame(['Accredited'], $this->names(['credits' => 1]));
+        $cards = array_column(catalogue::search([], 0, 0)['cards'], null, 'name');
+        $this->assertTrue($cards['Accredited']['hascredits']);
+        $this->assertStringContainsString(format_float(2.5, 1), $cards['Accredited']['credits']);
+        $this->assertFalse($cards['Plain']['hascredits']);
+
+        // Without the field there is nothing to filter by.
+        $DB->delete_records('customfield_field', ['id' => catalogue::credits_field()]);
+        $this->assertSame(0, catalogue::credits_field());
+        $this->assertEqualsCanonicalizing(['Accredited', 'Plain'], $this->names(['credits' => 1]));
+    }
+
     public function test_search_lists_what_is_on_sale_and_filters_it(): void {
         $generator = $this->getDataGenerator();
         $nursing = $generator->create_category(['name' => 'Nursing']);
