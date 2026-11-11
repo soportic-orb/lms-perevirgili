@@ -13,16 +13,26 @@ d'implementar `theme_pspv`.
 Per veure-les en viu, obre `index.html` amb el navegador: no necessiten
 servidor ni connexió (CSS, icones i tipografia són a `assets/`).
 
+## Identitat
+
+- **Logotip.** El del Parc Sanitari Pere Virgili, a la capçalera i al peu, al
+  costat del nom «Campus». S'ha preparat a partir d'un JPG de 720 px: per al
+  tema convé la versió vectorial (SVG) i, si existeix, la versió en negatiu
+  per a fons foscos.
+- **Colors.** Els dos blaus del logotip: `#0074D1` (primari) i `#009DE4`
+  (secundari). El primari fa 4,75:1 sobre blanc, però no arriba al 4,5:1 que
+  demana WCAG AA sobre els fons tenyits; per això el text i els enllaços fan
+  servir un to més fosc del mateix blau, `#005FAD` (6,5:1). El secundari
+  (3,0:1) només es fa servir en fons i detalls, mai per a text.
+- Tot surt de les variables `--pspv-*` de `assets/maqueta.css`, que és el que
+  es podrà configurar des de l'administració del tema.
+
 ## Què és provisional
 
-- **Colors.** El verd blavós (`#0b6b7a`) i el taronja són marcadors de
-  posició. Tota la interfície surt de dues variables de
-  `assets/maqueta.css` (`--pspv-primary` i `--pspv-secondary`), que és el que
-  es podrà configurar des de l'administració del tema.
-- **Logotip.** Icona genèrica, fins que arribi el logotip de l'hospital.
 - **Continguts.** Cursos, preus, dates, crèdits, noms i xifres són d'exemple.
   El que va entre claudàtors (`[Nom del docent]`, `[Tractament de l'IVA…]`)
   és informació que ha de donar l'hospital.
+- **Colors de les àrees** a les portades dels cursos sense imatge.
 
 ## Tipografia
 
