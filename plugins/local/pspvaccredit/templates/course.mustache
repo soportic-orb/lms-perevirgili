@@ -1,0 +1,202 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvaccredit/course
+
+    Accreditation of a course: data, sessions, students and diploma.
+
+    Example context (json):
+    {
+        "accredited": true,
+        "nocriteria": false,
+        "canedit": true,
+        "editurl": "https://example.com/course/edit.php?id=2",
+        "filecode": "09/012345-MD",
+        "credits": "2,4",
+        "hours": "20,0",
+        "period": "01/01/27 – 31/12/27",
+        "minattendance": "80 %",
+        "mingrade": "50 %",
+        "showsessions": true,
+        "hassessions": true,
+        "sessions": [
+            {"name": "Workshop", "date": "12/01/27, 09:00", "duration": "120 minutes", "present": 8, "canmark": true,
+             "markurl": "https://example.com/local/pspvaccredit/attendance.php?id=1", "canmanage": true,
+             "editurl": "https://example.com/local/pspvaccredit/session.php?id=1"}
+        ],
+        "canmanage": true,
+        "addsessionurl": "https://example.com/local/pspvaccredit/session.php?course=2",
+        "canview": true,
+        "hasstudents": true,
+        "students": [
+            {"name": "Bea Buyer", "attendance": "100 %", "grade": "80 %", "hascompletion": true, "completed": true,
+             "passed": true, "date": "20/01/27", "manual": false, "pending": "", "canmanage": true,
+             "awardurl": "https://example.com/", "revokeurl": "https://example.com/"}
+        ],
+        "passedcount": 1,
+        "studentcount": 1,
+        "syncurl": "https://example.com/",
+        "download": "",
+        "diplomaavailable": true,
+        "hasdiploma": false,
+        "diplomaurl": "",
+        "adddiplomaurl": "https://example.com/"
+    }
+}}
+<div class="local-pspvaccredit" data-region="pspvaccredit-course">
+    {{^accredited}}
+    <div class="alert alert-info" role="status">
+        {{#str}}notaccredited, local_pspvaccredit{{/str}}
+        {{#canedit}}<a href="{{editurl}}">{{#str}}editsettings, local_pspvaccredit{{/str}}</a>{{/canedit}}
+    </div>
+    {{/accredited}}
+    {{#nocriteria}}
+    <div class="alert alert-warning" role="status">{{#str}}nocriteria, local_pspvaccredit{{/str}}</div>
+    {{/nocriteria}}
+
+    {{#accredited}}
+    <section class="card mb-4" aria-labelledby="pspvaccredit-data-title">
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between gap-2 mb-3">
+                <h3 id="pspvaccredit-data-title" class="h5 mb-0">{{#str}}data, local_pspvaccredit{{/str}}</h3>
+                {{#canedit}}<a href="{{editurl}}">{{#str}}editsettings, local_pspvaccredit{{/str}}</a>{{/canedit}}
+            </div>
+            <dl class="row mb-0">
+                <dt class="col-sm-4">{{#str}}report_filecode, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{filecode}}{{^filecode}}–{{/filecode}}</dd>
+                <dt class="col-sm-4">{{#str}}report_credits, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{credits}}{{^credits}}–{{/credits}}</dd>
+                <dt class="col-sm-4">{{#str}}report_hours, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{hours}}{{^hours}}–{{/hours}}</dd>
+                {{#period}}
+                <dt class="col-sm-4">{{#str}}period, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{period}}</dd>
+                {{/period}}
+                <dt class="col-sm-4">{{#str}}minattendance, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{minattendance}}{{^minattendance}}{{#str}}notrequired, local_pspvaccredit{{/str}}{{/minattendance}}</dd>
+                <dt class="col-sm-4">{{#str}}mingrade, local_pspvaccredit{{/str}}</dt>
+                <dd class="col-sm-8">{{mingrade}}{{^mingrade}}{{#str}}notrequired, local_pspvaccredit{{/str}}{{/mingrade}}</dd>
+            </dl>
+        </div>
+    </section>
+    {{/accredited}}
+
+    {{#showsessions}}
+    <section class="mb-4" aria-labelledby="pspvaccredit-sessions-title">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <h3 id="pspvaccredit-sessions-title" class="h5 mb-0">{{#str}}sessions, local_pspvaccredit{{/str}}</h3>
+            {{#canmanage}}<a class="btn btn-secondary btn-sm" href="{{addsessionurl}}">{{#str}}session_add, local_pspvaccredit{{/str}}</a>{{/canmanage}}
+        </div>
+        {{#hassessions}}
+        <div class="table-responsive">
+            <table class="table table-sm generaltable" data-region="pspvaccredit-sessions">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}session, local_pspvaccredit{{/str}}</th>
+                        <th scope="col">{{#str}}date{{/str}}</th>
+                        <th scope="col">{{#str}}session_duration, local_pspvaccredit{{/str}}</th>
+                        <th scope="col">{{#str}}present, local_pspvaccredit{{/str}}</th>
+                        <th scope="col"><span class="visually-hidden">{{#str}}actions{{/str}}</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#sessions}}
+                    <tr>
+                        <th scope="row">{{{name}}}</th>
+                        <td>{{date}}</td>
+                        <td>{{duration}}</td>
+                        <td>{{present}}</td>
+                        <td class="text-end">
+                            {{#canmark}}<a href="{{markurl}}">{{#str}}attendance_mark, local_pspvaccredit{{/str}}<span class="visually-hidden">: {{{name}}}</span></a>{{/canmark}}
+                            {{#canmanage}} · <a href="{{editurl}}">{{#str}}edit{{/str}}<span class="visually-hidden">: {{{name}}}</span></a>{{/canmanage}}
+                        </td>
+                    </tr>
+                    {{/sessions}}
+                </tbody>
+            </table>
+        </div>
+        {{/hassessions}}
+        {{^hassessions}}<p class="text-muted">{{#str}}sessions_none, local_pspvaccredit{{/str}}</p>{{/hassessions}}
+    </section>
+    {{/showsessions}}
+
+    {{#canview}}
+    <section class="mb-4" aria-labelledby="pspvaccredit-students-title">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <h3 id="pspvaccredit-students-title" class="h5 mb-0">{{#str}}students, local_pspvaccredit{{/str}}
+                <span class="badge text-bg-secondary" data-region="pspvaccredit-passed">{{passedcount}} / {{studentcount}}</span></h3>
+            {{#canmanage}}{{#accredited}}<a class="btn btn-secondary btn-sm" href="{{syncurl}}">{{#str}}sync, local_pspvaccredit{{/str}}</a>{{/accredited}}{{/canmanage}}
+        </div>
+        {{#hasstudents}}
+        <div class="table-responsive">
+            <table class="table table-sm generaltable" data-region="pspvaccredit-students">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}fullname{{/str}}</th>
+                        <th scope="col">{{#str}}report_attendance, local_pspvaccredit{{/str}}</th>
+                        <th scope="col">{{#str}}report_grade, local_pspvaccredit{{/str}}</th>
+                        <th scope="col">{{#str}}completed, local_pspvaccredit{{/str}}</th>
+                        <th scope="col">{{#str}}status{{/str}}</th>
+                        <th scope="col"><span class="visually-hidden">{{#str}}actions{{/str}}</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#students}}
+                    <tr>
+                        <th scope="row">{{name}}</th>
+                        <td>{{attendance}}</td>
+                        <td>{{grade}}</td>
+                        <td>{{#hascompletion}}{{#completed}}{{#str}}yes{{/str}}{{/completed}}{{^completed}}{{#str}}no{{/str}}{{/completed}}{{/hascompletion}}{{^hascompletion}}–{{/hascompletion}}</td>
+                        <td>
+                            {{#passed}}<span class="badge text-bg-success">{{#str}}passed, local_pspvaccredit{{/str}}</span> {{date}}{{#manual}} <span class="text-muted">({{#str}}manual, local_pspvaccredit{{/str}})</span>{{/manual}}{{/passed}}
+                            {{^passed}}<span class="badge text-bg-secondary">{{#str}}notpassed, local_pspvaccredit{{/str}}</span>{{#pending}} <span class="text-muted small">{{pending}}</span>{{/pending}}{{/passed}}
+                        </td>
+                        <td class="text-end">
+                            {{#canmanage}}
+                            {{#passed}}<a href="{{revokeurl}}">{{#str}}revoke, local_pspvaccredit{{/str}}<span class="visually-hidden">: {{name}}</span></a>{{/passed}}
+                            {{^passed}}<a href="{{awardurl}}">{{#str}}award, local_pspvaccredit{{/str}}<span class="visually-hidden">: {{name}}</span></a>{{/passed}}
+                            {{/canmanage}}
+                        </td>
+                    </tr>
+                    {{/students}}
+                </tbody>
+            </table>
+        </div>
+        {{{download}}}
+        {{/hasstudents}}
+        {{^hasstudents}}<p class="text-muted">{{#str}}students_none, local_pspvaccredit{{/str}}</p>{{/hasstudents}}
+    </section>
+    {{/canview}}
+
+    {{#accredited}}{{#canmanage}}
+    <section class="card" aria-labelledby="pspvaccredit-diploma-title">
+        <div class="card-body">
+            <h3 id="pspvaccredit-diploma-title" class="h5">{{#str}}diploma, local_pspvaccredit{{/str}}</h3>
+            {{#diplomaavailable}}
+                {{#hasdiploma}}
+                <p class="mb-0">{{#str}}diploma_exists, local_pspvaccredit{{/str}} <a href="{{diplomaurl}}">{{#str}}diploma_open, local_pspvaccredit{{/str}}</a></p>
+                {{/hasdiploma}}
+                {{^hasdiploma}}
+                <p>{{#str}}diploma_desc, local_pspvaccredit{{/str}}</p>
+                <a class="btn btn-primary" href="{{adddiplomaurl}}">{{#str}}diploma_add, local_pspvaccredit{{/str}}</a>
+                {{/hasdiploma}}
+            {{/diplomaavailable}}
+            {{^diplomaavailable}}<p class="mb-0 text-muted">{{#str}}diploma_unavailable, local_pspvaccredit{{/str}}</p>{{/diplomaavailable}}
+        </div>
+    </section>
+    {{/canmanage}}{{/accredited}}
+</div>

@@ -1,0 +1,53 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvaccredit/attendance
+
+    List of students to record who attended a session.
+
+    Example context (json):
+    {
+        "action": "https://example.com/local/pspvaccredit/attendance.php?id=1",
+        "sesskey": "abc",
+        "date": "12/01/27, 09:00",
+        "hasstudents": true,
+        "students": [{"id": 5, "name": "Bea Buyer", "present": true}],
+        "returnurl": "https://example.com/local/pspvaccredit/index.php?id=2"
+    }
+}}
+<p class="text-muted">{{date}}</p>
+{{#hasstudents}}
+<form method="post" action="{{action}}" data-region="pspvaccredit-attendance">
+    <input type="hidden" name="sesskey" value="{{sesskey}}">
+    <input type="hidden" name="save" value="1">
+    <fieldset class="mb-3">
+        <legend class="h6">{{#str}}attendance_legend, local_pspvaccredit{{/str}}</legend>
+        {{#students}}
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="pspvaccredit-present-{{id}}" name="present[{{id}}]" value="1"{{#present}} checked{{/present}}>
+            <label class="form-check-label" for="pspvaccredit-present-{{id}}">{{name}}</label>
+        </div>
+        {{/students}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">{{#str}}attendance_save, local_pspvaccredit{{/str}}</button>
+    <a class="btn btn-secondary" href="{{returnurl}}">{{#str}}cancel{{/str}}</a>
+</form>
+{{/hasstudents}}
+{{^hasstudents}}
+<p class="text-muted">{{#str}}students_none, local_pspvaccredit{{/str}}</p>
+<a class="btn btn-secondary" href="{{returnurl}}">{{#str}}back{{/str}}</a>
+{{/hasstudents}}

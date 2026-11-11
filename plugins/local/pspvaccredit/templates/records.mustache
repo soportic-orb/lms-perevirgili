@@ -1,0 +1,82 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvaccredit/records
+
+    Register of who passed an accredited course.
+
+    Example context (json):
+    {
+        "action": "https://example.com/local/pspvaccredit/records.php",
+        "from": "2027-01-01",
+        "to": "",
+        "hasrecords": true,
+        "count": 1,
+        "records": [
+            {"name": "Bea Buyer", "document": "12345678Z", "course": "Wound care", "courseurl": "https://example.com/",
+             "filecode": "09/012345-MD", "credits": "2,40", "hours": "20,00", "attendance": "100,00", "grade": "80,00",
+             "date": "20/01/27"}
+        ],
+        "download": ""
+    }
+}}
+<form method="get" action="{{action}}" class="row g-2 align-items-end mb-3" data-region="pspvaccredit-filter">
+    <div class="col-auto">
+        <label class="form-label" for="pspvaccredit-from">{{#str}}filter_from, local_pspvaccredit{{/str}}</label>
+        <input class="form-control" type="date" id="pspvaccredit-from" name="from" value="{{from}}">
+    </div>
+    <div class="col-auto">
+        <label class="form-label" for="pspvaccredit-to">{{#str}}filter_to, local_pspvaccredit{{/str}}</label>
+        <input class="form-control" type="date" id="pspvaccredit-to" name="to" value="{{to}}">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-secondary">{{#str}}filter{{/str}}</button>
+    </div>
+</form>
+{{#hasrecords}}
+<p>{{#str}}records_count, local_pspvaccredit, {{count}}{{/str}}</p>
+<div class="table-responsive">
+    <table class="table table-sm generaltable" data-region="pspvaccredit-records">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}fullname{{/str}}</th>
+                <th scope="col">{{#str}}report_document, local_pspvaccredit{{/str}}</th>
+                <th scope="col">{{#str}}course{{/str}}</th>
+                <th scope="col">{{#str}}report_filecode, local_pspvaccredit{{/str}}</th>
+                <th scope="col">{{#str}}report_credits, local_pspvaccredit{{/str}}</th>
+                <th scope="col">{{#str}}report_hours, local_pspvaccredit{{/str}}</th>
+                <th scope="col">{{#str}}report_date, local_pspvaccredit{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#records}}
+            <tr>
+                <th scope="row">{{name}}</th>
+                <td>{{document}}</td>
+                <td><a href="{{courseurl}}">{{course}}</a></td>
+                <td>{{filecode}}</td>
+                <td>{{credits}}</td>
+                <td>{{hours}}</td>
+                <td>{{date}}</td>
+            </tr>
+            {{/records}}
+        </tbody>
+    </table>
+</div>
+{{{download}}}
+{{/hasrecords}}
+{{^hasrecords}}<p class="text-muted">{{#str}}records_none, local_pspvaccredit{{/str}}</p>{{/hasrecords}}
