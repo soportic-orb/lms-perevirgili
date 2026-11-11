@@ -10,6 +10,7 @@ x-volumes: &volumes
   - phpunitdata:/var/www/phpunitdata
   - behatdata:/var/www/behatdata
   - ./plugins/local/pspvcore:/var/www/campus/moodle/public/local/pspvcore
+  - ./plugins/local/pspvaccess:/var/www/campus/moodle/public/local/pspvaccess
 
 x-php: &php
   image: moodlehq/moodle-php-apache:8.4
