@@ -1,0 +1,60 @@
+// Base: variables CSS, icones, titulars i focus.
+:root {
+    --pspv-primary: #{$primary};
+    --pspv-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+    --pspv-primary-text: #{$pspv-primary-text};
+    --pspv-secondary: #{$pspv-secondary};
+    --pspv-secondary-rgb: #{red($pspv-secondary)}, #{green($pspv-secondary)}, #{blue($pspv-secondary)};
+    --pspv-muted: #{$pspv-muted};
+    --pspv-border: #{$pspv-border};
+    --pspv-surface: #{$pspv-surface};
+    --pspv-display: #{$pspv-font-display};
+}
+
+// Tabler Icons. Les classes .ti-* són a _icons.scss (generat).
+.ti {
+    font-family: "tabler-icons" !important; /* stylelint-disable-line declaration-no-important */
+    font-style: normal;
+    font-weight: 400 !important; /* stylelint-disable-line declaration-no-important */
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// El traç de Tabler és més fi que el de Font Awesome: una mica més gran perquè pesi igual.
+.icon.ti {
+    font-size: 1.15em;
+}
+
+h1,
+.h1,
+h2,
+.h2 {
+    font-family: $pspv-font-display;
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+// Focus sempre visible (WCAG 2.4.7).
+:focus-visible {
+    outline: 2px solid $pspv-primary-text;
+    outline-offset: 2px;
+}
+
+.text-primary {
+    color: $pspv-primary-text !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.text-muted,
+.dimmed_text {
+    color: $pspv-muted !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.pspv-container {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}

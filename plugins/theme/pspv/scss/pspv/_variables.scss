@@ -1,0 +1,40 @@
+// Campus PSPV: tokens de Tabler sobre les variables de Bootstrap.
+//
+// Aquest fitxer es compila ABANS del preset de Boost, de manera que aquí es
+// fixen les variables i Bootstrap genera els components amb elles. $primary,
+// $pspv-secondary i $pspv-primary-text els hi posa theme_pspv_get_pre_scss()
+// a partir dels paràmetres del tema.
+
+// Tipografia de la web de Soportic: Plus Jakarta Sans per al text.
+$font-family-sans-serif: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+$pspv-font-display: "Fraunces", Georgia, "Times New Roman", serif;
+$headings-font-weight: 600;
+$btn-font-weight: 500;
+
+// Colors neutres de Tabler.
+$body-bg: #f6f8fb;
+$body-color: #182433;
+$pspv-muted: #5b6676;
+$pspv-border: #dce1e7;
+$pspv-surface: #ffffff;
+
+// Text i enllaços en el to del color principal que arriba a 4,5:1 (WCAG AA).
+$link-color: $pspv-primary-text;
+$link-hover-color: darken($pspv-primary-text, 8%);
+
+// Radis i ombres de Tabler.
+$border-radius: .375rem;
+$border-radius-sm: .25rem;
+$border-radius-lg: .5rem;
+$pspv-shadow: 0 1px 2px rgba(24, 36, 51, .05);
+$pspv-shadow-hover: 0 .5rem 1.25rem rgba(24, 36, 51, .08);
+
+// Targetes.
+$card-border-color: $pspv-border;
+$card-cap-bg: transparent;
+
+// Desplegables: fons tenyit en lloc del blau sòlid de Boost.
+$dropdown-link-hover-color: $body-color;
+$dropdown-link-hover-bg: rgba($primary, .08);
+$dropdown-link-active-color: $pspv-primary-text;
+$dropdown-link-active-bg: rgba($primary, .1);

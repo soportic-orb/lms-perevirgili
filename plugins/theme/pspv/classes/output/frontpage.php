@@ -1,0 +1,69 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace theme_pspv\output;
+
+use theme_pspv\local\catalogue;
+use theme_pspv\local\texts;
+
+/**
+ * Data of the public front page.
+ *
+ * @package    theme_pspv
+ * @copyright  2026 Soportic <https://soportic.es>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class frontpage implements \core\output\renderable, \core\output\templatable {
+    #[\Override]
+    public function export_for_template(\core\output\renderer_base $output): array {
+        $courses = catalogue::courses(max(0, (int) (get_config('theme_pspv', 'cataloguecount') ?: 6)));
+        $guest = !isloggedin() || isguestuser();
+
+        return [
+            'title' => texts::get('herotitle'),
+            'lead' => texts::get('herolead'),
+            'searchurl' => (new \core\url('/course/search.php'))->out(false),
+            'showdoors' => $guest,
+            'workerurl' => self::worker_login_url()->out(false),
+            'externalurl' => (new \core\url('/login/index.php'))->out(false),
+            'dashboardurl' => (new \core\url('/my/'))->out(false),
+            'catalogueurl' => catalogue::url()->out(false),
+            'hascourses' => !empty($courses),
+            'courses' => $courses,
+        ];
+    }
+
+    /**
+     * Where the "I am a worker" entry point leads: straight to the hospital's sign-in provider
+     * when the access plugin has one configured, otherwise to the login page.
+     *
+     * @return \core\url
+     */
+    protected static function worker_login_url(): \core\url {
+        if (class_exists(\local_pspvaccess\worker_policy::class)) {
+            $issuerid = \local_pspvaccess\worker_policy::worker_issuer();
+            $issuer = $issuerid ? \core\oauth2\issuer::get_record(['id' => $issuerid]) : false;
+            if ($issuer && $issuer->get('enabled') && is_enabled_auth('oauth2')) {
+                return new \core\url('/auth/oauth2/login.php', [
+                    'id' => $issuerid,
+                    'wantsurl' => (new \core\url('/my/'))->out(false),
+                    'sesskey' => sesskey(),
+                ]);
+            }
+        }
+        return new \core\url('/login/index.php');
+    }
+}
