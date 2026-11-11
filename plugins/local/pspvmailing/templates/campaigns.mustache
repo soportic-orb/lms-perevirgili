@@ -1,0 +1,59 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvmailing/campaigns
+
+    List of campaigns.
+
+    Example context (json):
+    {
+        "addurl": "https://example.com/local/pspvmailing/manage/edit.php",
+        "hascampaigns": true,
+        "campaigns": [
+            {"name": "Spring courses", "url": "https://example.com/local/pspvmailing/manage/view.php?id=1", "status": "Sent",
+             "isdraft": false, "issent": true, "commercial": true, "when": "12/01/27, 09:00", "sent": 120, "total": 121}
+        ]
+    }
+}}
+<p><a class="btn btn-primary" href="{{addurl}}">{{#str}}campaign_add, local_pspvmailing{{/str}}</a></p>
+{{#hascampaigns}}
+<div class="table-responsive">
+    <table class="table generaltable" data-region="pspvmailing-campaigns">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}campaign, local_pspvmailing{{/str}}</th>
+                <th scope="col">{{#str}}type, local_pspvmailing{{/str}}</th>
+                <th scope="col">{{#str}}status{{/str}}</th>
+                <th scope="col">{{#str}}date{{/str}}</th>
+                <th scope="col">{{#str}}sent, local_pspvmailing{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#campaigns}}
+            <tr>
+                <th scope="row"><a href="{{url}}">{{{name}}}</a></th>
+                <td>{{#commercial}}{{#str}}type_commercial, local_pspvmailing{{/str}}{{/commercial}}{{^commercial}}{{#str}}type_informative, local_pspvmailing{{/str}}{{/commercial}}</td>
+                <td><span class="badge {{#issent}}text-bg-success{{/issent}}{{^issent}}text-bg-secondary{{/issent}}">{{status}}</span></td>
+                <td>{{when}}</td>
+                <td>{{^isdraft}}{{sent}} / {{total}}{{/isdraft}}</td>
+            </tr>
+            {{/campaigns}}
+        </tbody>
+    </table>
+</div>
+{{/hascampaigns}}
+{{^hascampaigns}}<p class="text-muted">{{#str}}campaigns_none, local_pspvmailing{{/str}}</p>{{/hascampaigns}}

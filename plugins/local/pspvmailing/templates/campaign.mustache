@@ -1,0 +1,106 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvmailing/campaign
+
+    A campaign, with its recipients, its preview and its actions.
+
+    Example context (json):
+    {
+        "status": "Draft",
+        "isdraft": true,
+        "isscheduled": false,
+        "issending": false,
+        "hasstarted": false,
+        "scheduled": "",
+        "finished": "",
+        "commercial": true,
+        "segment": ["Members of the cohort External students"],
+        "estimate": 120,
+        "reach": 300,
+        "noconsentsource": false,
+        "sent": 0,
+        "failed": 0,
+        "pending": 0,
+        "subject": "New courses this spring",
+        "preview": "<p>Hello</p>",
+        "editurl": "https://example.com/",
+        "testurl": "https://example.com/",
+        "testemail": "me@example.com",
+        "sendnowurl": "https://example.com/",
+        "cancelurl": "https://example.com/",
+        "deleteurl": "https://example.com/",
+        "listurl": "https://example.com/",
+        "scheduleform": ""
+    }
+}}
+<div class="local-pspvmailing" data-region="pspvmailing-campaign">
+    <p>
+        <span class="badge text-bg-secondary" data-region="pspvmailing-status">{{status}}</span>
+        <span class="badge text-bg-light">{{#commercial}}{{#str}}type_commercial, local_pspvmailing{{/str}}{{/commercial}}{{^commercial}}{{#str}}type_informative, local_pspvmailing{{/str}}{{/commercial}}</span>
+        {{#isscheduled}}{{#str}}campaign_scheduled_for, local_pspvmailing, {{scheduled}}{{/str}}{{/isscheduled}}
+        {{#finished}}{{#str}}campaign_finished_on, local_pspvmailing, {{finished}}{{/str}}{{/finished}}
+    </p>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <section class="card mb-3" aria-labelledby="pspvmailing-recipients-title">
+                <div class="card-body">
+                    <h3 id="pspvmailing-recipients-title" class="h5">{{#str}}recipients, local_pspvmailing{{/str}}</h3>
+                    <ul>{{#segment}}<li>{{.}}</li>{{/segment}}</ul>
+                    {{#hasstarted}}
+                    <dl class="row mb-0">
+                        <dt class="col-7">{{#str}}sent, local_pspvmailing{{/str}}</dt><dd class="col-5" data-region="pspvmailing-sent">{{sent}}</dd>
+                        <dt class="col-7">{{#str}}failed, local_pspvmailing{{/str}}</dt><dd class="col-5">{{failed}}</dd>
+                        <dt class="col-7">{{#str}}pending, local_pspvmailing{{/str}}</dt><dd class="col-5">{{pending}}</dd>
+                    </dl>
+                    {{/hasstarted}}
+                    {{^hasstarted}}
+                    <p class="mb-1" data-region="pspvmailing-estimate">{{#str}}recipients_estimate, local_pspvmailing, {{estimate}}{{/str}}</p>
+                    {{#commercial}}<p class="text-muted small mb-0">{{#str}}recipients_consent, local_pspvmailing, {{reach}}{{/str}}</p>{{/commercial}}
+                    {{/hasstarted}}
+                    {{#noconsentsource}}<div class="alert alert-warning mt-3 mb-0" role="status">{{#str}}recipients_noconsentsource, local_pspvmailing{{/str}}</div>{{/noconsentsource}}
+                </div>
+            </section>
+
+            <section class="card" aria-labelledby="pspvmailing-actions-title">
+                <div class="card-body">
+                    <h3 id="pspvmailing-actions-title" class="h5">{{#str}}actions{{/str}}</h3>
+                    <p><a class="btn btn-secondary" href="{{testurl}}">{{#str}}test_send, local_pspvmailing, {{testemail}}{{/str}}</a></p>
+                    {{#isdraft}}
+                    <p>
+                        <a class="btn btn-secondary" href="{{editurl}}">{{#str}}edit{{/str}}</a>
+                        <a class="btn btn-primary" href="{{sendnowurl}}">{{#str}}campaign_sendnow, local_pspvmailing{{/str}}</a>
+                        <a class="btn btn-outline-danger" href="{{deleteurl}}">{{#str}}delete{{/str}}</a>
+                    </p>
+                    {{{scheduleform}}}
+                    {{/isdraft}}
+                    {{#isscheduled}}<p><a class="btn btn-secondary" href="{{cancelurl}}">{{#str}}campaign_unschedule, local_pspvmailing{{/str}}</a></p>{{/isscheduled}}
+                    {{#issending}}<p><a class="btn btn-outline-danger" href="{{cancelurl}}">{{#str}}campaign_stop, local_pspvmailing{{/str}}</a></p>{{/issending}}
+                    <p class="mb-0"><a href="{{listurl}}">{{#str}}campaigns_back, local_pspvmailing{{/str}}</a></p>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-7">
+            <section aria-labelledby="pspvmailing-preview-title">
+                <h3 id="pspvmailing-preview-title" class="h5">{{#str}}preview, local_pspvmailing{{/str}}</h3>
+                <p><strong>{{#str}}campaign_subject, local_pspvmailing{{/str}}:</strong> {{subject}}</p>
+                <div class="border rounded overflow-hidden" data-region="pspvmailing-preview">{{{preview}}}</div>
+            </section>
+        </div>
+    </div>
+</div>
