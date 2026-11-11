@@ -1,0 +1,4 @@
+# Plugins de la comunitat que s'instal·len amb el core (no van per OTA).
+# Cada línia: ruta dins moodle/public, repositori i etiqueta o commit fixat.
+# Abans de canviar una etiqueta, comprova que el plugin admet la versió de .moodle-version.
+mod/customcert https://github.com/mdjnelson/moodle-mod_customcert.git v5.3.4
