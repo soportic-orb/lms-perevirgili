@@ -1,0 +1,12 @@
+# Core de Moodle: es descarrega amb bin/moodle-fetch.sh a l'etiqueta de .moodle-version.
+/moodle/
+/moodledata/
+/.env
+/dist/
+/backups/
+/vendor/
+node_modules/
+*.pem
+.DS_Store
+.idea/
+.vscode/
