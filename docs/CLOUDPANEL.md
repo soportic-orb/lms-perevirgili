@@ -100,8 +100,11 @@ Si alguna cosa dona un error 500: `tail -n 30 ~/logs/php/error.log`.
 ## Després
 
 - **Plugins propis:** amb el botó d'actualitzacions OTA ([`docs/OTA.md`](OTA.md)).
-- **Core de Moodle, configuració i scripts** (canvi de `.moodle-version`,
-  `config/`, `deploy/`): per SSH, com l'usuari del lloc.
+- **Core de Moodle, plugins de la comunitat, configuració i scripts** (canvi
+  de `.moodle-version`, `.community-plugins`, `config/`, `deploy/`): per SSH,
+  com l'usuari del lloc. Cal fer-ho un cop després de la fase 5 perquè
+  s'instal·li `mod_customcert` (els diplomes); fins aleshores la resta de la
+  plataforma funciona igual.
 
   ```bash
   cd ~/htdocs/perevirgili.soportic.es && git fetch origin main && git reset --hard origin/main

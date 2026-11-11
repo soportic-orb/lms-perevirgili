@@ -27,6 +27,8 @@
         "modes": [{"value": "online", "label": "Online", "selected": false}],
         "prices": [{"value": "upto50", "label": "Up to 50", "selected": false}],
         "starts": [{"value": "upcoming", "label": "Not started yet", "selected": false}],
+        "hascreditsfilter": true,
+        "credits": false,
         "hasfilters": false,
         "total": 1,
         "hascards": true,
@@ -90,6 +92,14 @@
                         {{#starts}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/starts}}
                     </select>
                 </div>
+                {{#hascreditsfilter}}
+                <div class="col-12 col-lg-auto">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="pspvshop-credits" name="credits" value="1"{{#credits}} checked{{/credits}}>
+                        <label class="form-check-label" for="pspvshop-credits">{{#str}}filter_credits, local_pspvshop{{/str}}</label>
+                    </div>
+                </div>
+                {{/hascreditsfilter}}
                 <div class="col-12 col-lg-auto d-flex gap-2">
                     <button class="btn btn-primary flex-fill" type="submit">{{#str}}filter_apply, local_pspvshop{{/str}}</button>
                     {{#hasfilters}}<a class="btn btn-secondary" href="{{actionurl}}">{{#str}}filter_clear, local_pspvshop{{/str}}</a>{{/hasfilters}}
@@ -123,6 +133,7 @@
                                 <span class="visually-hidden">{{category}}.</span>
                                 {{#hasmode}}<span><i class="ti ti-device-laptop" aria-hidden="true"></i>{{mode}}</span>{{/hasmode}}
                                 {{#hasstart}}<span><i class="ti ti-calendar-event" aria-hidden="true"></i>{{start}}</span>{{/hasstart}}
+                                {{#hascredits}}<span><i class="ti ti-award" aria-hidden="true"></i>{{credits}}</span>{{/hascredits}}
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-auto">
                                 <div>

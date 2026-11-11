@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
 # Descarrega el core de Moodle a moodle/, a l'etiqueta fixada a .moodle-version,
-# hi instal·la les dependències de Composer i hi enllaça config/config.php.
+# hi instal·la les dependències de Composer, els plugins de la comunitat de
+# .community-plugins i hi enllaça config/config.php.
 # No toca mai els plugins propis: aquests es copien amb bin/sync-plugins.sh.
 #
 # Ús (des de l'arrel del repositori):
@@ -43,6 +44,22 @@ else
     echo "Cal Composer (o Docker) per instal·lar les dependències de Moodle." >&2
     exit 1
 fi
+
+# Plugins de la comunitat, cadascun a la versió fixada a .community-plugins.
+while read -r PLUGIN_PATH PLUGIN_REPO PLUGIN_REF; do
+    [[ -z "$PLUGIN_PATH" || "$PLUGIN_PATH" == \#* ]] && continue
+    PLUGIN_DIR="$DIR/public/$PLUGIN_PATH"
+    if [[ ! -d "$PLUGIN_DIR/.git" ]]; then
+        echo "Clonant $PLUGIN_PATH ($PLUGIN_REF)…"
+        git clone --quiet --depth 1 --branch "$PLUGIN_REF" "$PLUGIN_REPO" "$PLUGIN_DIR"
+    elif [[ "$(git -C "$PLUGIN_DIR" describe --tags --exact-match 2>/dev/null || true)" != "$PLUGIN_REF" ]]; then
+        echo "Canviant $PLUGIN_PATH a $PLUGIN_REF…"
+        git -C "$PLUGIN_DIR" fetch --quiet --depth 1 origin "refs/tags/$PLUGIN_REF:refs/tags/$PLUGIN_REF"
+        git -C "$PLUGIN_DIR" checkout --quiet --force "$PLUGIN_REF"
+    else
+        echo "$PLUGIN_PATH ja és a $PLUGIN_REF."
+    fi
+done < "$ROOT/.community-plugins"
 
 ln -sfn ../config/config.php "$DIR/config.php"
 echo "Moodle $TAG a punt a $DIR"

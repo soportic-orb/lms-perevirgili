@@ -46,6 +46,15 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
   `deploy/cloudpanel/install.sh`.
 - El compilador SCSS de Moodle no accepta sumar unitats diferents dins de
   `clamp()`: cal `clamp(1rem, calc(1rem + 1vw), 2rem)`.
+- **Plugins de la comunitat** (`.community-plugins`): fixats a una etiqueta,
+  els baixa `bin/moodle-fetch.sh` i no van per OTA. Un plugin propi no en pot
+  dependre a `version.php`: l'OTA el portaria a un servidor que encara no té
+  el plugin de la comunitat i Moodle es quedaria a mitja actualització. Es
+  comprova en execució (`certificate::available()`), i els tests que el
+  necessiten se salten si no hi és.
+- No facis servir les API de `mod_customcert` marcades com a obsoletes (les
+  avisa amb `debugging()` i PHPUnit ho dona per error): serveis de
+  `mod_customcert\service\*`.
 - Un test no pot dependre de quins altres plugins propis hi ha instal·lats:
   la CI en prova un de sol, i en local hi són tots. Si un plugin canvia el
   comportament d'un altre, el test ho fixa amb configuració.
@@ -65,23 +74,25 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 | Bootstrap de Moodle | 5.3.x (`package.json` del core: `^5.3.8`) | codi de `v5.3.0` |
 | moodle-plugin-ci | 4.5.11, amb suport de `public/` | changelog del projecte |
 | Tabler | 1.7.4 (`@tabler/core`); Tabler Icons 3.51.0 (`@tabler/icons-webfont`) | npm |
+| mod_customcert | 5.3.4 (1-11-2026), demana Moodle 5.3 (`requires = 2026100500`) | `version.php` de l'etiqueta `v5.3.4` a GitHub |
 
-Pendent de verificar quan toqui: versió de Bootstrap que porta Tabler (fase 3)
-i compatibilitat amb 5.3 de `paygw_stripe` (fase 4) i `mod_customcert` (fase 5).
-moodle.org bloqueja les consultes automàtiques: cal mirar-ho als repositoris
-de GitHub de cada plugin.
+Pendent de verificar quan toqui: compatibilitat amb 5.3 de `paygw_stripe`
+(quan l'hospital triï passarel·la). moodle.org bloqueja les consultes
+automàtiques: cal mirar-ho als repositoris de GitHub de cada plugin.
 
 ## Estructura
 
 ```
 plugins/<tipus>/<nom>/   plugins propis, amb la ruta que tenen dins moodle/public/
 config/config.php        configuració de Moodle; tot surt de .env
-bin/                     moodle-fetch.sh (core + Composer), sync-plugins.sh
+bin/                     moodle-fetch.sh (core, Composer i plugins de la comunitat), sync-plugins.sh
+.community-plugins       plugins de la comunitat i la versió fixada de cadascun
 docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cron
 deploy/cloudpanel/       install.sh i vhost de Nginx
 scripts/                 ota-keygen.sh, ota-bundle.sh, theme-icons.py
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
-docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, VENDA.md, maquetes/
+docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, VENDA.md, ACREDITACIO.md,
+                         COMUNICACIO.md, maquetes/
 moodle/                  core de Moodle (no versionat)
 ```
 
@@ -121,6 +132,14 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
   abonaments amb numeració correlativa, PDF i exportació. Una factura emesa
   no es modifica mai: guarda còpia d'emissor, comprador i línies. Interfície
   `fiscal\connector` per a Verifactu o l'ERP, sense cap integració feta.
+- `local_pspvaccredit`: acreditació (CCFCPS). Les dades i els criteris del
+  curs són camps personalitzats de curs (`pspv_*`, creats per shortname);
+  sessions i assistència pròpies; registre d'aptes amb còpia de les dades;
+  grup `pspv-accredited` que dona accés al diploma (`mod_customcert`, amb
+  plantilla del lloc creada un sol cop). Vegeu `docs/ACREDITACIO.md`.
+- `local_pspvmailing`: campanyes per segments (cohort, curs, compres),
+  consentiment de `tool_policy` per a les comercials, enviament per tasques
+  adhoc en lots i baixa amb enllaç signat. Vegeu `docs/COMUNICACIO.md`.
 - `local_pspvcore`: esquelet de referència per als altres plugins i
   actualitzador OTA (`classes/ota/updater.php`). Només substitueix carpetes de
   plugins el nom dels quals comença per `pspv`.

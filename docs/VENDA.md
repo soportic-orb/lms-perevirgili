@@ -8,7 +8,8 @@ depèn del primer. La botiga funciona sola; la facturació es pot desactivar.
 ## Recorregut d'una compra
 
 1. **Catàleg públic** (`/local/pspvshop/index.php`): es veu sense iniciar
-   sessió, amb cerca i filtres per àrea, modalitat, preu i data d'inici.
+   sessió, amb cerca i filtres per àrea, modalitat, preu, data d'inici i
+   crèdits d'acreditació (si hi ha `local_pspvaccredit`).
 2. **Fitxa del curs** (`product.php`): descripció, preu, places i
    metadades per a cercadors i xarxes socials (Open Graph i JSON-LD).
 3. **Cistella** (`cart.php`): es pot omplir sense compte; en iniciar sessió

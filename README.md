@@ -5,13 +5,16 @@ formació interna per als treballadors i catàleg extern de cursos de pagament.
 
 Aquest repositori conté només el codi propi (plugins `pspv`) i la
 configuració. El core de Moodle es descarrega a l'etiqueta fixada a
-`.moodle-version` i no es modifica mai.
+`.moodle-version` i no es modifica mai; els plugins de la comunitat, a la
+versió fixada a `.community-plugins`.
 
 - Proposta i fases: [`docs/PROPOSTA.md`](docs/PROPOSTA.md)
 - Instal·lació a CloudPanel: [`docs/CLOUDPANEL.md`](docs/CLOUDPANEL.md)
 - Actualitzacions OTA: [`docs/OTA.md`](docs/OTA.md)
 - Accés, treballadors i inici de sessió: [`docs/ACCES.md`](docs/ACCES.md)
 - Venda de cursos i facturació: [`docs/VENDA.md`](docs/VENDA.md)
+- Acreditació i diplomes: [`docs/ACREDITACIO.md`](docs/ACREDITACIO.md)
+- Campanyes de correu: [`docs/COMUNICACIO.md`](docs/COMUNICACIO.md)
 - Regles de desenvolupament: [`CLAUDE.md`](CLAUDE.md)
 
 ## Entorn local
@@ -56,7 +59,7 @@ l'estàndard de codi de Moodle). La CI (`.github/workflows/ci.yml`) executa
 
 ## Estat
 
-Fases 1 (fonaments), 2 (accés i identitat), 3 (imatge gràfica) i 4 (venda) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
+Fases 1 (fonaments), 2 (accés i identitat), 3 (imatge gràfica), 4 (venda) i 5 (diplomes, acreditació i comunicació) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Llicència
 

@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_pspvshop';
-$plugin->version = 2026111400;
+$plugin->version = 2026111500;
 $plugin->requires = 2026100500; // Moodle 5.3.
 $plugin->supported = [503, 503];
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.1.0';
+$plugin->release = '0.1.1';

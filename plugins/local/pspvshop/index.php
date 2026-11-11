@@ -36,6 +36,7 @@ $filters = [
     'mode' => optional_param('mode', '', PARAM_ALPHA),
     'price' => optional_param('price', '', PARAM_ALPHANUM),
     'start' => optional_param('start', '', PARAM_ALPHA),
+    'credits' => optional_param('credits', 0, PARAM_BOOL),
 ];
 $pagenumber = optional_param('page', 0, PARAM_INT);
 $perpage = 12;
@@ -72,6 +73,8 @@ echo $OUTPUT->render_from_template('local_pspvshop/catalogue', [
         'upcoming' => get_string('start_upcoming', 'local_pspvshop'),
         'open' => get_string('start_open', 'local_pspvshop'),
     ], $filters['start']),
+    'hascreditsfilter' => catalogue::credits_field() > 0,
+    'credits' => !empty($filters['credits']),
     'hasfilters' => !empty($active),
     'total' => $result['total'],
     'cards' => $result['cards'],
