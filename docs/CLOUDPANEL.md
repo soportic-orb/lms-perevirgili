@@ -80,7 +80,8 @@ PHP_BIN=php8.4 bash deploy/cloudpanel/install.sh
 L'script baixa Moodle a l'etiqueta de `.moodle-version`, hi instal·la les
 dependències amb Composer, copia els plugins propis, crea la base de dades,
 instal·la els idiomes, configura la memòria cau a Redis i deixa a punt
-l'accés (cohort, categories, rols, proveïdors d'inici de sessió i polítiques). Es pot tornar a
+l'accés (cohort, categories, rols, proveïdors d'inici de sessió i polítiques)
+i el tema. Es pot tornar a
 executar sempre que calgui.
 
 En acabar, esborra `MOODLE_ADMIN_PASS` de `.env` i canvia la contrasenya de

@@ -39,6 +39,7 @@ install: up ## Instal·la Moodle a la base de dades, els idiomes i la memòria c
 	fi
 	$(COMPOSE) exec -T -u www-data web php public/local/pspvcore/cli/setup.php
 	$(COMPOSE) exec -T -u www-data web php public/local/pspvaccess/cli/setup.php
+	$(COMPOSE) exec -T -u www-data web php public/theme/pspv/cli/setup.php
 	@echo "Fet. Usuari administrador i contrasenya: MOODLE_ADMIN_USER / MOODLE_ADMIN_PASS a .env"
 
 upgrade: ## Aplica les actualitzacions pendents de Moodle i dels plugins

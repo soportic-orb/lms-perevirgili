@@ -69,6 +69,9 @@ echo "== Idiomes i memòria cau"
 
 echo "== Accés: cohort, categories, rols, OAuth 2 i RGPD"
 "${PHP[@]}" moodle/public/local/pspvaccess/cli/setup.php
+
+echo "== Tema"
+"${PHP[@]}" moodle/public/theme/pspv/cli/setup.php
 "${PHP[@]}" moodle/admin/cli/purge_caches.php
 
 echo "== Actualitzacions OTA"

@@ -1,0 +1,324 @@
+/*
+ * Campus PSPV — estils propis de les maquetes, a sobre de Tabler.
+ *
+ * Els colors surten del logotip de l'hospital. Canviant les variables --pspv-*
+ * canvia tota la interfície, que és el que farà la configuració de theme_pspv.
+ */
+/*
+ * Tipografia de la web de Soportic: Plus Jakarta Sans per al text i Fraunces
+ * per als titulars (totes dues SIL Open Font License), allotjades aquí.
+ */
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Fraunces";
+    font-style: normal;
+    font-weight: 500 600;
+    font-display: swap;
+    src: url("fonts/fraunces-latin.woff2") format("woff2");
+}
+
+:root {
+    --pspv-font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --pspv-display: "Fraunces", Georgia, serif;
+    --tblr-font-sans-serif: var(--pspv-font);
+    --tblr-body-font-family: var(--pspv-font);
+}
+body {
+    font-family: var(--pspv-font);
+    font-feature-settings: normal;
+}
+h1,
+h2,
+.page-title,
+.empty-title,
+.pspv-price-xl {
+    font-family: var(--pspv-display);
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+:root,
+[data-bs-theme="light"] {
+    /* Blaus del logotip del Parc Sanitari Pere Virgili. */
+    --pspv-primary: #0074d1;
+    --pspv-primary-rgb: 0, 116, 209;
+    --pspv-secondary: #009de4;
+    --pspv-secondary-rgb: 0, 157, 228;
+    /* El blau del logotip fa 4,75:1 sobre blanc però no arriba a 4,5:1 sobre els fons
+       tenyits: el text i els enllaços fan servir un to més fosc del mateix blau (6,5:1). */
+    --pspv-primary-text: #005fad;
+    --pspv-primary-text-rgb: 0, 95, 173;
+
+    --tblr-primary: var(--pspv-primary);
+    --tblr-primary-rgb: var(--pspv-primary-rgb);
+    --tblr-link-color: var(--pspv-primary-text);
+    --tblr-link-color-rgb: var(--pspv-primary-text-rgb);
+    --tblr-link-hover-color: #004a87;
+    --tblr-link-hover-color-rgb: 0, 74, 135;
+}
+
+[data-bs-theme="dark"] {
+    --pspv-primary: #5aaeee;
+    --pspv-primary-rgb: 90, 174, 238;
+    --pspv-primary-text: #6bb8f2;
+    --pspv-primary-text-rgb: 107, 184, 242;
+    --tblr-primary: var(--pspv-primary);
+    --tblr-primary-rgb: var(--pspv-primary-rgb);
+    --tblr-link-color: var(--pspv-primary-text);
+    --tblr-link-color-rgb: var(--pspv-primary-text-rgb);
+}
+
+.text-primary,
+.bg-primary-lt {
+    color: var(--pspv-primary-text) !important;
+}
+.bg-secondary-lt {
+    background: rgba(var(--pspv-secondary-rgb), .14) !important;
+    color: var(--pspv-primary-text) !important;
+}
+
+/* Enllaç per saltar al contingut (WCAG 2.4.1). */
+.pspv-skip {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 2000;
+    padding: .5rem 1rem;
+    background: var(--tblr-bg-surface);
+}
+.pspv-skip:focus {
+    left: .5rem;
+    top: .5rem;
+}
+
+/* Focus sempre visible (WCAG 2.4.7). */
+:focus-visible {
+    outline: 2px solid var(--pspv-primary);
+    outline-offset: 2px;
+}
+
+/* Marca: logotip de l'hospital i nom del campus. */
+.pspv-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    color: inherit;
+    text-decoration: none;
+}
+.pspv-brand:hover {
+    color: inherit;
+    text-decoration: none;
+}
+.pspv-brand img {
+    display: block;
+    height: 2.5rem;
+    width: auto;
+}
+.pspv-brand-campus {
+    padding-left: .75rem;
+    border-left: 1px solid var(--tblr-border-color);
+    font-family: var(--pspv-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 2rem;
+    color: var(--pspv-primary-text);
+}
+/* El logotip és blau sobre transparent: en mode fosc va sobre una pastilla clara. */
+[data-bs-theme="dark"] .pspv-brand img {
+    padding: .25rem .5rem;
+    border-radius: var(--tblr-border-radius);
+    background: #fff;
+}
+
+/* Capçalera de la portada. */
+.pspv-hero {
+    padding: 3.5rem 0 3rem;
+    background:
+        radial-gradient(60rem 22rem at 85% -10%, rgba(var(--pspv-secondary-rgb), .16), transparent 70%),
+        var(--tblr-bg-surface);
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+.pspv-hero h1 {
+    font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    font-weight: 600;
+    text-wrap: balance;
+}
+.pspv-hero .lead {
+    max-width: 38rem;
+    color: var(--tblr-secondary);
+    font-size: 1.0625rem;
+}
+
+/* Les dues portes d'entrada. */
+.pspv-door {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius-lg);
+    background: var(--tblr-bg-surface);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.pspv-door:hover {
+    border-color: var(--pspv-primary);
+    box-shadow: 0 .25rem 1rem rgba(var(--pspv-primary-rgb), .12);
+    color: inherit;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+.pspv-door .avatar {
+    flex: none;
+}
+.pspv-door strong {
+    display: block;
+    font-size: 1.0625rem;
+}
+
+/* Portada d'un curs sense imatge: color de l'àrea i icona. */
+.pspv-cover {
+    --cover: var(--pspv-primary-rgb);
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 8;
+    background:
+        radial-gradient(18rem 9rem at 100% 0, rgba(var(--cover), .28), transparent 70%),
+        rgba(var(--cover), .1);
+    color: rgb(var(--cover));
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+.pspv-cover > .ti {
+    font-size: 3rem;
+}
+[data-bs-theme="dark"] .pspv-cover {
+    background: rgba(var(--cover), .18);
+}
+.pspv-cover .badge {
+    position: absolute;
+    left: .75rem;
+    top: .75rem;
+}
+.pspv-cover-geriatria { --cover: 0, 95, 173; }
+.pspv-cover-rehab { --cover: 47, 110, 178; }
+.pspv-cover-palliatius { --cover: 124, 77, 168; }
+.pspv-cover-infermeria { --cover: 190, 75, 60; }
+.pspv-cover-seguretat { --cover: 176, 112, 20; }
+.pspv-cover-gestio { --cover: 60, 120, 80; }
+
+.pspv-course {
+    transition: box-shadow .15s, transform .15s;
+}
+.pspv-course:hover {
+    box-shadow: var(--tblr-box-shadow-card-hover, 0 .5rem 1.25rem rgba(0, 0, 0, .08));
+    transform: translateY(-2px);
+}
+.pspv-course .card-title a {
+    color: inherit;
+}
+.pspv-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    color: var(--tblr-secondary);
+    font-size: .8125rem;
+}
+.pspv-meta .ti {
+    margin-right: .25rem;
+}
+.pspv-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.pspv-price-xl {
+    font-size: 2.25rem;
+    line-height: 1;
+    letter-spacing: -.02em;
+}
+
+/* Targeta de compra enganxada en desplaçar-se. */
+@media (min-width: 992px) {
+    .pspv-sticky {
+        position: sticky;
+        top: 1rem;
+    }
+}
+
+/* Avís de maqueta. */
+.pspv-draft {
+    padding: .375rem 1rem;
+    background: #1f2937;
+    color: #f9fafb;
+    font-size: .8125rem;
+    text-align: center;
+}
+.pspv-draft a {
+    color: #a5f3fc;
+}
+
+.pspv-footer {
+    border-top: 1px solid var(--tblr-border-color);
+    background: var(--tblr-bg-surface);
+    padding: 2rem 0;
+    color: var(--tblr-secondary);
+    font-size: .875rem;
+}
+.pspv-footer h2 {
+    font-family: var(--pspv-font);
+    font-weight: 700;
+    font-size: .8125rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--tblr-body-color);
+}
+.pspv-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.pspv-footer li {
+    margin-bottom: .375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pspv-door,
+    .pspv-course {
+        transition: none;
+    }
+    .pspv-door:hover,
+    .pspv-course:hover {
+        transform: none;
+    }
+}
+
+/* En pantalles estretes el canal de 1,5rem de .g-4 sobresurt del contenidor. */
+@media (max-width: 575.98px) {
+    .row.g-4 {
+        --tblr-gutter-x: 1rem;
+    }
+}
+
+/* Barra superior en mòbil: amb la sessió iniciada, l'idioma passa al menú desplegable. */
+@media (max-width: 575.98px) {
+    .pspv-brand img {
+        height: 2rem;
+    }
+    .pspv-logged .pspv-brand-campus {
+        display: none;
+    }
+    .pspv-logged .pspv-lang {
+        display: none;
+    }
+}

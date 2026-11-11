@@ -1,0 +1,236 @@
+// Components amb l'aspecte de Tabler: barra superior, targetes, botons, taules, formularis.
+
+// Marca: logotip de l'hospital i nom del campus.
+.pspv-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
+.pspv-brand-logo {
+    display: block;
+    height: 2.25rem;
+    width: auto;
+    max-height: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.pspv-brand-campus {
+    padding-left: .75rem;
+    border-left: 1px solid $pspv-border;
+    font-family: $pspv-font-display;
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 2rem;
+    color: $pspv-primary-text;
+}
+
+// En pantalles estretes només hi cap el logotip.
+@include media-breakpoint-down(sm) {
+    .navbar .pspv-brand-logo {
+        height: 1.75rem;
+    }
+
+    .navbar .pspv-brand-campus {
+        display: none;
+    }
+}
+
+// El logotip és blau sobre transparent: en mode fosc va sobre una pastilla clara.
+[data-bs-theme="dark"] .pspv-brand-logo {
+    padding: .2rem .5rem;
+    border-radius: $border-radius;
+    background: #fff;
+}
+
+// Barra superior blanca amb una línia a sota, com la de Tabler.
+nav.navbar.fixed-top {
+    border-bottom: 1px solid $pspv-border;
+    box-shadow: none;
+}
+
+.navbar .primary-navigation .nav-link {
+    font-weight: 500;
+    color: $pspv-muted;
+
+    &:hover,
+    &:focus {
+        color: $body-color;
+    }
+
+    &.active {
+        color: $pspv-primary-text;
+    }
+}
+
+// Targetes.
+.card {
+    border-color: $pspv-border;
+    box-shadow: $pspv-shadow;
+}
+
+.block.card,
+.block_myoverview .card,
+.dashboard-card {
+    border-radius: $border-radius-lg;
+}
+
+.dashboard-card {
+    transition: box-shadow .15s, transform .15s;
+
+    &:hover {
+        box-shadow: $pspv-shadow-hover;
+        transform: translateY(-2px);
+    }
+
+    .coursename {
+        font-weight: 600;
+        color: $body-color;
+    }
+}
+
+// Capçalera de pàgina.
+#page-header h1,
+.page-header-headings h1 {
+    font-size: clamp(1.5rem, calc(1.2rem + 1.2vw), 2rem);
+}
+
+// Botons.
+.btn {
+    font-weight: 500;
+}
+
+.btn-secondary {
+    --bs-btn-bg: #{$pspv-surface};
+    --bs-btn-border-color: #{$pspv-border};
+    --bs-btn-color: #{$body-color};
+    --bs-btn-hover-bg: #{$body-bg};
+    --bs-btn-hover-border-color: #{darken($pspv-border, 8%)};
+    --bs-btn-hover-color: #{$body-color};
+    --bs-btn-active-bg: #{darken($body-bg, 3%)};
+    --bs-btn-active-border-color: #{darken($pspv-border, 12%)};
+    --bs-btn-active-color: #{$body-color};
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #{$pspv-primary-text};
+}
+
+// Insígnies tenyides, com les "-lt" de Tabler.
+.badge.bg-primary-subtle,
+.badge.pspv-badge {
+    background: rgba($primary, .1) !important; /* stylelint-disable-line declaration-no-important */
+    color: $pspv-primary-text !important; /* stylelint-disable-line declaration-no-important */
+    font-weight: 600;
+}
+
+// Taules.
+.generaltable,
+.table {
+    thead th {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: $pspv-muted;
+        background: $body-bg;
+        border-bottom-color: $pspv-border;
+    }
+}
+
+// Formularis.
+.form-control:focus,
+.form-select:focus,
+.custom-select:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 .2rem rgba($primary, .2);
+}
+
+// Estat buit.
+.pspv-empty {
+    padding: 3rem 1rem;
+    border: 1px dashed $pspv-border;
+    border-radius: $border-radius-lg;
+    background: $pspv-surface;
+    text-align: center;
+
+    > .ti {
+        font-size: 2.5rem;
+        color: $pspv-muted;
+    }
+}
+
+.pspv-empty-title {
+    margin: 1rem 0 .25rem;
+    font-family: $pspv-font-display;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.pspv-empty-text {
+    margin: 0;
+    color: $pspv-muted;
+}
+
+// Pàgina d'inici de sessió: el plafó de l'esquerra porta el logotip i el missatge del campus
+// (plantilla core/login_panel) sobre un fons amb els blaus de l'hospital, sense fotografia.
+body.pagelayout-login #page aside.login-layout-left {
+    background-color: $pspv-surface;
+    background-image:
+        radial-gradient(40rem 30rem at 0 0, rgba($pspv-secondary, .22), transparent 70%),
+        radial-gradient(36rem 28rem at 100% 100%, rgba($primary, .16), transparent 70%);
+    border-right: 1px solid $pspv-border;
+    color: $body-color;
+
+    &::after {
+        content: none;
+    }
+}
+
+body.pagelayout-login .login-layout-left-content.pspv-login-panel {
+    max-width: 30rem;
+    padding: 2rem;
+    background: transparent;
+    color: $body-color;
+    text-align: left;
+
+    .pspv-brand-logo {
+        height: 3.5rem;
+    }
+
+    h1 {
+        margin: 2rem 0 1rem;
+        font-size: 2.25rem;
+        line-height: 1.1;
+        color: $body-color;
+        text-wrap: balance;
+    }
+
+    p {
+        margin: 0;
+        font-size: 1.0625rem;
+        color: $pspv-muted;
+    }
+
+    a {
+        color: $pspv-primary-text;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-card,
+    .pspv-door,
+    .pspv-course {
+        transition: none;
+
+        &:hover {
+            transform: none;
+        }
+    }
+}

@@ -55,7 +55,7 @@ l'estàndard de codi de Moodle). La CI (`.github/workflows/ci.yml`) executa
 
 ## Estat
 
-Fases 1 (fonaments) i 2 (accés i identitat) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
+Fases 1 (fonaments), 2 (accés i identitat) i 3 (imatge gràfica) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Llicència
 

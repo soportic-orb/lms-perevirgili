@@ -40,6 +40,12 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 - El que es crea a la base de dades (cohorts, categories, rols) es busca
   sempre per `idnumber` o `shortname`, mai pel nom, i es crea de manera
   idempotent des de `db/install.php` o `db/upgrade.php`.
+- El que `db/install.php` posi a la configuració global del lloc no sobreviu
+  a una instal·lació nova (Moodle reescriu els valors per defecte després):
+  cal repetir-ho en un `cli/setup.php` que executin `make install` i
+  `deploy/cloudpanel/install.sh`.
+- El compilador SCSS de Moodle no accepta sumar unitats diferents dins de
+  `clamp()`: cal `clamp(1rem, calc(1rem + 1vw), 2rem)`.
 - Una fase per vegada; en acabar-la, resum, com provar-ho, pendents, i espera
   l'aprovació.
 
@@ -55,7 +61,7 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 | Router | tot el que no és un fitxer va a `public/r.php` (`$CFG->routerconfigured`) | codi de `v5.3.0` |
 | Bootstrap de Moodle | 5.3.x (`package.json` del core: `^5.3.8`) | codi de `v5.3.0` |
 | moodle-plugin-ci | 4.5.11, amb suport de `public/` | changelog del projecte |
-| Tabler | última versió 1.7.4 | github.com/tabler/tabler/releases |
+| Tabler | 1.7.4 (`@tabler/core`); Tabler Icons 3.51.0 (`@tabler/icons-webfont`) | npm |
 
 Pendent de verificar quan toqui: versió de Bootstrap que porta Tabler (fase 3)
 i compatibilitat amb 5.3 de `paygw_stripe` (fase 4) i `mod_customcert` (fase 5).
@@ -70,9 +76,9 @@ config/config.php        configuració de Moodle; tot surt de .env
 bin/                     moodle-fetch.sh (core + Composer), sync-plugins.sh
 docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cron
 deploy/cloudpanel/       install.sh i vhost de Nginx
-scripts/                 ota-keygen.sh, ota-bundle.sh
+scripts/                 ota-keygen.sh, ota-bundle.sh, theme-icons.py
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
-docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md
+docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, maquetes/
 moodle/                  core de Moodle (no versionat)
 ```
 
@@ -100,6 +106,9 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
   Microsoft, domini de correu, llista de RRHH), cohort `pspv-workers`,
   categories `pspv-internal` i `pspv-external`, rols, auditoria, i
   configuració d'OAuth 2 i de `tool_policy`. Vegeu `docs/ACCES.md`.
+- `theme_pspv`: tema fill de Boost amb tokens de Tabler, Tabler Icons,
+  logotip i colors de l'hospital, portada pública i peu institucional. Les
+  icones es regeneren amb `scripts/theme-icons.py`. Vegeu el seu `README.md`.
 - `local_pspvcore`: esquelet de referència per als altres plugins i
   actualitzador OTA (`classes/ota/updater.php`). Només substitueix carpetes de
   plugins el nom dels quals comença per `pspv`.

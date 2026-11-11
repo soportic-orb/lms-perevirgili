@@ -1,0 +1,65 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_pspv/footer_institutional
+
+    Institutional footer of the hospital, shown at the bottom of every page.
+
+    Example context (json):
+    {
+        "logourl": "https://example.com/logo.png",
+        "logoalt": "Parc Sanitari Pere Virgili",
+        "homeurl": "https://example.com/",
+        "description": "Continuing education in geriatrics and palliative care.",
+        "contact": "<p>Carrer d'Exemple, 1 · Barcelona</p>",
+        "hascontact": true,
+        "catalogueurl": "https://example.com/course/index.php",
+        "links": [{"url": "https://example.com/policy", "text": "Privacy policy"}],
+        "haslinks": true,
+        "year": "2026",
+        "owner": "Parc Sanitari Pere Virgili"
+    }
+}}
+<div class="pspv-footer d-print-none" role="contentinfo" aria-label="{{#str}}footer_label, theme_pspv{{/str}}">
+    <div class="pspv-container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <a class="pspv-brand mb-3" href="{{homeurl}}">
+                    <img src="{{logourl}}" class="pspv-brand-logo" alt="{{logoalt}}">
+                    <span class="pspv-brand-campus">{{#str}}campus, theme_pspv{{/str}}</span>
+                </a>
+                <p class="mb-2">{{description}}</p>
+                {{#hascontact}}<div class="pspv-footer-contact">{{{contact}}}</div>{{/hascontact}}
+            </div>
+            <div class="col-6 col-md-3">
+                <h2>{{#str}}footer_training, theme_pspv{{/str}}</h2>
+                <ul>
+                    <li><a href="{{catalogueurl}}">{{#str}}catalogue, theme_pspv{{/str}}</a></li>
+                </ul>
+            </div>
+            {{#haslinks}}
+            <div class="col-6 col-md-3">
+                <h2>{{#str}}footer_legal, theme_pspv{{/str}}</h2>
+                <ul>
+                    {{#links}}<li><a href="{{url}}">{{text}}</a></li>{{/links}}
+                </ul>
+            </div>
+            {{/haslinks}}
+        </div>
+        <p class="pspv-footer-copy">© {{year}} {{owner}}</p>
+    </div>
+</div>

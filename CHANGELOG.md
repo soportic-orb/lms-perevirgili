@@ -1,5 +1,29 @@
 # Registre de canvis
 
+## Fase 3 — Imatge gràfica (12-11-2026)
+
+### Afegit
+
+- `docs/maquetes/`: tres maquetes estàtiques amb Tabler 1.7.4 (portada,
+  tauler de l'alumne i fitxa de curs de pagament), aprovades.
+- `theme_pspv` 0.1.0, tema fill de Boost:
+  - Tokens de Tabler sobre les variables de Bootstrap, sense carregar
+    `tabler.min.css` ni un segon Bootstrap.
+  - Logotip i blaus del Parc Sanitari Pere Virgili, configurables, amb el
+    color del text calculat perquè compleixi el contrast WCAG AA.
+  - Tipografia de la web de Soportic (Plus Jakarta Sans i Fraunces),
+    allotjada al tema.
+  - Sistema d'icones propi: 395 de les 498 icones de Moodle es pinten amb
+    Tabler Icons; la resta, amb Font Awesome (llista al README del tema).
+  - Portada pública amb catàleg i doble accés, plafó d'inici de sessió i peu
+    institucional.
+  - 16 tests PHPUnit i 3 escenaris Behat.
+
+### Canviat
+
+- La pàgina d'inici del lloc s'activa i passa a ser la pàgina d'entrada:
+  Moodle 5.3 la porta desactivada en instal·lacions noves.
+
 ## Fase 2 — Accés i identitat (11-11-2026)
 
 ### Afegit
