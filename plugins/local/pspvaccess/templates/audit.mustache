@@ -1,0 +1,69 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvaccess/audit
+
+    Audit log of the workers cohort.
+
+    Example context (json):
+    {
+        "hasentries": true,
+        "entries": [
+            {
+                "time": "11/11/26, 12:00",
+                "fullname": "Maria Puig",
+                "email": "maria@example.com",
+                "action": "Added",
+                "added": true,
+                "reason": "Corporate email domain",
+                "origin": "Login"
+            }
+        ]
+    }
+}}
+<div class="local-pspvaccess-audit">
+    <p>{{#str}}audit_intro, local_pspvaccess{{/str}}</p>
+    {{^hasentries}}
+    <p data-region="audit-empty">{{#str}}audit_empty, local_pspvaccess{{/str}}</p>
+    {{/hasentries}}
+    {{#hasentries}}
+    <table class="table table-sm generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}date{{/str}}</th>
+                <th scope="col">{{#str}}user{{/str}}</th>
+                <th scope="col">{{#str}}action{{/str}}</th>
+                <th scope="col">{{#str}}audit_reason, local_pspvaccess{{/str}}</th>
+                <th scope="col">{{#str}}audit_origin, local_pspvaccess{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#entries}}
+            <tr>
+                <td>{{time}}</td>
+                <td>{{fullname}}<br><span class="text-muted small">{{email}}</span></td>
+                <td>
+                    <span class="badge {{#added}}text-bg-success{{/added}}{{^added}}text-bg-secondary{{/added}}">{{action}}</span>
+                </td>
+                <td>{{reason}}</td>
+                <td>{{origin}}</td>
+            </tr>
+            {{/entries}}
+        </tbody>
+    </table>
+    {{/hasentries}}
+</div>
