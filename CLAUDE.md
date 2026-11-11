@@ -37,6 +37,9 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
   treballador, allotjament de producció): atura't i pregunta. No inventis
   valors: configuració amb un `TODO` clar.
 - Commits petits i descriptius. Mantén `CHANGELOG.md`.
+- El que es crea a la base de dades (cohorts, categories, rols) es busca
+  sempre per `idnumber` o `shortname`, mai pel nom, i es crea de manera
+  idempotent des de `db/install.php` o `db/upgrade.php`.
 - Una fase per vegada; en acabar-la, resum, com provar-ho, pendents, i espera
   l'aprovació.
 
@@ -69,7 +72,7 @@ docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cr
 deploy/cloudpanel/       install.sh i vhost de Nginx
 scripts/                 ota-keygen.sh, ota-bundle.sh
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
-docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md
+docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md
 moodle/                  core de Moodle (no versionat)
 ```
 
@@ -93,6 +96,10 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
 
 ## Plugins
 
+- `local_pspvaccess`: qui és treballador (regles configurables: tenant de
+  Microsoft, domini de correu, llista de RRHH), cohort `pspv-workers`,
+  categories `pspv-internal` i `pspv-external`, rols, auditoria, i
+  configuració d'OAuth 2 i de `tool_policy`. Vegeu `docs/ACCES.md`.
 - `local_pspvcore`: esquelet de referència per als altres plugins i
   actualitzador OTA (`classes/ota/updater.php`). Només substitueix carpetes de
   plugins el nom dels quals comença per `pspv`.

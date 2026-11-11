@@ -67,6 +67,7 @@ A `.env`:
   `DB_NAME`, `DB_USER`, `DB_PASS`: els del pas 1.3
 - `REDIS_HOST=127.0.0.1`, i un `REDIS_PREFIX` diferent per a cada web del servidor
 - `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `NOREPLY_ADDRESS`: el correu sortint
+- `OAUTH_*`: inici de sessió amb Google i Microsoft ([`docs/ACCES.md`](ACCES.md))
 - `OTA_PUBLIC_KEY=…` ([`docs/OTA.md`](OTA.md))
 - Esborra les línies `PHPUNIT_DATAROOT`, `BEHAT_WWWROOT` i `BEHAT_DATAROOT`.
 
@@ -78,7 +79,8 @@ PHP_BIN=php8.4 bash deploy/cloudpanel/install.sh
 
 L'script baixa Moodle a l'etiqueta de `.moodle-version`, hi instal·la les
 dependències amb Composer, copia els plugins propis, crea la base de dades,
-instal·la els idiomes i configura la memòria cau a Redis. Es pot tornar a
+instal·la els idiomes, configura la memòria cau a Redis i deixa a punt
+l'accés (cohort, categories, rols, proveïdors d'inici de sessió i polítiques). Es pot tornar a
 executar sempre que calgui.
 
 En acabar, esborra `MOODLE_ADMIN_PASS` de `.env` i canvia la contrasenya de

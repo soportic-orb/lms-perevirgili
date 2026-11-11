@@ -1,5 +1,33 @@
 # Registre de canvis
 
+## Fase 2 — Accés i identitat (11-11-2026)
+
+### Afegit
+
+- `local_pspvaccess` 0.1.0:
+  - Regles de treballador configurables (compte del tenant de Microsoft,
+    domini de correu, llista de RRHH), combinables amb «una» o «totes».
+    Desactivades fins que es configurin.
+  - Cohort «Treballadors PSPV», sincronitzada en cada inici de sessió, en
+    canviar un compte i cada nit. Els membres afegits a mà no es treuen.
+  - Registre d'auditoria de cada alta i baixa automàtica.
+  - Importació de la llista de treballadors des de CSV (amb servei i
+    categoria professional).
+  - Categories «Formació interna» (només visible per a la cohort) i
+    «Formació externa» (pública), i rols de treballador/a, gestor/a de
+    formació i gestor/a comercial.
+  - Proveïdors d'inici de sessió de Google i Microsoft creats a partir de
+    `.env`, amb un proveïdor de Microsoft restringit al tenant de l'hospital.
+  - `tool_policy` com a gestor de polítiques i tres polítiques en esborrany.
+  - Privacy API completa, 23 tests PHPUnit i 4 escenaris Behat.
+- `docs/ACCES.md`.
+
+### Canviat
+
+- La instal·lació deixa de forçar l'inici de sessió: el catàleg extern es pot
+  consultar sense compte.
+- La CI prova cada plugin amb PHP 8.3 i 8.4.
+
 ## Fase 1 — Fonaments (11-11-2026)
 
 ### Afegit
