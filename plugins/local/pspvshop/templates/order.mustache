@@ -1,0 +1,90 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvshop/order
+
+    One purchase of the current user.
+
+    Example context (json):
+    {
+        "id": 12,
+        "number": "2026-00012",
+        "date": "11/11/26, 12:00",
+        "status": {"label": "Paid", "colour": "success"},
+        "ispending": false,
+        "ispaid": true,
+        "lines": [
+            {
+                "name": "Chronic wound care",
+                "unitprice": "€75.00",
+                "hasdiscount": false,
+                "discount": "€0.00",
+                "total": "€75.00",
+                "courseurl": "https://example.com/course/view.php?id=2"
+            }
+        ],
+        "hasdiscount": false,
+        "discount": "€0.00",
+        "couponcode": "",
+        "hastax": false,
+        "tax": "€0.00",
+        "total": "€75.00",
+        "url": "https://example.com/local/pspvshop/orders.php?id=12",
+        "haslinks": true,
+        "links": [{"url": "https://example.com/invoice.php?id=1", "text": "Invoice F-2026-0001"}],
+        "checkouturl": "https://example.com/local/pspvshop/checkout.php?order=12",
+        "listurl": "https://example.com/local/pspvshop/orders.php"
+    }
+}}
+<div class="pspvshop-order">
+    <div class="card mb-3">
+        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <h2 class="h5 mb-0">{{#str}}order_number, local_pspvshop, {{number}}{{/str}}</h2>
+            <span><span class="text-muted me-2">{{date}}</span><span class="badge text-bg-{{status.colour}}" data-region="order-status">{{status.label}}</span></span>
+        </div>
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}course{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}total, local_pspvshop{{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#lines}}
+                    <tr>
+                        <td>{{#ispaid}}<a href="{{courseurl}}">{{name}}</a>{{/ispaid}}{{^ispaid}}{{name}}{{/ispaid}}{{#hasdiscount}}<div class="small text-muted">{{unitprice}} − {{discount}}</div>{{/hasdiscount}}</td>
+                        <td class="text-end text-nowrap">{{total}}</td>
+                    </tr>
+                    {{/lines}}
+                </tbody>
+                <tfoot>
+                    {{#hasdiscount}}
+                    <tr><th scope="row">{{#str}}total_discount, local_pspvshop{{/str}} {{couponcode}}</th><td class="text-end text-nowrap">− {{discount}}</td></tr>
+                    {{/hasdiscount}}
+                    {{#hastax}}
+                    <tr><th scope="row">{{#str}}total_taxincluded, local_pspvshop{{/str}}</th><td class="text-end text-nowrap">{{tax}}</td></tr>
+                    {{/hastax}}
+                    <tr class="pspvshop-total"><th scope="row">{{#str}}total, local_pspvshop{{/str}}</th><td class="text-end text-nowrap" data-region="order-total">{{total}}</td></tr>
+                </tfoot>
+            </table>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        {{#ispending}}<a class="btn btn-primary" href="{{checkouturl}}">{{#str}}order_pay, local_pspvshop{{/str}}</a>{{/ispending}}
+        {{#links}}<a class="btn btn-secondary" href="{{url}}">{{text}}</a>{{/links}}
+        <a class="btn btn-link" href="{{listurl}}">{{#str}}orders_mine, local_pspvshop{{/str}}</a>
+    </div>
+</div>

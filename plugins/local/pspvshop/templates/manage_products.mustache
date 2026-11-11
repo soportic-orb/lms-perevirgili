@@ -1,0 +1,92 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvshop/manage_products
+
+    Courses that can be sold, with their price and state.
+
+    Example context (json):
+    {
+        "hascategory": true,
+        "category": "External training",
+        "notaxrate": true,
+        "settingsurl": "https://example.com/admin/settings.php?section=local_pspvshop_settings",
+        "hasrows": true,
+        "rows": [
+            {
+                "name": "Chronic wound care",
+                "visible": true,
+                "onsale": true,
+                "hasproduct": true,
+                "price": "€75.00",
+                "mode": "Online",
+                "haslimit": true,
+                "seats": 12,
+                "editurl": "https://example.com/local/pspvshop/manage/product.php?courseid=2",
+                "producturl": "https://example.com/local/pspvshop/product.php?id=1"
+            }
+        ]
+    }
+}}
+<div class="pspvshop-manage">
+    {{^hascategory}}
+    <div class="alert alert-warning" role="alert">
+        {{#str}}products_nocategory, local_pspvshop{{/str}} <a href="{{settingsurl}}">{{#str}}settings, local_pspvshop{{/str}}</a>
+    </div>
+    {{/hascategory}}
+    {{#hascategory}}
+    <p>{{#str}}products_intro, local_pspvshop, {{category}}{{/str}}</p>
+    {{#notaxrate}}
+    <div class="alert alert-info" role="status">
+        {{#str}}products_notaxrate, local_pspvshop{{/str}} <a href="{{settingsurl}}">{{#str}}settings, local_pspvshop{{/str}}</a>
+    </div>
+    {{/notaxrate}}
+    {{^hasrows}}<p>{{#str}}products_none, local_pspvshop{{/str}}</p>{{/hasrows}}
+    {{#hasrows}}
+    <table class="table generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}course{{/str}}</th>
+                <th scope="col">{{#str}}status{{/str}}</th>
+                <th scope="col">{{#str}}product_price_short, local_pspvshop{{/str}}</th>
+                <th scope="col">{{#str}}product_mode, local_pspvshop{{/str}}</th>
+                <th scope="col">{{#str}}product_seats_short, local_pspvshop{{/str}}</th>
+                <th scope="col"><span class="visually-hidden">{{#str}}actions{{/str}}</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#rows}}
+            <tr>
+                <td>{{{name}}}{{^visible}} <span class="badge text-bg-secondary">{{#str}}hidden{{/str}}</span>{{/visible}}</td>
+                <td>
+                    {{#onsale}}<span class="badge text-bg-success">{{#str}}product_onsale, local_pspvshop{{/str}}</span>{{/onsale}}
+                    {{^onsale}}<span class="badge text-bg-secondary">{{#str}}product_notonsale, local_pspvshop{{/str}}</span>{{/onsale}}
+                </td>
+                <td>{{price}}</td>
+                <td>{{mode}}</td>
+                <td>{{#haslimit}}{{seats}}{{/haslimit}}</td>
+                <td class="text-end text-nowrap">
+                    {{#hasproduct}}<a class="btn btn-sm btn-secondary" href="{{producturl}}">{{#str}}view{{/str}}</a>{{/hasproduct}}
+                    <a class="btn btn-sm btn-primary" href="{{editurl}}">{{#hasproduct}}{{#str}}edit{{/str}}{{/hasproduct}}{{^hasproduct}}{{#str}}product_sell, local_pspvshop{{/str}}{{/hasproduct}}<span class="visually-hidden">: {{{name}}}</span></a>
+                </td>
+            </tr>
+            {{/rows}}
+        </tbody>
+    </table>
+    {{/hasrows}}
+    {{/hascategory}}
+</div>
