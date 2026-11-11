@@ -1,5 +1,39 @@
 # Registre de canvis
 
+## Fase 5 — Diplomes, acreditació i comunicació (12-11-2026)
+
+### Afegit
+
+- `mod_customcert` 5.3.4 (comunitat), fixat a `.community-plugins` i
+  instal·lat per `bin/moodle-fetch.sh`. Compatible amb Moodle 5.3.
+- `local_pspvaccredit` 0.1.0:
+  - Dades de l'acreditació i criteris d'aptitud com a camps personalitzats
+    del curs.
+  - Sessions i control d'assistència propis.
+  - Registre d'alumnes aptes, amb còpia de les dades de l'acreditació, i
+    informes exportables per curs i de tot el lloc.
+  - Diploma amb codi i QR de verificació a partir d'una plantilla del lloc,
+    visible només per als aptes.
+  - 9 tests PHPUnit i 4 escenaris Behat.
+- `local_pspvmailing` 0.1.0:
+  - Campanyes per segments (cohort, curs, compres), amb previsualització,
+    prova, enviament immediat o programat, en lots per la cua de tasques.
+  - Les comercials només arriben a qui ha donat el consentiment a
+    `tool_policy` (els treballadors en són exempts per configuració) i
+    porten enllaç de baixa, també a la capçalera `List-Unsubscribe`.
+  - 6 tests PHPUnit i 4 escenaris Behat.
+- `local_pspvshop` 0.1.1: el catàleg mostra els crèdits d'acreditació i
+  permet filtrar-hi.
+- `docs/ACREDITACIO.md` i `docs/COMUNICACIO.md`.
+
+### Pendent de l'hospital
+
+- Camp on es guarda el document d'identitat, model d'informe del CCFCPS i
+  signatura del diploma.
+- Validació del delegat de protecció de dades de l'enviament de campanyes
+  comercials als treballadors sense consentiment, text de la política de
+  comunicacions comercials i peu legal dels correus.
+
 ## Fase 4 — Venda (12-11-2026)
 
 ### Afegit

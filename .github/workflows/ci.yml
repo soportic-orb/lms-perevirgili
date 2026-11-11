@@ -19,7 +19,14 @@ jobs:
       fail-fast: false
       matrix:
         # Afegeix aquí cada plugin nou de plugins/.
-        plugin: [local/pspvcore, local/pspvaccess, theme/pspv, local/pspvshop, local/pspvinvoice]
+        plugin:
+          - local/pspvcore
+          - local/pspvaccess
+          - theme/pspv
+          - local/pspvshop
+          - local/pspvinvoice
+          - local/pspvaccredit
+          - local/pspvmailing
         php: ['8.4', '8.3']
         database: [mariadb]
 
@@ -58,12 +65,17 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
 
-      # Plugins propis dels quals depèn el que es prova ($plugin->dependencies).
+      # El que necessita el plugin que es prova: plugins propis dels quals depèn
+      # ($plugin->dependencies) i plugins de la comunitat, a la versió de .community-plugins.
       - name: Dependències
         run: |
           mkdir extra
           if [ "${{ matrix.plugin }}" = "local/pspvinvoice" ]; then
             cp -r repo/plugins/local/pspvshop extra/pspvshop
+          fi
+          if [ "${{ matrix.plugin }}" = "local/pspvaccredit" ]; then
+            read -r _ REPO REF < <(grep '^mod/customcert ' repo/.community-plugins)
+            git clone --quiet --depth 1 --branch "$REF" "$REPO" extra/customcert
           fi
 
       - name: Instal·la Moodle i el plugin
