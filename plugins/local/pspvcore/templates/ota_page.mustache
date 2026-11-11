@@ -1,0 +1,112 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvcore/ota_page
+
+    OTA updates page.
+
+    Example context (json):
+    {
+        "actionurl": "https://example.com/local/pspvcore/ota.php",
+        "sesskey": "abc",
+        "current": "20261111.1200-abc1234",
+        "lastcheck": "11/11/26, 12:00",
+        "problems": ["The public key is not configured."],
+        "hasproblems": true,
+        "available": {
+            "version": "20261112.0900-def5678",
+            "published": "12/11/26, 09:00",
+            "notes": "<ul><li>Fix</li></ul>",
+            "hasnotes": true
+        },
+        "canapply": false,
+        "canrollback": true,
+        "history": [{"version": "20261111.1200-abc1234", "action": "Applied", "time": "11/11/26, 12:05"}],
+        "hashistory": true
+    }
+}}
+<div class="local-pspvcore-ota">
+    <p>{{#str}}ota_intro, local_pspvcore{{/str}}</p>
+
+    {{#hasproblems}}
+    <div class="alert alert-warning" role="alert">
+        <p class="mb-1"><strong>{{#str}}ota_problems, local_pspvcore{{/str}}</strong></p>
+        <ul class="mb-0">
+            {{#problems}}<li>{{.}}</li>{{/problems}}
+        </ul>
+    </div>
+    {{/hasproblems}}
+
+    <dl class="row">
+        <dt class="col-sm-3">{{#str}}ota_current, local_pspvcore{{/str}}</dt>
+        <dd class="col-sm-9" data-region="ota-current">{{current}}</dd>
+        <dt class="col-sm-3">{{#str}}ota_lastcheck, local_pspvcore{{/str}}</dt>
+        <dd class="col-sm-9">{{lastcheck}}</dd>
+    </dl>
+
+    {{#available}}
+    <div class="card mb-3" data-region="ota-available">
+        <div class="card-body">
+            <h3 class="h5 card-title">{{#str}}ota_available, local_pspvcore, {{version}}{{/str}}</h3>
+            <p class="text-muted">{{published}}</p>
+            {{#hasnotes}}{{{notes}}}{{/hasnotes}}
+        </div>
+    </div>
+    {{/available}}
+    {{^available}}
+    <p data-region="ota-uptodate">{{#str}}ota_none_available, local_pspvcore{{/str}}</p>
+    {{/available}}
+
+    <form method="post" action="{{actionurl}}" class="d-flex flex-wrap gap-2 mb-4">
+        <input type="hidden" name="sesskey" value="{{sesskey}}">
+        <button type="submit" name="action" value="check" class="btn btn-secondary">
+            {{#str}}ota_check, local_pspvcore{{/str}}
+        </button>
+        {{#canapply}}
+        <button type="submit" name="action" value="apply" class="btn btn-primary">
+            {{#str}}ota_apply, local_pspvcore, {{available.version}}{{/str}}
+        </button>
+        {{/canapply}}
+        {{#canrollback}}
+        <button type="submit" name="action" value="rollback" class="btn btn-outline-danger">
+            {{#str}}ota_rollback, local_pspvcore{{/str}}
+        </button>
+        {{/canrollback}}
+    </form>
+
+    {{#hashistory}}
+    <h3 class="h5">{{#str}}ota_history, local_pspvcore{{/str}}</h3>
+    <table class="table table-sm generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}date{{/str}}</th>
+                <th scope="col">{{#str}}action{{/str}}</th>
+                <th scope="col">{{#str}}version{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#history}}
+            <tr>
+                <td>{{time}}</td>
+                <td>{{action}}</td>
+                <td>{{version}}</td>
+            </tr>
+            {{/history}}
+        </tbody>
+    </table>
+    {{/hashistory}}
+</div>

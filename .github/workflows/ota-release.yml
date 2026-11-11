@@ -1,0 +1,74 @@
+# Publica una versió OTA dels plugins propis (docs/OTA.md).
+#
+# Cada push a main que toca plugins/ empaqueta totes les carpetes de plugins,
+# signa el manifest amb OTA_SIGNING_KEY i crea una release "ota-<versió>".
+# Les webs només la mostren com a disponible: l'aplica una persona
+# administradora des d'Administració del lloc → Connectors → Connectors locals
+# → Actualitzacions del Campus PSPV.
+name: OTA release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+      - 'scripts/ota-bundle.sh'
+      - '.github/workflows/ota-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ota-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sintaxi PHP
+        run: find plugins -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: Versió
+        id: version
+        run: echo "version=$(date -u +%Y%m%d.%H%M)-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Empaqueta i signa
+        env:
+          OTA_SIGNING_KEY: ${{ secrets.OTA_SIGNING_KEY }}
+        run: |
+          if [ -z "$OTA_SIGNING_KEY" ]; then
+            echo "::error::Falta el secret OTA_SIGNING_KEY (vegeu docs/OTA.md)."
+            exit 1
+          fi
+          KEY="$RUNNER_TEMP/ota-signing-key.pem"
+          printf '%s\n' "$OTA_SIGNING_KEY" > "$KEY"
+          bash scripts/ota-bundle.sh "${{ steps.version.outputs.version }}" "$KEY"
+          shred -u "$KEY"
+
+      - name: Notes de la versió
+        run: |
+          PREVIOUS="$(git tag --list 'ota-*' --sort=-creatordate | head -n1)"
+          {
+            echo "Canvis:"
+            if [ -n "$PREVIOUS" ]; then
+              git log --no-merges --format='- %s' "$PREVIOUS..HEAD" -- plugins
+            else
+              git log --no-merges --format='- %s' -n 20 -- plugins
+            fi
+          } > "$RUNNER_TEMP/notes.md"
+
+      - name: Publica la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "ota-${{ steps.version.outputs.version }}" \
+            dist/ota/ota-bundle.zip dist/ota/ota-manifest.json dist/ota/ota-manifest.json.sig \
+            --target "$GITHUB_SHA" \
+            --title "Campus PSPV ${{ steps.version.outputs.version }}" \
+            --notes-file "$RUNNER_TEMP/notes.md"

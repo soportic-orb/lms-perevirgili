@@ -1,0 +1,81 @@
+# Campus PSPV — entorn local. Producció i staging van a CloudPanel (docs/CLOUDPANEL.md).
+#
+# El repositori sencer es munta a /var/www/campus; el core de Moodle és a
+# moodle/ (bin/moodle-fetch.sh) i cada plugin propi es munta al seu lloc dins
+# moodle/public. En afegir un plugin a plugins/, afegeix-lo també a x-volumes.
+
+x-volumes: &volumes
+  - ./:/var/www/campus
+  - moodledata:/var/www/moodledata
+  - phpunitdata:/var/www/phpunitdata
+  - behatdata:/var/www/behatdata
+  - ./plugins/local/pspvcore:/var/www/campus/moodle/public/local/pspvcore
+
+x-php: &php
+  image: moodlehq/moodle-php-apache:8.4
+  working_dir: /var/www/campus/moodle
+  env_file: .env
+  environment:
+    APACHE_DOCUMENT_ROOT: /var/www/campus/moodle/public
+  volumes: *volumes
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+services:
+  web:
+    <<: *php
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+  cron:
+    <<: *php
+    # Com el servidor web, perquè els fitxers que crea a moodledata siguin seus.
+    user: www-data
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        while true; do
+          if [ -f /var/www/moodledata/.installed ]; then
+            php admin/cli/cron.php > /dev/null 2>&1 || true
+          fi
+          sleep 60
+        done
+
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-moodle}
+      MARIADB_USER: ${DB_USER:-moodle}
+      MARIADB_PASSWORD: ${DB_PASS}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: redis:7-alpine
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+
+  # Només per a Behat: `make behat` l'arrenca amb el perfil `behat`.
+  selenium:
+    image: selenium/standalone-chrome:latest
+    profiles: ["behat"]
+    shm_size: 2gb
+
+volumes:
+  dbdata:
+  moodledata:
+  phpunitdata:
+  behatdata:
