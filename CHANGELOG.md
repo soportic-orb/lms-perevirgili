@@ -1,5 +1,36 @@
 # Registre de canvis
 
+## Fase 4 — Venda (12-11-2026)
+
+### Afegit
+
+- `local_pspvshop` 0.1.0, la botiga:
+  - Catàleg públic amb cerca i filtres (àrea, modalitat, preu, data), fitxa
+    de curs amb metadades per a cercadors, i cistella que es conserva en
+    iniciar sessió.
+  - Preu general i preus per cohort, IVA configurable (general i per curs),
+    places, període de venda i codis de descompte.
+  - Comandes sobre `core_payment`, amb matrícula en confirmar-se el
+    pagament, cancel·lació i reemborsament. Mode de proves amb pagament
+    simulat mentre no hi hagi passarel·la.
+  - 32 tests PHPUnit i 5 escenaris Behat.
+- `local_pspvinvoice` 0.1.0, la facturació:
+  - Dades fiscals del comprador com a pas de la compra, factura en PDF amb
+    numeració correlativa per sèrie i any, abonament en reemborsar, i llistat
+    exportable per a comptabilitat.
+  - Interfície `fiscal\connector` per connectar-hi Verifactu o l'ERP; no hi
+    ha cap integració fiscal.
+  - 9 tests PHPUnit i 3 escenaris Behat.
+- `theme_pspv`: les targetes de la portada mostren el preu i porten a la
+  fitxa de la botiga, i la barra superior enllaça a la cistella quan no és
+  buida.
+- `docs/VENDA.md`.
+
+### Pendent de l'hospital
+
+- Passarel·la de pagament, tractament de l'IVA, dades fiscals de l'emissor i
+  preu per als treballadors: són configuració i ara són buits.
+
 ## Fase 3 — Imatge gràfica (12-11-2026)
 
 ### Afegit

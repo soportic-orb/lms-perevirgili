@@ -11,6 +11,8 @@ x-volumes: &volumes
   - behatdata:/var/www/behatdata
   - ./plugins/local/pspvcore:/var/www/campus/moodle/public/local/pspvcore
   - ./plugins/local/pspvaccess:/var/www/campus/moodle/public/local/pspvaccess
+  - ./plugins/local/pspvshop:/var/www/campus/moodle/public/local/pspvshop
+  - ./plugins/local/pspvinvoice:/var/www/campus/moodle/public/local/pspvinvoice
   - ./plugins/theme/pspv:/var/www/campus/moodle/public/theme/pspv
 
 x-php: &php

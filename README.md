@@ -11,6 +11,7 @@ configuració. El core de Moodle es descarrega a l'etiqueta fixada a
 - Instal·lació a CloudPanel: [`docs/CLOUDPANEL.md`](docs/CLOUDPANEL.md)
 - Actualitzacions OTA: [`docs/OTA.md`](docs/OTA.md)
 - Accés, treballadors i inici de sessió: [`docs/ACCES.md`](docs/ACCES.md)
+- Venda de cursos i facturació: [`docs/VENDA.md`](docs/VENDA.md)
 - Regles de desenvolupament: [`CLAUDE.md`](CLAUDE.md)
 
 ## Entorn local
@@ -55,7 +56,7 @@ l'estàndard de codi de Moodle). La CI (`.github/workflows/ci.yml`) executa
 
 ## Estat
 
-Fases 1 (fonaments), 2 (accés i identitat) i 3 (imatge gràfica) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
+Fases 1 (fonaments), 2 (accés i identitat), 3 (imatge gràfica) i 4 (venda) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Llicència
 
