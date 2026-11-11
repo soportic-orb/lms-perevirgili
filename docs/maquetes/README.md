@@ -19,11 +19,16 @@ servidor ni connexió (CSS, icones i tipografia són a `assets/`).
   posició. Tota la interfície surt de dues variables de
   `assets/maqueta.css` (`--pspv-primary` i `--pspv-secondary`), que és el que
   es podrà configurar des de l'administració del tema.
-- **Logotip i tipografia.** Icona genèrica i la tipografia per defecte de
-  Tabler, fins que arribi el manual d'identitat.
+- **Logotip.** Icona genèrica, fins que arribi el logotip de l'hospital.
 - **Continguts.** Cursos, preus, dates, crèdits, noms i xifres són d'exemple.
   El que va entre claudàtors (`[Nom del docent]`, `[Tractament de l'IVA…]`)
   és informació que ha de donar l'hospital.
+
+## Tipografia
+
+La mateixa que la web de Soportic: **Plus Jakarta Sans** per al text i
+**Fraunces** per als titulars. Totes dues tenen llicència SIL Open Font
+License i s'allotgen a `assets/fonts/`, sense CDN.
 
 ## Què cal aprovar
 

@@ -5,6 +5,45 @@
  * de l'hospital: canviant aquestes dues variables canvia tota la interfície,
  * que és el que farà la configuració de theme_pspv.
  */
+/*
+ * Tipografia de la web de Soportic: Plus Jakarta Sans per al text i Fraunces
+ * per als titulars (totes dues SIL Open Font License), allotjades aquí.
+ */
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Fraunces";
+    font-style: normal;
+    font-weight: 500 600;
+    font-display: swap;
+    src: url("fonts/fraunces-latin.woff2") format("woff2");
+}
+
+:root {
+    --pspv-font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --pspv-display: "Fraunces", Georgia, serif;
+    --tblr-font-sans-serif: var(--pspv-font);
+    --tblr-body-font-family: var(--pspv-font);
+}
+body {
+    font-family: var(--pspv-font);
+    font-feature-settings: normal;
+}
+h1,
+h2,
+.page-title,
+.empty-title,
+.pspv-price-xl {
+    font-family: var(--pspv-display);
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
 :root,
 [data-bs-theme="light"] {
     --pspv-primary: #0b6b7a;
@@ -94,8 +133,8 @@
 .pspv-hero h1 {
     font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
     line-height: 1.1;
-    letter-spacing: -.02em;
-    font-weight: 700;
+    letter-spacing: -.015em;
+    font-weight: 600;
     text-wrap: balance;
 }
 .pspv-hero .lead {
@@ -223,6 +262,8 @@
     font-size: .875rem;
 }
 .pspv-footer h2 {
+    font-family: var(--pspv-font);
+    font-weight: 700;
     font-size: .8125rem;
     text-transform: uppercase;
     letter-spacing: .04em;
