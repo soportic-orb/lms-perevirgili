@@ -1,0 +1,142 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvshop/product
+
+    Public page of a course on sale: description and purchase card.
+
+    Example context (json):
+    {
+        "id": 1,
+        "name": "Chronic wound care",
+        "category": "Nursing",
+        "summary": "Assessment, prevention and treatment.",
+        "description": "<p>Assessment, prevention and treatment of pressure injuries.</p>",
+        "hasimage": false,
+        "image": "",
+        "tone": 2,
+        "hasmode": true,
+        "mode": "Online",
+        "hasstart": true,
+        "start": "12 January 2027",
+        "hasend": true,
+        "end": "30 March 2027",
+        "price": "€75.00",
+        "isfree": false,
+        "hasreduction": false,
+        "generalprice": "€75.00",
+        "haslimit": true,
+        "seats": 12,
+        "full": false,
+        "carturl": "https://example.com/local/pspvshop/cart.php",
+        "sesskey": "abc",
+        "available": true,
+        "incart": false,
+        "enrolled": false,
+        "courseurl": "https://example.com/course/view.php?id=2",
+        "unavailable": "",
+        "hastax": true,
+        "taxnote": "21% VAT included",
+        "hassaleend": true,
+        "saleend": "5 January 2027",
+        "hastiers": true,
+        "tiers": [{"name": "Members", "price": "€60.00"}],
+        "catalogueurl": "https://example.com/local/pspvshop/index.php"
+    }
+}}
+<div class="pspvshop-product row g-4">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            {{#hasimage}}
+            <div class="pspv-cover pspv-cover-image pspvshop-cover-wide" style="background-image: url('{{image}}')" aria-hidden="true"></div>
+            {{/hasimage}}
+            {{^hasimage}}
+            <div class="pspv-cover pspv-cover-tone-{{tone}} pspvshop-cover-wide" aria-hidden="true"><i class="ti ti-school"></i></div>
+            {{/hasimage}}
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge pspv-badge">{{category}}</span>
+                    {{#hasmode}}<span class="badge pspv-badge">{{mode}}</span>{{/hasmode}}
+                </div>
+                <dl class="pspvshop-facts">
+                    {{#hasstart}}<div><dt>{{#str}}product_start, local_pspvshop{{/str}}</dt><dd>{{start}}</dd></div>{{/hasstart}}
+                    {{#hasend}}<div><dt>{{#str}}product_end, local_pspvshop{{/str}}</dt><dd>{{end}}</dd></div>{{/hasend}}
+                    {{#hasmode}}<div><dt>{{#str}}product_mode, local_pspvshop{{/str}}</dt><dd>{{mode}}</dd></div>{{/hasmode}}
+                </dl>
+            </div>
+        </div>
+        <section aria-labelledby="pspvshop-description">
+            <h2 id="pspvshop-description" class="h3">{{#str}}product_description, local_pspvshop{{/str}}</h2>
+            <div class="pspvshop-description">{{{description}}}</div>
+        </section>
+    </div>
+
+    <div class="col-lg-4">
+        <aside class="card pspvshop-buy" aria-label="{{#str}}product_buy, local_pspvshop{{/str}}">
+            <div class="card-body">
+                <div class="d-flex align-items-end flex-wrap gap-2 mb-1">
+                    {{#isfree}}<span class="pspvshop-price pspvshop-price-xl">{{#str}}price_free, local_pspvshop{{/str}}</span>{{/isfree}}
+                    {{^isfree}}<span class="pspvshop-price pspvshop-price-xl" data-region="product-price">{{price}}</span>{{/isfree}}
+                    {{#hasreduction}}<s class="pspvshop-price-old mb-1">{{generalprice}}</s>{{/hasreduction}}
+                </div>
+                {{#hastax}}<p class="text-muted small mb-3">{{taxnote}}</p>{{/hastax}}
+
+                {{#hastiers}}
+                <ul class="list-unstyled small mb-3">
+                    {{#tiers}}<li class="d-flex justify-content-between"><span>{{name}}</span><strong>{{price}}</strong></li>{{/tiers}}
+                </ul>
+                {{/hastiers}}
+
+                {{#enrolled}}
+                <a class="btn btn-primary btn-lg w-100" href="{{courseurl}}">{{#str}}product_gotocourse, local_pspvshop{{/str}}</a>
+                <p class="text-muted small mt-2 mb-0">{{#str}}unavailable_enrolled, local_pspvshop{{/str}}</p>
+                {{/enrolled}}
+                {{^enrolled}}
+                    {{#incart}}
+                    <a class="btn btn-primary btn-lg w-100" href="{{carturl}}">{{#str}}cart_goto, local_pspvshop{{/str}}</a>
+                    {{/incart}}
+                    {{^incart}}
+                        {{#available}}
+                        <form method="post" action="{{carturl}}">
+                            <input type="hidden" name="sesskey" value="{{sesskey}}">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="productid" value="{{id}}">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="ti ti-shopping-cart me-1" aria-hidden="true"></i>{{#str}}cart_add, local_pspvshop{{/str}}
+                            </button>
+                        </form>
+                        {{/available}}
+                        {{^available}}
+                        <p class="alert alert-secondary mb-0" role="status">{{unavailable}}</p>
+                        {{/available}}
+                    {{/incart}}
+                {{/enrolled}}
+            </div>
+            <ul class="list-group list-group-flush small">
+                {{#haslimit}}
+                <li class="list-group-item">
+                    {{#full}}{{#str}}seats_none, local_pspvshop{{/str}}{{/full}}
+                    {{^full}}{{#str}}seats_left, local_pspvshop, {{seats}}{{/str}}{{/full}}
+                </li>
+                {{/haslimit}}
+                {{#hassaleend}}<li class="list-group-item">{{#str}}product_saleuntil, local_pspvshop, {{saleend}}{{/str}}</li>{{/hassaleend}}
+                <li class="list-group-item">{{#str}}product_access, local_pspvshop{{/str}}</li>
+            </ul>
+        </aside>
+        <p class="mt-3"><a href="{{catalogueurl}}">{{#str}}catalogue_back, local_pspvshop{{/str}}</a></p>
+    </div>
+</div>

@@ -13,7 +13,7 @@ configuren els inicis de sessió amb Microsoft i Google. Ho fa el plugin
 | Categoria «Formació externa» | `pspv-external` | Catàleg públic, visible sense iniciar sessió |
 | Rol «Treballador/a PSPV» | `pspvworker` | Mostra la categoria interna; s'assigna sol als membres de la cohort |
 | Rol «Gestor/a de formació» | `pspvtrainingmanager` | Gestiona cursos i usuaris, sense configuració del lloc |
-| Rol «Gestor/a comercial» | `pspvsalesmanager` | Vendes, descomptes i factures; rep els permisos a la fase 4 |
+| Rol «Gestor/a comercial» | `pspvsalesmanager` | Vendes, descomptes i factures (permisos a `docs/VENDA.md`) |
 
 Els noms es poden canviar des de l'administració: el codi ho busca tot per
 identificador.

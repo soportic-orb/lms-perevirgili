@@ -1,0 +1,110 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvshop/checkout
+
+    Checkout: summary of the order and the ways to pay it.
+
+    Example context (json):
+    {
+        "id": 12,
+        "number": "2026-00012",
+        "date": "11/11/26, 12:00",
+        "status": {"label": "Paid", "colour": "success"},
+        "ispending": false,
+        "ispaid": true,
+        "lines": [
+            {
+                "name": "Chronic wound care",
+                "unitprice": "€75.00",
+                "hasdiscount": false,
+                "discount": "€0.00",
+                "total": "€75.00",
+                "courseurl": "https://example.com/course/view.php?id=2"
+            }
+        ],
+        "hasdiscount": false,
+        "discount": "€0.00",
+        "couponcode": "",
+        "hastax": false,
+        "tax": "€0.00",
+        "total": "€75.00",
+        "url": "https://example.com/local/pspvshop/orders.php?id=12",
+        "haslinks": true,
+        "links": [{"url": "https://example.com/invoice.php?id=1", "text": "Invoice F-2026-0001"}],
+        "actionurl": "https://example.com/local/pspvshop/checkout.php?order=12",
+        "sesskey": "abc",
+        "paybutton": "<button type=\"button\" class=\"btn btn-primary\">Pay</button>",
+        "canpay": true,
+        "cansimulate": false
+    }
+}}
+<div class="pspvshop-checkout row g-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header"><h2 class="h5 mb-0">{{#str}}order_number, local_pspvshop, {{number}}{{/str}}</h2></div>
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}course{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}total, local_pspvshop{{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#lines}}
+                    <tr>
+                        <td>{{name}}{{#hasdiscount}}<div class="small text-muted">{{unitprice}} − {{discount}}</div>{{/hasdiscount}}</td>
+                        <td class="text-end text-nowrap">{{total}}</td>
+                    </tr>
+                    {{/lines}}
+                </tbody>
+                <tfoot>
+                    {{#hasdiscount}}
+                    <tr><th scope="row">{{#str}}total_discount, local_pspvshop{{/str}} {{couponcode}}</th><td class="text-end text-nowrap">− {{discount}}</td></tr>
+                    {{/hasdiscount}}
+                    {{#hastax}}
+                    <tr><th scope="row">{{#str}}total_taxincluded, local_pspvshop{{/str}}</th><td class="text-end text-nowrap">{{tax}}</td></tr>
+                    {{/hastax}}
+                    <tr class="pspvshop-total"><th scope="row">{{#str}}total, local_pspvshop{{/str}}</th><td class="text-end text-nowrap" data-region="order-total">{{total}}</td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                {{#canpay}}{{{paybutton}}}{{/canpay}}
+                {{^canpay}}
+                <p class="alert alert-warning" role="status">{{#str}}checkout_nogateway, local_pspvshop{{/str}}</p>
+                {{/canpay}}
+                {{#cansimulate}}
+                <form method="post" action="{{actionurl}}" class="mt-3">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="action" value="simulate">
+                    <button type="submit" class="btn btn-warning w-100">{{#str}}checkout_simulate, local_pspvshop{{/str}}</button>
+                    <p class="small text-muted mt-2 mb-0">{{#str}}checkout_simulate_desc, local_pspvshop{{/str}}</p>
+                </form>
+                {{/cansimulate}}
+                <form method="post" action="{{actionurl}}" class="mt-3">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="action" value="cancel">
+                    <button type="submit" class="btn btn-link p-0">{{#str}}checkout_back, local_pspvshop{{/str}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

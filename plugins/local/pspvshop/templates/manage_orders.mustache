@@ -1,0 +1,101 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvshop/manage_orders
+
+    Every order of the shop.
+
+    Example context (json):
+    {
+        "filters": [{"url": "https://example.com/local/pspvshop/manage/orders.php", "label": "All", "active": true}],
+        "hasorders": true,
+        "orders": [
+            {
+                "id": 12,
+        "number": "2026-00012",
+        "date": "11/11/26, 12:00",
+        "status": {"label": "Paid", "colour": "success"},
+        "ispending": false,
+        "ispaid": true,
+        "lines": [
+            {
+                "name": "Chronic wound care",
+                "unitprice": "€75.00",
+                "hasdiscount": false,
+                "discount": "€0.00",
+                "total": "€75.00",
+                "courseurl": "https://example.com/course/view.php?id=2"
+            }
+        ],
+        "hasdiscount": false,
+        "discount": "€0.00",
+        "couponcode": "",
+        "hastax": false,
+        "tax": "€0.00",
+        "total": "€75.00",
+        "url": "https://example.com/local/pspvshop/orders.php?id=12",
+        "haslinks": true,
+        "links": [{"url": "https://example.com/invoice.php?id=1", "text": "Invoice F-2026-0001"}],
+                "buyer": "Maria Puig",
+                "buyeremail": "maria@example.com",
+                "gateway": "pspvtest",
+                "cancelurl": "https://example.com/local/pspvshop/manage/orders.php?id=12&action=cancel",
+                "refundurl": "https://example.com/local/pspvshop/manage/orders.php?id=12&action=refund"
+            }
+        ]
+    }
+}}
+<div class="pspvshop-manage">
+    <ul class="nav nav-pills mb-3">
+        {{#filters}}<li class="nav-item"><a class="nav-link{{#active}} active{{/active}}" href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a></li>{{/filters}}
+    </ul>
+    {{^hasorders}}<p data-region="orders-empty">{{#str}}orders_none_admin, local_pspvshop{{/str}}</p>{{/hasorders}}
+    {{#hasorders}}
+    <div class="table-responsive">
+        <table class="table generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#str}}order, local_pspvshop{{/str}}</th>
+                    <th scope="col">{{#str}}date{{/str}}</th>
+                    <th scope="col">{{#str}}order_buyer, local_pspvshop{{/str}}</th>
+                    <th scope="col">{{#str}}courses{{/str}}</th>
+                    <th scope="col">{{#str}}status{{/str}}</th>
+                    <th scope="col" class="text-end">{{#str}}total, local_pspvshop{{/str}}</th>
+                    <th scope="col"><span class="visually-hidden">{{#str}}actions{{/str}}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#orders}}
+                <tr>
+                    <td>{{number}}</td>
+                    <td class="text-nowrap">{{date}}</td>
+                    <td>{{buyer}}<div class="small text-muted">{{buyeremail}}</div></td>
+                    <td>{{#lines}}<div>{{name}}</div>{{/lines}}</td>
+                    <td><span class="badge text-bg-{{status.colour}}">{{status.label}}</span><div class="small text-muted">{{gateway}}</div></td>
+                    <td class="text-end text-nowrap">{{total}}</td>
+                    <td class="text-end text-nowrap">
+                        {{#links}}<a class="btn btn-sm btn-secondary" href="{{url}}">{{text}}</a>{{/links}}
+                        {{#ispending}}<a class="btn btn-sm btn-secondary" href="{{cancelurl}}">{{#str}}cancel{{/str}}<span class="visually-hidden">: {{number}}</span></a>{{/ispending}}
+                        {{#ispaid}}<a class="btn btn-sm btn-outline-danger" href="{{refundurl}}">{{#str}}order_refund, local_pspvshop{{/str}}<span class="visually-hidden">: {{number}}</span></a>{{/ispaid}}
+                    </td>
+                </tr>
+                {{/orders}}
+            </tbody>
+        </table>
+    </div>
+    {{/hasorders}}
+</div>

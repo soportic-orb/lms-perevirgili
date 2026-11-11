@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/pspvinvoice/db" VERSION="20261114" COMMENT="XMLDB file for Moodle local/pspvinvoice"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_pspvinvoice_billing" COMMENT="Billing details a buyer gave for an order">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="orderid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="customertype" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="person" SEQUENCE="false" COMMENT="person or company"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="taxid" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="address" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="postcode" TYPE="char" LENGTH="15" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="city" TYPE="char" LENGTH="120" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="country" TYPE="char" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="orderid" TYPE="unique" FIELDS="orderid"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_pspvinvoice_invoice" COMMENT="Issued invoices and credit notes; never changed once issued">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="doctype" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="invoice" SEQUENCE="false" COMMENT="invoice or credit"/>
+        <FIELD NAME="series" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="docyear" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="docnumber" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Correlative within the series and the year"/>
+        <FIELD NAME="fullnumber" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="orderid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="refinvoiceid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Invoice a credit note corrects"/>
+        <FIELD NAME="currency" TYPE="char" LENGTH="3" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="subtotal" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="2" COMMENT="Amount before tax"/>
+        <FIELD NAME="tax" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="2"/>
+        <FIELD NAME="total" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="2"/>
+        <FIELD NAME="seller" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON copy of the seller details when issued"/>
+        <FIELD NAME="billing" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON copy of the billing details when issued"/>
+        <FIELD NAME="doclines" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON copy of the lines when issued"/>
+        <FIELD NAME="fiscalstatus" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="none" SEQUENCE="false" COMMENT="none, sent or failed"/>
+        <FIELD NAME="fiscalref" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Reference given by the fiscal system"/>
+        <FIELD NAME="issuerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User who caused it to be issued, if any"/>
+        <FIELD NAME="timeissued" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="seriesnumber" TYPE="unique" FIELDS="series, docyear, docnumber"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="refinvoiceid" TYPE="foreign" FIELDS="refinvoiceid" REFTABLE="local_pspvinvoice_invoice" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="orderid" UNIQUE="false" FIELDS="orderid"/>
+        <INDEX NAME="timeissued" UNIQUE="false" FIELDS="timeissued"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -58,6 +58,15 @@ class catalogue {
      * @return \core\url
      */
     public static function url(): \core\url {
+        // A shop plugin, when there is one, has its own catalogue page.
+        foreach (get_plugins_with_function('theme_pspv_catalogue_url') as $plugins) {
+            foreach ($plugins as $function) {
+                $url = $function();
+                if ($url instanceof \core\url) {
+                    return $url;
+                }
+            }
+        }
         $category = self::category();
         return new \core\url('/course/index.php', $category ? ['categoryid' => $category->id] : []);
     }
@@ -81,6 +90,11 @@ class catalogue {
             'coursecontacts' => false,
         ]);
 
+        $extenders = [];
+        foreach (get_plugins_with_function('theme_pspv_course_card') as $plugins) {
+            $extenders = array_merge($extenders, array_values($plugins));
+        }
+
         $cards = [];
         foreach ($courses as $course) {
             $image = self::image($course);
@@ -91,7 +105,7 @@ class catalogue {
                 strip_tags(format_text($course->summary, $course->summaryformat, ['context' => $context])),
                 ENT_QUOTES | ENT_HTML5,
             );
-            $cards[] = [
+            $card = [
                 'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
                 'name' => $course->get_formatted_fullname(),
                 'category' => $coursecategory ? $coursecategory->get_formatted_name() : '',
@@ -101,7 +115,14 @@ class catalogue {
                 'tone' => $course->id % self::TONES + 1,
                 'hasstart' => $course->startdate > time(),
                 'start' => userdate($course->startdate, get_string('strftimedate', 'core_langconfig')),
+                'hasprice' => false,
+                'price' => '',
             ];
+            // Plugins that sell courses can point the card to their own page and give it a price.
+            foreach ($extenders as $function) {
+                $card = array_merge($card, array_intersect_key((array) $function((int) $course->id), $card));
+            }
+            $cards[] = $card;
         }
         return $cards;
     }

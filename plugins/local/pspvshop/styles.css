@@ -1,0 +1,98 @@
+/* Campus PSPV shop. Cards, covers and empty states take their look from theme_pspv;
+   the rules below make the shop readable under any other theme too. */
+.local-pspvshop .pspv-cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 8;
+    background-color: rgba(0, 95, 173, .1);
+}
+.local-pspvshop .pspv-cover .badge {
+    position: absolute;
+    left: .75rem;
+    top: .75rem;
+    background: #fff;
+    color: #182433;
+}
+.local-pspvshop .pspv-cover-image {
+    background-size: cover;
+    background-position: center;
+}
+.local-pspvshop .pspvshop-cover-wide {
+    aspect-ratio: 16 / 6;
+}
+.local-pspvshop .pspv-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    font-size: .8125rem;
+}
+.local-pspvshop .pspv-empty {
+    padding: 3rem 1rem;
+    text-align: center;
+}
+.pspvshop-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.pspvshop-price-xl {
+    font-size: 2.25rem;
+    line-height: 1;
+}
+.pspvshop-price-old {
+    margin-left: .5rem;
+    color: #5b6676;
+}
+.pspvshop-seats {
+    font-size: .8125rem;
+    color: #5b6676;
+}
+.pspvshop-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+.pspvshop-facts dt {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #5b6676;
+}
+.pspvshop-facts dd {
+    margin: 0;
+}
+.pspvshop-totals {
+    margin: 0 0 1rem;
+}
+.pspvshop-totals > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .25rem 0;
+}
+.pspvshop-totals dt {
+    font-weight: 400;
+}
+.pspvshop-totals dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+.pspvshop-total,
+.pspvshop-totals .pspvshop-total dt {
+    font-weight: 700;
+}
+.pspvshop-totals .pspvshop-total {
+    margin-top: .25rem;
+    padding-top: .75rem;
+    border-top: 1px solid #dce1e7;
+    font-size: 1.125rem;
+}
+@media (min-width: 992px) {
+    .pspvshop-buy {
+        position: sticky;
+        top: 5rem;
+    }
+}

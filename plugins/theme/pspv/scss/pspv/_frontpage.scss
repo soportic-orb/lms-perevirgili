@@ -217,4 +217,11 @@
     .ti {
         margin-right: .25rem;
     }
+
+    .pspv-price {
+        color: var(--bs-body-color);
+        font-size: 1rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
 }

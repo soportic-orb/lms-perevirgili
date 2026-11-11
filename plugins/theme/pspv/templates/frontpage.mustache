@@ -40,7 +40,9 @@
                 "image": "",
                 "tone": 1,
                 "hasstart": true,
-                "start": "12 January 2027"
+                "start": "12 January 2027",
+                "hasprice": true,
+                "price": "180,00 €"
             }
         ]
     }
@@ -130,6 +132,7 @@
                             <div class="pspv-meta mt-auto">
                                 <span class="visually-hidden">{{category}}.</span>
                                 {{#hasstart}}<span><i class="ti ti-calendar-event" aria-hidden="true"></i>{{start}}</span>{{/hasstart}}
+                                {{#hasprice}}<span class="pspv-price ms-auto">{{price}}</span>{{/hasprice}}
                             </div>
                         </div>
                     </article>

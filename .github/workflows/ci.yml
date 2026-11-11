@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         # Afegeix aquí cada plugin nou de plugins/.
-        plugin: [local/pspvcore, local/pspvaccess, theme/pspv]
+        plugin: [local/pspvcore, local/pspvaccess, theme/pspv, local/pspvshop, local/pspvinvoice]
         php: ['8.4', '8.3']
         database: [mariadb]
 
@@ -58,8 +58,16 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
 
+      # Plugins propis dels quals depèn el que es prova ($plugin->dependencies).
+      - name: Dependències
+        run: |
+          mkdir extra
+          if [ "${{ matrix.plugin }}" = "local/pspvinvoice" ]; then
+            cp -r repo/plugins/local/pspvshop extra/pspvshop
+          fi
+
       - name: Instal·la Moodle i el plugin
-        run: moodle-plugin-ci install --plugin ./repo/plugins/${{ matrix.plugin }} --db-host=127.0.0.1
+        run: moodle-plugin-ci install --plugin ./repo/plugins/${{ matrix.plugin }} --extra-plugins=./extra --db-host=127.0.0.1
         env:
           DB: ${{ matrix.database }}
 

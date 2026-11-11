@@ -46,6 +46,9 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
   `deploy/cloudpanel/install.sh`.
 - El compilador SCSS de Moodle no accepta sumar unitats diferents dins de
   `clamp()`: cal `clamp(1rem, calc(1rem + 1vw), 2rem)`.
+- Un test no pot dependre de quins altres plugins propis hi ha instal·lats:
+  la CI en prova un de sol, i en local hi són tots. Si un plugin canvia el
+  comportament d'un altre, el test ho fixa amb configuració.
 - Una fase per vegada; en acabar-la, resum, com provar-ho, pendents, i espera
   l'aprovació.
 
@@ -78,12 +81,13 @@ docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cr
 deploy/cloudpanel/       install.sh i vhost de Nginx
 scripts/                 ota-keygen.sh, ota-bundle.sh, theme-icons.py
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
-docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, maquetes/
+docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, VENDA.md, maquetes/
 moodle/                  core de Moodle (no versionat)
 ```
 
 En afegir un plugin: carpeta a `plugins/`, línia a `x-volumes` de
-`docker-compose.yml` i entrada a la matriu `plugin` de `.github/workflows/ci.yml`.
+`docker-compose.yml` i entrada a la matriu `plugin` de `.github/workflows/ci.yml`
+(si depèn d'un altre plugin propi, també al pas «Dependències»).
 
 ## Ordres
 
@@ -109,6 +113,14 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
 - `theme_pspv`: tema fill de Boost amb tokens de Tabler, Tabler Icons,
   logotip i colors de l'hospital, portada pública i peu institucional. Les
   icones es regeneren amb `scripts/theme-icons.py`. Vegeu el seu `README.md`.
+- `local_pspvshop`: catàleg públic, fitxa de curs, cistella, descomptes,
+  preus per cohort, comandes i matrícula en pagar, sobre `core_payment`
+  (sense passarel·la triada: mode de proves amb pagament simulat). Imports
+  sempre en cèntims enters (`classes/money.php`). Vegeu `docs/VENDA.md`.
+- `local_pspvinvoice`: depèn de la botiga. Dades fiscals, factures i
+  abonaments amb numeració correlativa, PDF i exportació. Una factura emesa
+  no es modifica mai: guarda còpia d'emissor, comprador i línies. Interfície
+  `fiscal\connector` per a Verifactu o l'ERP, sense cap integració feta.
 - `local_pspvcore`: esquelet de referència per als altres plugins i
   actualitzador OTA (`classes/ota/updater.php`). Només substitueix carpetes de
   plugins el nom dels quals comença per `pspv`.
