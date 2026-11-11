@@ -1,0 +1,113 @@
+# CI dels plugins propis: estil de codi Moodle, PHPUnit i Behat contra Moodle 5.3
+# (l'etiqueta de .moodle-version) amb les bases de dades que admet CloudPanel.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugins:
+    name: ${{ matrix.plugin }} · PHP ${{ matrix.php }} · ${{ matrix.database }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # Afegeix aquí cada plugin nou de plugins/.
+        plugin: [local/pspvcore]
+        php: ['8.4']
+        database: [mariadb]
+        include:
+          - plugin: local/pspvcore
+            php: '8.3'
+            database: mariadb
+
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          MYSQL_CHARACTER_SET_SERVER: utf8mb4
+          MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+        ports:
+          - 3306:3306
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: repo
+
+      - name: Etiqueta de Moodle
+        run: echo "MOODLE_BRANCH=$(tr -d '[:space:]' < repo/.moodle-version)" >> "$GITHUB_ENV"
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: sodium, zip, intl, gd, soap, mysqli
+          ini-values: max_input_vars=5000
+          coverage: none
+
+      - name: Instal·la moodle-plugin-ci
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo "$(cd ci/bin; pwd)" >> "$GITHUB_PATH"
+          echo "$(cd ci/vendor/bin; pwd)" >> "$GITHUB_PATH"
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
+
+      - name: Instal·la Moodle i el plugin
+        run: moodle-plugin-ci install --plugin ./repo/plugins/${{ matrix.plugin }} --db-host=127.0.0.1
+        env:
+          DB: ${{ matrix.database }}
+
+      - name: Sintaxi PHP
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phplint
+
+      - name: Estil de codi Moodle
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpcs --max-warnings 0
+
+      - name: Documentació del codi
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpdoc --max-warnings 0
+
+      - name: Validació del plugin
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci validate
+
+      - name: Punts d'actualització
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci savepoints
+
+      - name: Plantilles Mustache
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci mustache
+
+      - name: PHPUnit
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpunit --fail-on-warning
+
+      - name: Behat
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci behat --profile chrome
+
+  ota-bundle:
+    name: Paquet OTA
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: El paquet es construeix i es verifica
+        run: |
+          bash scripts/ota-keygen.sh "$RUNNER_TEMP"
+          bash scripts/ota-bundle.sh ci-test "$RUNNER_TEMP/ota-signing-key.pem"
+          unzip -tq dist/ota/ota-bundle.zip
+          test -s dist/ota/ota-manifest.json.sig
+          python3 -c "import json; m=json.load(open('dist/ota/ota-manifest.json')); assert m['roots'], m"
