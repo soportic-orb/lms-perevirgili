@@ -1,0 +1,53 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvaccess/employees_status
+
+    Status of the employee list, above the import form.
+
+    Example context (json):
+    {
+        "count": 1250,
+        "imported": "11/11/26, 12:00",
+        "listenabled": false,
+        "norules": false,
+        "settingsurl": "https://example.com/admin/settings.php?section=local_pspvaccess_settings",
+        "resyncurl": "https://example.com/local/pspvaccess/employees.php?resync=1&sesskey=abc"
+    }
+}}
+<div class="local-pspvaccess-employees mb-4">
+    <p>{{#str}}employees_intro, local_pspvaccess{{/str}}</p>
+    {{#norules}}
+    <div class="alert alert-warning" role="alert">
+        {{#str}}settings_norules, local_pspvaccess{{/str}}
+        <a href="{{settingsurl}}">{{#str}}settings_title, local_pspvaccess{{/str}}</a>
+    </div>
+    {{/norules}}
+    {{^norules}}{{^listenabled}}
+    <div class="alert alert-info" role="alert">
+        {{#str}}employees_listdisabled, local_pspvaccess{{/str}}
+        <a href="{{settingsurl}}">{{#str}}settings_title, local_pspvaccess{{/str}}</a>
+    </div>
+    {{/listenabled}}{{/norules}}
+    <dl class="row">
+        <dt class="col-sm-3">{{#str}}employees_count, local_pspvaccess{{/str}}</dt>
+        <dd class="col-sm-9" data-region="employee-count">{{count}}</dd>
+        <dt class="col-sm-3">{{#str}}employees_lastimport, local_pspvaccess{{/str}}</dt>
+        <dd class="col-sm-9">{{imported}}</dd>
+    </dl>
+    <a class="btn btn-secondary" href="{{resyncurl}}">{{#str}}resync_now, local_pspvaccess{{/str}}</a>
+</div>

@@ -113,6 +113,15 @@ $CFG->forced_plugin_settings['local_pspvcore'] = [
     'redisprefix' => $pspvget('REDIS_PREFIX', 'pspv_'),
 ];
 
+// Aplicacions OAuth 2 (Google i Microsoft): local/pspvaccess/cli/setup.php en crea els proveïdors.
+$CFG->forced_plugin_settings['local_pspvaccess'] = [
+    'googleclientid' => $pspvget('OAUTH_GOOGLE_CLIENT_ID', ''),
+    'googleclientsecret' => $pspvget('OAUTH_GOOGLE_CLIENT_SECRET', ''),
+    'microsoftclientid' => $pspvget('OAUTH_MICROSOFT_CLIENT_ID', ''),
+    'microsoftclientsecret' => $pspvget('OAUTH_MICROSOFT_CLIENT_SECRET', ''),
+    'microsofttenant' => $pspvget('OAUTH_MICROSOFT_TENANT', ''),
+];
+
 // El codi el desplega el repositori (OTA o SSH), no l'instal·lador de plugins de Moodle.
 $CFG->disableupdateautodeploy = true;
 
@@ -136,6 +145,9 @@ if ($pspvget('BEHAT_DATAROOT') && $pspvget('BEHAT_WWWROOT')) {
     $CFG->behat_prefix = 'bht_';
     $CFG->behat_dataroot = $pspvget('BEHAT_DATAROOT');
     $CFG->behat_wwwroot = $pspvget('BEHAT_WWWROOT');
+    if ($pspvget('BEHAT_FAILDUMP_PATH')) {
+        $CFG->behat_faildump_path = $pspvget('BEHAT_FAILDUMP_PATH');
+    }
     $CFG->behat_profiles = [
         'default' => [
             'browser' => 'chrome',

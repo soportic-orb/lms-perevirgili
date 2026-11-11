@@ -1,0 +1,4 @@
+email,employeeid,department,jobcategory
+eric@example.com,E100,Geriatrics,Nurse
+nobody@pspv.example,E101,Rehabilitation,Physiotherapist
+not-an-email,E102,,
