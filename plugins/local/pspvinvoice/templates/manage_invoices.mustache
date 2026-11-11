@@ -1,0 +1,93 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pspvinvoice/manage_invoices
+
+    Every invoice and credit note, with a filter by date.
+
+    Example context (json):
+    {
+        "actionurl": "https://example.com/local/pspvinvoice/manage/invoices.php",
+        "from": "2026-01-01",
+        "to": "",
+        "noseller": true,
+        "settingsurl": "https://example.com/admin/settings.php?section=local_pspvinvoice_settings",
+        "ordersurl": "https://example.com/local/pspvshop/manage/orders.php",
+        "hasrows": true,
+        "rows": [
+            {
+                "number": "F-2026-0001",
+                "iscredit": false,
+                "date": "11/11/26, 12:00",
+                "buyer": "Maria Puig",
+                "taxid": "12345678Z",
+                "total": "75,00 €",
+                "url": "https://example.com/local/pspvinvoice/invoice.php?id=1"
+            }
+        ]
+    }
+}}
+<div class="pspvinvoice-manage">
+    {{#noseller}}
+    <div class="alert alert-warning" role="alert">
+        {{#str}}invoices_noseller, local_pspvinvoice{{/str}} <a href="{{settingsurl}}">{{#str}}settings, local_pspvinvoice{{/str}}</a>
+    </div>
+    {{/noseller}}
+    <p>{{#str}}invoices_refundhint, local_pspvinvoice{{/str}} <a href="{{ordersurl}}">{{#str}}orders, local_pspvshop{{/str}}</a></p>
+    <form method="get" action="{{actionurl}}" class="row g-2 align-items-end mb-3">
+        <div class="col-auto">
+            <label class="form-label" for="pspvinvoice-from">{{#str}}filter_from, local_pspvinvoice{{/str}}</label>
+            <input type="date" class="form-control" id="pspvinvoice-from" name="from" value="{{from}}">
+        </div>
+        <div class="col-auto">
+            <label class="form-label" for="pspvinvoice-to">{{#str}}filter_to, local_pspvinvoice{{/str}}</label>
+            <input type="date" class="form-control" id="pspvinvoice-to" name="to" value="{{to}}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-secondary">{{#str}}filter_apply, local_pspvinvoice{{/str}}</button>
+        </div>
+    </form>
+    {{^hasrows}}<p data-region="invoices-empty">{{#str}}invoices_none, local_pspvinvoice{{/str}}</p>{{/hasrows}}
+    {{#hasrows}}
+    <div class="table-responsive">
+        <table class="table generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#str}}doc_number, local_pspvinvoice{{/str}}</th>
+                    <th scope="col">{{#str}}doc_date, local_pspvinvoice{{/str}}</th>
+                    <th scope="col">{{#str}}doc_buyer, local_pspvinvoice{{/str}}</th>
+                    <th scope="col">{{#str}}billing_taxid, local_pspvinvoice{{/str}}</th>
+                    <th scope="col" class="text-end">{{#str}}doc_total, local_pspvinvoice{{/str}}</th>
+                    <th scope="col"><span class="visually-hidden">{{#str}}actions{{/str}}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#rows}}
+                <tr>
+                    <td>{{number}}{{#iscredit}} <span class="badge text-bg-info">{{#str}}doc_credit, local_pspvinvoice{{/str}}</span>{{/iscredit}}</td>
+                    <td class="text-nowrap">{{date}}</td>
+                    <td>{{buyer}}</td>
+                    <td>{{taxid}}</td>
+                    <td class="text-end text-nowrap">{{total}}</td>
+                    <td class="text-end"><a class="btn btn-sm btn-secondary" href="{{url}}">PDF<span class="visually-hidden">: {{number}}</span></a></td>
+                </tr>
+                {{/rows}}
+            </tbody>
+        </table>
+    </div>
+    {{/hasrows}}
+</div>
