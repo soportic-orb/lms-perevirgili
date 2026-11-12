@@ -1,5 +1,16 @@
 # Registre de canvis
 
+## Correccions de la primera instal·lació a CloudPanel (12-11-2026)
+
+### Corregit
+
+- `deploy/cloudpanel/nginx-vhost.conf`: ara és el vhost complet, amb els
+  dos blocs `server`. El bloc de PHP desa `PATH_INFO` abans del `try_files`,
+  que el buidava: `styles.php` responia 404 i el campus es veia sense format.
+- `docs/CLOUDPANEL.md`: l'usuari del lloc no és un usuari SSH addicional, com
+  comprovar la versió del servidor de base de dades, valors de `.env` que
+  només serveixen a Docker, i una taula de diagnòstic del vhost.
+
 ## Fase 6 — Informes i posada en producció (12-11-2026)
 
 ### Afegit
