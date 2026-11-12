@@ -2,6 +2,12 @@
 
 ## Correccions de la primera instal·lació a CloudPanel (12-11-2026)
 
+### Afegit
+
+- `deploy/demo/demo-courses.php`: crea onze cursos d'exemple amb caràtula per
+  presentar el disseny (sis de formació interna i cinc d'externa a la venda)
+  i els esborra amb `--delete`. Preus, hores i crèdits són exemples.
+
 ### Corregit
 
 - `deploy/cloudpanel/nginx-vhost.conf`: ara és el vhost complet, amb els
