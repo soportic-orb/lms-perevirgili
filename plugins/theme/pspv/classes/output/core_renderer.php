@@ -24,6 +24,12 @@ namespace theme_pspv\output;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class core_renderer extends \theme_boost\output\core_renderer {
+    /** @var string Who developed the campus, as credited in the footer. */
+    public const DEVELOPER = 'Octavi Rodríguez';
+
+    /** @var string Where the credit in the footer links to. */
+    public const DEVELOPER_URL = 'https://www.soportic.es';
+
     /**
      * URL of the logo: the one uploaded in the theme settings, or the hospital's logo shipped with the theme.
      *
@@ -93,6 +99,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
             'haslinks' => !empty($links),
             'year' => userdate(time(), '%Y'),
             'owner' => self::owner(),
+            'developer' => self::DEVELOPER,
+            'developerurl' => self::DEVELOPER_URL,
         ]);
     }
 

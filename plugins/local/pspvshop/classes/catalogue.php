@@ -52,7 +52,92 @@ class catalogue {
     }
 
     /**
-     * The areas a buyer can filter by: the categories that hold products on sale.
+     * The category of the free internal training, which the catalogue also lists for who can see it.
+     *
+     * @return \core_course_category|null Null when it is not set, does not exist or the user cannot see it.
+     */
+    public static function internal_category(): ?\core_course_category {
+        global $DB;
+
+        $idnumber = get_config('local_pspvshop', 'internalcategory');
+        $idnumber = $idnumber === false ? 'pspv-internal' : trim((string) $idnumber);
+        $id = $idnumber === '' ? 0 : $DB->get_field('course_categories', 'id', ['idnumber' => $idnumber]);
+        return $id ? \core_course_category::get($id, IGNORE_MISSING) : null;
+    }
+
+    /**
+     * The courses of the internal training that match the filters, as rows like those of the products.
+     *
+     * They are free and have no product: mode and paid price ranges leave them out.
+     *
+     * @param array $filters As in search().
+     * @return \stdClass[]
+     */
+    protected static function internal_rows(array $filters): array {
+        global $DB;
+
+        $category = self::internal_category();
+        $paidrange = isset(self::PRICE_RANGES[$filters['price'] ?? ''])
+            && (self::PRICE_RANGES[$filters['price']][0] ?? 0) > 0;
+        if (!$category || in_array($filters['mode'] ?? '', product::MODES, true) || $paidrange) {
+            return [];
+        }
+        $now = time();
+        $where = [
+            'c.visible = 1',
+            '(cat.id = :catid OR ' . $DB->sql_like('cat.path', ':catpath') . ')',
+            // A course on sale is listed as a product, not here.
+            'NOT EXISTS (SELECT 1 FROM {local_pspvshop_product} p WHERE p.courseid = c.id AND p.enabled = 1)',
+        ];
+        $params = ['catid' => $category->id, 'catpath' => $DB->sql_like_escape($category->path) . '/%'];
+
+        $query = trim((string) ($filters['q'] ?? ''));
+        if ($query !== '') {
+            $where[] = '(' . $DB->sql_like('c.fullname', ':q1', false, false) . ' OR '
+                . $DB->sql_like('c.summary', ':q2', false, false) . ')';
+            $params['q1'] = $params['q2'] = '%' . $DB->sql_like_escape($query) . '%';
+        }
+        if (!empty($filters['area'])) {
+            $where[] = 'c.category = :area';
+            $params['area'] = (int) $filters['area'];
+        }
+        if (($filters['start'] ?? '') === 'upcoming') {
+            $where[] = 'c.startdate > :startnow';
+            $params['startnow'] = $now;
+        } else if (($filters['start'] ?? '') === 'open') {
+            $where[] = 'c.startdate <= :startnow';
+            $params['startnow'] = $now;
+        }
+        $credits = 'NULL AS credits';
+        $creditsjoin = '';
+        if ($fieldid = self::credits_field()) {
+            $credits = 'cr.decvalue AS credits';
+            $creditsjoin = 'LEFT JOIN {customfield_data} cr ON cr.instanceid = c.id AND cr.fieldid = :creditsfield';
+            $params['creditsfield'] = $fieldid;
+            if (!empty($filters['credits'])) {
+                $where[] = 'cr.decvalue > 0';
+            }
+        } else if (!empty($filters['credits'])) {
+            return [];
+        }
+
+        $rows = $DB->get_records_sql(
+            "SELECT c.id AS courseid, c.fullname, c.summary, c.summaryformat, c.category, c.startdate, $credits
+               FROM {course} c
+               JOIN {course_categories} cat ON cat.id = c.category
+                    $creditsjoin
+              WHERE " . implode(' AND ', $where),
+            $params,
+        );
+        foreach ($rows as $row) {
+            // No product: what tells these rows apart.
+            $row->id = 0;
+        }
+        return array_values($rows);
+    }
+
+    /**
+     * The areas a visitor can filter by: the categories that hold what the catalogue lists for them.
      *
      * @return string[] Category id => name.
      */
@@ -142,6 +227,15 @@ class catalogue {
             $params,
         );
 
+        // The free internal training comes after, in the same order: not started yet first, soonest first.
+        $rows = array_values($rows);
+        $internal = self::internal_rows($filters);
+        if ($internal) {
+            $rows = array_merge($rows, $internal);
+            usort($rows, fn($a, $b) => [$a->startdate > $now ? 0 : 1, (int) $a->startdate, $a->fullname]
+                <=> [$b->startdate > $now ? 0 : 1, (int) $b->startdate, $b->fullname]);
+        }
+
         // Only what the current user is allowed to see in the course listings.
         $categories = [];
         $visible = [];
@@ -197,14 +291,44 @@ class catalogue {
             strip_tags(format_text($row->summary, $row->summaryformat, ['context' => $context])),
             ENT_QUOTES | ENT_HTML5,
         );
+        $image = self::image((int) $row->courseid);
+        $rowcredits = (float) ($row->credits ?? 0);
+
+        if (empty($row->id)) {
+            // A course of the internal training: free, without a product, opened as a course.
+            return [
+                'id' => 0,
+                'courseid' => (int) $row->courseid,
+                'url' => (new \core\url('/course/view.php', ['id' => $row->courseid]))->out(false),
+                'name' => format_string($row->fullname, true, ['context' => $context]),
+                'categoryid' => (int) $category->id,
+                'category' => $category->get_formatted_name(),
+                'summary' => shorten_text(trim(preg_replace('/\s+/', ' ', $summary)), 140),
+                'hasimage' => $image !== null,
+                'image' => (string) $image,
+                'tone' => $row->courseid % self::TONES + 1,
+                'hasmode' => false,
+                'mode' => '',
+                'hasstart' => $row->startdate > time(),
+                'start' => userdate($row->startdate, get_string('strftimedate', 'core_langconfig')),
+                'hascredits' => $rowcredits > 0,
+                'credits' => get_string('credits_n', 'local_pspvshop', format_float($rowcredits, 1, true, true)),
+                'price' => '',
+                'isfree' => true,
+                'hasreduction' => false,
+                'generalprice' => '',
+                'haslimit' => false,
+                'seats' => 0,
+                'full' => false,
+                'internal' => true,
+            ];
+        }
+
         $general = money::cents($row->price);
         $mine = product::price_for($row, $userid);
         [, , $topay] = money::split($mine, product::tax_rate($row));
         [, , $generaltopay] = money::split($general, product::tax_rate($row));
         $seats = product::seats_left($row);
-        $image = self::image((int) $row->courseid);
-        $rowcredits = (float) ($row->credits ?? 0);
-
         return [
             'id' => (int) $row->id,
             'courseid' => (int) $row->courseid,
@@ -229,6 +353,7 @@ class catalogue {
             'haslimit' => $seats !== null,
             'seats' => (int) $seats,
             'full' => $seats === 0,
+            'internal' => false,
         ];
     }
 

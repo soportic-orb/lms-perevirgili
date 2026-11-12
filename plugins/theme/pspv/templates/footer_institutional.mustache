@@ -31,7 +31,9 @@
         "links": [{"url": "https://example.com/policy", "text": "Privacy policy"}],
         "haslinks": true,
         "year": "2026",
-        "owner": "Parc Sanitari Pere Virgili"
+        "owner": "Parc Sanitari Pere Virgili",
+        "developer": "Octavi Rodríguez",
+        "developerurl": "https://www.soportic.es"
     }
 }}
 <div class="pspv-footer d-print-none" role="contentinfo" aria-label="{{#str}}footer_label, theme_pspv{{/str}}">
@@ -60,6 +62,9 @@
             </div>
             {{/haslinks}}
         </div>
-        <p class="pspv-footer-copy">© {{year}} {{owner}}</p>
+        <p class="pspv-footer-copy">
+            <span>© {{year}} {{owner}}</span>
+            <a class="pspv-footer-developer" href="{{developerurl}}" target="_blank" rel="noopener">{{#str}}footer_developedby, theme_pspv, {{developer}}{{/str}}</a>
+        </p>
     </div>
 </div>

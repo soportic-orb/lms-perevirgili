@@ -17,8 +17,8 @@
 {{!
     @template theme_boost/footer
 
-    Boost's footer with the institutional footer of the hospital before it.
-    The rest is Boost's template, unchanged.
+    Boost's footer with the institutional footer of the hospital before it and
+    without the floating "?" button. The rest is Boost's template, unchanged.
 
     Example context (json):
     {
@@ -45,7 +45,9 @@
                 {{#pix}}t/messages-o, core{{/pix}}
             </button>
         {{/output.has_communication_links}}
-        <button class="btn btn-icon rounded-circle text-bg-secondary btn-footer-popover" data-action="footer-popover" aria-label="{{#str}}showfooter, theme_boost{{/str}}">
+        {{! The floating "?" button of Boost is not shown. It stays in the page, hidden, because Boost's
+            script expects it; what it opened (links to the policies) is in the institutional footer. }}
+        <button class="btn btn-icon rounded-circle text-bg-secondary btn-footer-popover d-none" data-action="footer-popover" tabindex="-1" aria-hidden="true" aria-label="{{#str}}showfooter, theme_boost{{/str}}">
             {{#pix}}e/question, core{{/pix}}
         </button>
     </div>

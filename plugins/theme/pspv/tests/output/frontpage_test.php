@@ -129,4 +129,28 @@ final class frontpage_test extends \advanced_testcase {
         $this->assertSame('Welcome to the campus', $data['title']);
         $this->assertSame(get_string('herolead_default', 'theme_pspv'), $data['lead']);
     }
+
+    public function test_reasons_to_train_here_are_shown_before_the_catalogue(): void {
+        $this->resetAfterTest();
+
+        $data = $this->export();
+
+        $this->assertTrue($data['showwhy']);
+        $this->assertSame(get_string('whytitle_default', 'theme_pspv'), $data['whytitle']);
+        $this->assertCount(count(frontpage::REASON_ICONS), $data['reasons']);
+        $this->assertSame(get_string('why3title_default', 'theme_pspv'), $data['reasons'][2]['title']);
+        $this->assertSame(get_string('why3text_default', 'theme_pspv'), $data['reasons'][2]['text']);
+        $this->assertSame('device-laptop', $data['reasons'][2]['icon']);
+
+        // Each text can be replaced, and the whole block can be hidden.
+        set_config('whytitle', 'Our reasons', 'theme_pspv');
+        set_config('why1text', 'Because <i>we</i> care', 'theme_pspv');
+        $data = $this->export();
+        $this->assertSame('Our reasons', $data['whytitle']);
+        $this->assertSame('Because we care', $data['reasons'][0]['text']);
+        $this->assertSame(get_string('why1title_default', 'theme_pspv'), $data['reasons'][0]['title']);
+
+        set_config('showwhy', 0, 'theme_pspv');
+        $this->assertFalse($this->export()['showwhy']);
+    }
 }

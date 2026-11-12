@@ -1,15 +1,19 @@
 # Venda de cursos i facturació
 
-Com es venen els cursos de la formació externa i com se'n fan les factures.
+Com es venen els cursos de la formació per a la ciutadania i com se'n fan les factures.
 Ho fan dos plugins: `local_pspvshop` (aparador, cistella, comandes i
 matrícula) i `local_pspvinvoice` (dades fiscals, factures i abonaments), que
 depèn del primer. La botiga funciona sola; la facturació es pot desactivar.
 
 ## Recorregut d'una compra
 
-1. **Catàleg públic** (`/local/pspvshop/index.php`): es veu sense iniciar
+1. **Catàleg de cursos** (`/local/pspvshop/index.php`): es veu sense iniciar
    sessió, amb cerca i filtres per àrea, modalitat, preu, data d'inici i
    crèdits d'acreditació (si hi ha `local_pspvaccredit`).
+   Qui pot veure la formació interna (els treballadors i qui la gestiona)
+   hi troba també aquells cursos, com a gratuïts, i en pot triar la
+   categoria al desplegable d'àrea. Un visitant només hi veu els cursos a
+   la venda. La categoria es tria a `local_pspvshop/internalcategory`.
 2. **Fitxa del curs** (`product.php`): descripció, preu, places i
    metadades per a cercadors i xarxes socials (Open Graph i JSON-LD).
 3. **Cistella** (`cart.php`): es pot omplir sense compte; en iniciar sessió
@@ -30,7 +34,7 @@ pagada sense passar per la passarel·la i no genera factura.
 
 *Administració del lloc → Plugins → Plugins locals → Campus PSPV botiga →
 Productes.* Només s'hi poden vendre els cursos de la categoria del catàleg
-(per defecte `pspv-external`, la «Formació externa» de `local_pspvaccess`).
+(per defecte `pspv-external`, la «Formació per a la ciutadania» de `local_pspvaccess`).
 De cada curs es defineix:
 
 - preu general, i preus per tipus de client (un per cohort; s'aplica el més

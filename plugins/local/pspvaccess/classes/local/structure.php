@@ -54,6 +54,21 @@ class structure {
     /** @var string Capability that lets a user see a category and its courses. */
     protected const VIEW = 'moodle/category:viewcourselist';
 
+    /** @var string[][] Texts this plugin stored, in each language, while citizens were called "external". */
+    protected const OLD_EXTERNAL = [
+        'name' => ['External training', 'Formació externa', 'Formación externa'],
+        'description' => [
+            'Courses open to external professionals and the general public.',
+            'Cursos oberts a professionals externs i al públic general.',
+            'Cursos abiertos a profesionales externos y al público general.',
+        ],
+        'role' => [
+            'Manages sales, discounts and invoices of the external training.',
+            'Gestiona les vendes, els descomptes i les factures de la formació externa.',
+            'Gestiona las ventas, los descuentos y las facturas de la formación externa.',
+        ],
+    ];
+
     /**
      * Creates whatever is missing. Safe to call any number of times.
      */
@@ -134,6 +149,40 @@ class structure {
         global $DB;
 
         return (int) $DB->get_field('cohort', 'id', ['idnumber' => self::COHORT]);
+    }
+
+    /**
+     * Renames what was created when the public of the paid training was called "external":
+     * it is now "citizens". Names an administrator has already changed are left alone.
+     *
+     * @return string[] What was renamed: "category", "description" and "role".
+     */
+    public static function apply_citizen_wording(): array {
+        global $DB;
+
+        $done = [];
+        $category = $DB->get_record('course_categories', ['idnumber' => self::CATEGORY_EXTERNAL], 'id, name, description');
+        if ($category) {
+            $changes = [];
+            if (in_array($category->name, self::OLD_EXTERNAL['name'], true)) {
+                $changes['name'] = self::name('category_external');
+                $done[] = 'category';
+            }
+            if (in_array(trim(strip_tags((string) $category->description)), self::OLD_EXTERNAL['description'], true)) {
+                $changes['description'] = self::name('category_external_desc');
+                $changes['descriptionformat'] = FORMAT_HTML;
+                $done[] = 'description';
+            }
+            if ($changes) {
+                \core_course_category::get($category->id, MUST_EXIST, true)->update($changes);
+            }
+        }
+        $role = $DB->get_record('role', ['shortname' => self::ROLE_SALES_MANAGER], 'id, description');
+        if ($role && in_array(trim(strip_tags((string) $role->description)), self::OLD_EXTERNAL['role'], true)) {
+            $DB->set_field('role', 'description', self::name('role_pspvsalesmanager_desc'), ['id' => $role->id]);
+            $done[] = 'role';
+        }
+        return $done;
     }
 
     /**

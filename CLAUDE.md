@@ -1,7 +1,7 @@
 # Campus PSPV
 
 Plataforma d'e-learning del Parc Sanitari Pere Virgili sobre **Moodle 5.3 LTS**:
-formació interna gratuïta per als treballadors i catàleg extern de pagament.
+formació interna gratuïta per als treballadors i catàleg de pagament per a la ciutadania.
 Proposta completa i fases a `docs/PROPOSTA.md`.
 
 Documentació i missatges de commit en **català**; codi, identificadors i
@@ -58,6 +58,16 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 - Els scripts de `deploy/cloudpanel/` llegeixen `.env` amb `env_value`, sense
   executar-lo, i s'han de poder tornar a executar. `restore.sh` és l'únic
   destructiu i demana confirmació.
+- **Amplada del contingut:** una de sola, `$pspv-content-maxwidth`
+  (`scss/pspv/_variables.scss`), per a la portada, el peu i totes les pàgines
+  de Moodle. Una pàgina nova no ha de fixar la seva.
+- **Terminologia:** el públic de la formació de pagament és «ciutadà/ana»
+  (abans «extern»). Als textos que veu l'usuari i a la documentació no es fa
+  servir «extern». Els identificadors del codi (`pspv-external`,
+  `CATEGORY_EXTERNAL`, `door_external`) no canvien.
+- Un text que es desa a la base de dades en instal·lar (nom d'una categoria,
+  descripció d'un rol) no canvia en canviar la cadena: cal un pas a
+  `db/upgrade.php` que el reanomeni només si encara és el valor per defecte.
 - Un test no pot dependre de l'espai de disc, del cron o del correu de la
   màquina on corre: les comprovacions d'estat es proven amb valors donats.
 - Un test no pot dependre de quins altres plugins propis hi ha instal·lats:

@@ -26,7 +26,11 @@ Feature: Public front page of the campus
     When I am on site homepage
     Then I should see "Training to care better for older people"
     And I should see "I am a worker"
-    And I should see "I am external"
+    And I should see "I am a citizen"
+    And I should see "Why train with Pere Virgili" in the "[data-region='pspv-why']" "css_element"
+    And I should see "Online and at your own pace"
+    And "Developed by Octavi Rodríguez" "link" should exist in the ".pspv-footer" "css_element"
+    And ".btn-footer-popover.d-none" "css_element" should exist
     And I should see "Course catalogue"
     And I should see "Chronic wound care"
     And I should see "Falls prevention"

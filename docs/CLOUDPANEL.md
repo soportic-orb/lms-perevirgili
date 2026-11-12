@@ -1,7 +1,7 @@
 # Instal·lació en un servidor amb CloudPanel
 
 Exemple per al campus de producció (`perevirgili.soportic.es`, usuari de
-lloc `perevirgili`). Per a un lloc de proves, el mateix amb el seu domini,
+lloc `soportic-perevirgili`). Per a un lloc de proves, el mateix amb el seu domini,
 la seva base de dades i `APP_ENV=staging`.
 
 ## Abans de començar
@@ -12,11 +12,14 @@ Moodle 5.3 exigeix:
   `intl`, `gd`, `soap`, `mysqli`, `redis` i `opcache`.
 - **MariaDB 11.4 o superior, o MySQL 8.4 o superior.** Comprova-ho al
   servidor abans de res: amb MariaDB 10.11 o MySQL 8.0 l'instal·lador de
-  Moodle s'atura.
+  Moodle s'atura a «Entorn» sense haver creat res. La versió que compta és la
+  del servidor, no la del client:
 
   ```bash
-  mysql --version
+  mariadb -e "SELECT VERSION();"
   ```
+
+  Actualitzar el motor afecta totes les webs del servidor: fes-ne còpia abans.
 
 - **Redis** (CloudPanel el porta instal·lat) i **Composer**.
 
@@ -26,23 +29,28 @@ Moodle 5.3 exigeix:
    `perevirgili.soportic.es`, PHP **8.4**. Anota l'usuari del lloc.
 2. **SSL/TLS** del lloc → Let's Encrypt.
 3. **Databases → Add Database** (per exemple `campuspspv`), amb el seu usuari.
-4. **Vhost** del lloc: canvia `root` perquè apunti a
-   `/home/perevirgili/htdocs/perevirgili.soportic.es/moodle/public` i
-   substitueix els blocs `location` pels de
-   [`deploy/cloudpanel/nginx-vhost.conf`](../deploy/cloudpanel/nginx-vhost.conf).
-   A **PHP Settings**: `max_input_vars` 5000 o més, `memory_limit` 512M,
-   `upload_max_filesize` i `post_max_size` segons la mida màxima dels fitxers
-   dels cursos.
+4. **PHP Settings** del lloc: `max_input_vars` 5000 o més, `memory_limit`
+   512M, `upload_max_filesize` i `post_max_size` segons la mida màxima dels
+   fitxers dels cursos. El **Vhost** es canvia després d'instal·lar (pas 4).
 5. **Cron Jobs** del lloc, cada minut:
 
    ```
-   * * * * * php8.4 -d max_input_vars=5000 /home/perevirgili/htdocs/perevirgili.soportic.es/moodle/admin/cli/cron.php >> /dev/null 2>&1
+   * * * * * php8.4 -d max_input_vars=5000 /home/soportic-perevirgili/htdocs/perevirgili.soportic.es/moodle/admin/cli/cron.php >> /dev/null 2>&1
    ```
 
 ## 2. Codi i `.env` (SSH)
 
-Treballa sempre com l'usuari del lloc (`su - perevirgili`). Si alguna cosa es
-crea com a root, PHP no podrà escriure-hi i les actualitzacions OTA fallaran.
+Treballa sempre com **l'usuari del lloc** (el que surt a *Settings* del lloc;
+aquí, `soportic-perevirgili`), no com a root ni amb un usuari SSH addicional:
+PHP corre amb l'usuari del lloc i, si els fitxers són d'un altre, no hi podrà
+escriure i les actualitzacions OTA fallaran. Comprova-ho:
+
+```bash
+id -un; stat -c '%U' ~/htdocs/perevirgili.soportic.es
+```
+
+Han de sortir dos noms iguals. Si ja has creat fitxers amb un altre usuari,
+com a root: `chown -R <usuari del lloc>: <carpeta del lloc>`.
 
 ```bash
 cd ~/htdocs/perevirgili.soportic.es
@@ -61,11 +69,14 @@ cp .env.example .env && nano .env
 A `.env`:
 
 - `APP_ENV=production` (`staging` en un lloc de proves), `MOODLE_WWWROOT=https://perevirgili.soportic.es`
-- `MOODLE_DATAROOT=/home/perevirgili/moodledata` (fora de `htdocs`)
+- `MOODLE_DATAROOT=/home/soportic-perevirgili/moodledata` (fora de `htdocs`).
+  El valor de l'exemple, `/var/www/moodledata`, és el de Docker: si es queda,
+  l'script falla amb «Permission denied».
 - `MOODLE_ADMIN_USER`, `MOODLE_ADMIN_PASS`, `MOODLE_ADMIN_EMAIL`: l'administrador inicial
 - `DB_TYPE=mariadb` (o `mysqli` si el servidor és MySQL), `DB_HOST=127.0.0.1`,
-  `DB_NAME`, `DB_USER`, `DB_PASS`: els del pas 1.3
-- `REDIS_HOST=127.0.0.1`, i un `REDIS_PREFIX` diferent per a cada web del servidor
+  `DB_NAME`, `DB_USER`, `DB_PASS`: els del pas 1.3 (una contrasenya amb `#`, `$` o
+  espais va entre cometes dobles)
+- `REDIS_HOST=127.0.0.1` (no `redis`, que és el de Docker), i un `REDIS_PREFIX` diferent per a cada web del servidor
 - `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `NOREPLY_ADDRESS`: el correu sortint
 - `OAUTH_*`: inici de sessió amb Google i Microsoft ([`docs/ACCES.md`](ACCES.md))
 - `OTA_PUBLIC_KEY=…` ([`docs/OTA.md`](OTA.md))
@@ -89,13 +100,47 @@ l'administrador en el primer accés.
 
 Si alguna cosa dona un error 500: `tail -n 30 ~/logs/php/error.log`.
 
-## 4. Comprova
+## 4. Vhost
+
+A CloudPanel, lloc → **Vhost**: substitueix-ne el contingut pel de
+[`deploy/cloudpanel/nginx-vhost.conf`](../deploy/cloudpanel/nginx-vhost.conf),
+canviant-hi `<domini>` i `<usuari>`. El fitxer explica per què cada cosa va
+on va. CloudPanel comprova la sintaxi en desar.
+
+Si alguna cosa no carrega:
+
+| Què es veu | Causa |
+|---|---|
+| 403 a la portada, i «directory index is forbidden» a `~/logs/nginx/error.log` | El primer bloc `server` no reenvia al segon (falta el seu `location /` amb el proxy) |
+| La web carrega sense format | `styles.php` respon 404: falta `set $path_info` al bloc de PHP, o hi ha un bloc de fitxers estàtics al primer `server` |
+| 502 o 500 | Falla PHP: `tail -n 30 ~/logs/php/error.log` |
+
+Comprovació ràpida del full d'estils (ha de dir `200` i `text/css`):
+
+```bash
+CSS=$(curl -s https://perevirgili.soportic.es/login/index.php | grep -o 'https://[^"]*styles\.php[^"]*' | head -1); curl -sI "$CSS" | head -4
+```
+
+## 5. Comprova
 
 - `https://perevirgili.soportic.es/login/index.php` carrega amb estils.
 - Administració del lloc → Connectors → Connectors locals → **Actualitzacions
   del Campus PSPV**: sense avisos; «Cerca actualitzacions».
 - Administració del lloc → Servidor → Tasques → Tasques programades: el cron
   s'ha executat en l'últim minut.
+
+## Cursos d'exemple
+
+Per ensenyar el disseny abans de tenir cursos reals, com l'usuari del lloc:
+
+```bash
+php8.4 -d max_input_vars=5000 deploy/demo/demo-courses.php
+```
+
+Crea sis cursos a «Formació interna» i cinc a «Formació per a la ciutadania», aquests
+a la venda, tots amb caràtula. Els preus, les hores i els crèdits són
+exemples. Es treuen amb la mateixa ordre i `--delete`; **treu-los abans
+d'obrir el campus**.
 
 ## Després
 

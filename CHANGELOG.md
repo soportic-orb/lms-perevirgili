@@ -1,5 +1,47 @@
 # Registre de canvis
 
+## Canvis de presentació (12-11-2026)
+
+### Canviat
+
+- El públic de la formació de pagament passa a dir-se **«ciutadà/ana»** en
+  lloc d'«extern» a tots els textos (`local_pspvaccess` 0.2.0, `theme_pspv`
+  0.2.0). La categoria «Formació externa» ja creada es reanomena a
+  «Formació per a la ciutadania» en actualitzar, si no se n'havia canviat
+  el nom.
+- `theme_pspv`: s'amaga el botó flotant «?» de Moodle.
+- `theme_pspv`: totes les pàgines tenen el contingut de la mateixa amplada
+  que la portada (1320 px), també les que Boost limitava a 830 px o deixava
+  a tota la finestra, i el peu s'hi alinea.
+- `local_pspvshop` 0.2.0: el catàleg de cursos llista també la formació
+  interna, com a cursos gratuïts, per a qui la pot veure, i les seves
+  categories surten al desplegable d'àrea.
+
+### Afegit
+
+- `theme_pspv`: bloc «Per què formar-te amb el Pere Virgili» a la portada,
+  abans del catàleg, amb quatre motius. Es pot amagar i tots els textos es
+  poden canviar a la configuració del tema.
+- `theme_pspv`: crèdit «Desenvolupat per Octavi Rodríguez» al peu, amb
+  enllaç a soportic.es.
+
+## Correccions de la primera instal·lació a CloudPanel (12-11-2026)
+
+### Afegit
+
+- `deploy/demo/demo-courses.php`: crea onze cursos d'exemple amb caràtula per
+  presentar el disseny (sis de formació interna i cinc d'externa a la venda)
+  i els esborra amb `--delete`. Preus, hores i crèdits són exemples.
+
+### Corregit
+
+- `deploy/cloudpanel/nginx-vhost.conf`: ara és el vhost complet, amb els
+  dos blocs `server`. El bloc de PHP desa `PATH_INFO` abans del `try_files`,
+  que el buidava: `styles.php` responia 404 i el campus es veia sense format.
+- `docs/CLOUDPANEL.md`: l'usuari del lloc no és un usuari SSH addicional, com
+  comprovar la versió del servidor de base de dades, valors de `.env` que
+  només serveixen a Docker, i una taula de diagnòstic del vhost.
+
 ## Fase 6 — Informes i posada en producció (12-11-2026)
 
 ### Afegit

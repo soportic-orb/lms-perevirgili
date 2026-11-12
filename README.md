@@ -1,7 +1,7 @@
 # Campus PSPV
 
 Plataforma d'e-learning del Parc Sanitari Pere Virgili sobre Moodle 5.3 LTS:
-formació interna per als treballadors i catàleg extern de cursos de pagament.
+formació interna per als treballadors i catàleg de cursos de pagament per a la ciutadania.
 
 Aquest repositori conté només el codi propi (plugins `pspv`) i la
 configuració. El core de Moodle es descarrega a l'etiqueta fixada a

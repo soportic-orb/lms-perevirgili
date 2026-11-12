@@ -38,6 +38,13 @@ if ($hassiteconfig || has_any_capability($pspvshopcaps, \core\context\system::in
             PARAM_TEXT,
         ));
         $settings->add(new admin_setting_configtext(
+            'local_pspvshop/internalcategory',
+            get_string('setting_internalcategory', 'local_pspvshop'),
+            get_string('setting_internalcategory_desc', 'local_pspvshop'),
+            'pspv-internal',
+            PARAM_TEXT,
+        ));
+        $settings->add(new admin_setting_configtext(
             'local_pspvshop/currency',
             get_string('setting_currency', 'local_pspvshop'),
             get_string('setting_currency_desc', 'local_pspvshop'),

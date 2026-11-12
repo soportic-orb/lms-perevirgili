@@ -87,6 +87,43 @@ if ($ADMIN->fulltree) {
         '',
         PARAM_TEXT,
     ));
+    $settings->add(new admin_setting_configcheckbox(
+        'theme_pspv/showwhy',
+        get_string('setting_showwhy', 'theme_pspv'),
+        get_string('setting_showwhy_desc', 'theme_pspv'),
+        1,
+    ));
+    $settings->add(new admin_setting_configtext(
+        'theme_pspv/whytitle',
+        get_string('setting_whytitle', 'theme_pspv'),
+        get_string('setting_herotext_desc', 'theme_pspv'),
+        '',
+        PARAM_TEXT,
+    ));
+    $settings->add(new admin_setting_configtextarea(
+        'theme_pspv/whylead',
+        get_string('setting_whylead', 'theme_pspv'),
+        get_string('setting_herotext_desc', 'theme_pspv'),
+        '',
+        PARAM_TEXT,
+    ));
+    foreach (array_keys(\theme_pspv\output\frontpage::REASON_ICONS) as $index) {
+        $number = $index + 1;
+        $settings->add(new admin_setting_configtext(
+            "theme_pspv/why{$number}title",
+            get_string('setting_whyreasontitle', 'theme_pspv', $number),
+            get_string('setting_herotext_desc', 'theme_pspv'),
+            '',
+            PARAM_TEXT,
+        ));
+        $settings->add(new admin_setting_configtextarea(
+            "theme_pspv/why{$number}text",
+            get_string('setting_whyreasontext', 'theme_pspv', $number),
+            get_string('setting_herotext_desc', 'theme_pspv'),
+            '',
+            PARAM_TEXT,
+        ));
+    }
     $settings->add(new admin_setting_configtext(
         'theme_pspv/cataloguecategory',
         get_string('setting_cataloguecategory', 'theme_pspv'),

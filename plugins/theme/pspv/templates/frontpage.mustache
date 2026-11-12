@@ -17,7 +17,7 @@
 {{!
     @template theme_pspv/frontpage
 
-    Public front page: hero, the two entry points and the catalogue of external training.
+    Public front page: hero, the two entry points, the reasons to train here and the catalogue of training for citizens.
 
     Example context (json):
     {
@@ -28,6 +28,12 @@
         "workerurl": "https://example.com/login/index.php",
         "externalurl": "https://example.com/login/signup.php",
         "dashboardurl": "https://example.com/my/",
+        "showwhy": true,
+        "whytitle": "Why train with Pere Virgili",
+        "whylead": "Training designed by the people who care for older people every day.",
+        "reasons": [
+            {"icon": "device-laptop", "title": "Online and at your own pace", "text": "Follow the course whenever suits you."}
+        ],
         "catalogueurl": "https://example.com/course/index.php?categoryid=3",
         "hascourses": true,
         "courses": [
@@ -102,6 +108,28 @@
             </div>
         </div>
     </section>
+
+    {{#showwhy}}
+    <section class="pspv-why" aria-labelledby="pspv-why-title" data-region="pspv-why">
+        <div class="pspv-container">
+            <div class="pspv-why-head">
+                <h2 id="pspv-why-title">{{whytitle}}</h2>
+                <p class="pspv-why-lead">{{whylead}}</p>
+            </div>
+            <div class="row g-3">
+                {{#reasons}}
+                <div class="col-sm-6 col-lg-3">
+                    <div class="pspv-reason h-100">
+                        <span class="pspv-reason-icon"><i class="ti ti-{{icon}}" aria-hidden="true"></i></span>
+                        <h3 class="pspv-reason-title">{{title}}</h3>
+                        <p class="pspv-reason-text">{{text}}</p>
+                    </div>
+                </div>
+                {{/reasons}}
+            </div>
+        </div>
+    </section>
+    {{/showwhy}}
 
     <section class="pspv-catalogue" id="pspv-catalogue" aria-labelledby="pspv-catalogue-title">
         <div class="pspv-container">

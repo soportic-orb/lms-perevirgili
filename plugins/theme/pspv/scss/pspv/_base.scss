@@ -54,7 +54,33 @@ h2,
 
 .pspv-container {
     width: 100%;
-    max-width: 1320px;
+    max-width: $pspv-content-maxwidth;
     margin: 0 auto;
     padding: 0 1rem;
+}
+
+// Des de la mida «md», Boost deixa 3rem a cada costat de la pàgina (hi van els botons dels
+// calaixos) i .5rem dins el contingut. El contenidor de la portada i del peu fa el mateix,
+// perquè el contingut comenci i acabi al mateix punt a totes les pàgines.
+@include media-breakpoint-up(md) {
+    .pspv-container {
+        max-width: calc(#{$pspv-content-maxwidth} + 6rem);
+        padding: 0 3.5rem;
+    }
+
+    // Fora de la portada, el peu ja és dins dels 3rem de marge de la pàgina.
+    body:not(#page-site-index) .pspv-footer .pspv-container {
+        max-width: $pspv-content-maxwidth;
+        padding: 0 .5rem;
+    }
+}
+
+// Totes les pàgines tenen el contingut de la mateixa amplada que la portada, també les que
+// Boost deixa a tota l'amplada de la finestra (administració, informes, qualificacions).
+@include media-breakpoint-up(md) {
+    #page.drawers .main-inner,
+    #page.drawers .footer-popover,
+    .header-maxwidth {
+        max-width: $pspv-content-maxwidth;
+    }
 }

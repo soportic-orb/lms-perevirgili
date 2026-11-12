@@ -15,7 +15,7 @@ una altra cosa.
 | Gestor/a comercial | Productes, preus, descomptes, comandes, factures, campanyes, quadre de comandament |
 | Docent | Els seus cursos: continguts, notes, sessions i assistència |
 | Treballador/a PSPV | Veu i fa la formació interna |
-| Extern | Compra i fa la formació externa |
+| Ciutadà/ana | Compra i fa la formació per a la ciutadania |
 
 Els rols s'assignen a *Usuaris → Permisos → Assigna rols globals*.
 
@@ -30,7 +30,7 @@ Els rols s'assignen a *Usuaris → Permisos → Assigna rols globals*.
   important un CSV amb la columna `email` i, si es vol, `employeeid`,
   `department` i `jobcategory`. El servei i la categoria professional del
   quadre de comandament surten d'aquí.
-- **Externs**: es registren ells mateixos o entren amb Google.
+- **Ciutadans**: es registren ells mateixos o entren amb Google.
 - **Donar de baixa algú**: *Usuaris → Navega per la llista d'usuaris* →
   suspèn el compte (conserva l'historial). Esborrar-lo és per a les
   sol·licituds de supressió de dades.
@@ -39,11 +39,11 @@ Els rols s'assignen a *Usuaris → Permisos → Assigna rols globals*.
 
 1. *Cursos → Afegeix un curs nou*, a la categoria que toqui:
    - **Formació interna**: només la veuen els treballadors.
-   - **Formació externa**: és el catàleg públic.
+   - **Formació per a la ciutadania**: és el catàleg públic.
 2. Matrícula:
    - interna: mètode «Sincronització de cohorts» (tots els treballadors) o
      «Automatrícula» restringida a la cohort;
-   - externa: no cal tocar res, la botiga matricula qui paga.
+   - per a la ciutadania: no cal tocar res, la botiga matricula qui paga.
 3. Si el curs és **acreditat**, omple la secció «Acreditació» de la seva
    configuració. → [`ACREDITACIO.md`](ACREDITACIO.md)
 
