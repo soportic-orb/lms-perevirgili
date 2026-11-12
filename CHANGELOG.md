@@ -10,6 +10,12 @@
   «Formació per a la ciutadania» en actualitzar, si no se n'havia canviat
   el nom.
 - `theme_pspv`: s'amaga el botó flotant «?» de Moodle.
+- `theme_pspv`: totes les pàgines tenen el contingut de la mateixa amplada
+  que la portada (1320 px), també les que Boost limitava a 830 px o deixava
+  a tota la finestra, i el peu s'hi alinea.
+- `local_pspvshop` 0.2.0: el catàleg de cursos llista també la formació
+  interna, com a cursos gratuïts, per a qui la pot veure, i les seves
+  categories surten al desplegable d'àrea.
 
 ### Afegit
 

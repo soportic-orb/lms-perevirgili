@@ -58,6 +58,9 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 - Els scripts de `deploy/cloudpanel/` llegeixen `.env` amb `env_value`, sense
   executar-lo, i s'han de poder tornar a executar. `restore.sh` és l'únic
   destructiu i demana confirmació.
+- **Amplada del contingut:** una de sola, `$pspv-content-maxwidth`
+  (`scss/pspv/_variables.scss`), per a la portada, el peu i totes les pàgines
+  de Moodle. Una pàgina nova no ha de fixar la seva.
 - **Terminologia:** el públic de la formació de pagament és «ciutadà/ana»
   (abans «extern»). Als textos que veu l'usuari i a la documentació no es fa
   servir «extern». Els identificadors del codi (`pspv-external`,
