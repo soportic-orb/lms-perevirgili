@@ -27,6 +27,7 @@ jobs:
           - local/pspvinvoice
           - local/pspvaccredit
           - local/pspvmailing
+          - local/pspvnews
           - report/pspvdashboard
         php: ['8.4', '8.3']
         database: [mariadb]

@@ -19,6 +19,16 @@
 
 ### Afegit
 
+- `local_pspvnews` 0.1.0, notícies del campus: pàgina pública de notícies,
+  pàgina de cada notícia amb imatge de portada, i gestió (esborranys, data de
+  publicació, esborrat). 3 tests PHPUnit i 3 escenaris Behat.
+- `theme_pspv`: bloc de «Notícies» a la portada, després del catàleg, amb
+  les quatre últimes; es pot amagar i se'n pot triar el nombre.
+- `theme_pspv`: pàgina «Qui som», amb un text de demostració fins que se
+  n'escrigui un a la configuració del tema.
+- Menú superior: «Notícies» i «Qui som».
+- `deploy/demo/demo-news.php`: quatre notícies d'exemple amb imatge. Són
+  textos explicatius, no notícies reals.
 - `theme_pspv`: bloc «Per què formar-te amb el Pere Virgili» a la portada,
   abans del catàleg, amb quatre motius. Es pot amagar i tots els textos es
   poden canviar a la configuració del tema.

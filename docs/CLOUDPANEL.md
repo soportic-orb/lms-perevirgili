@@ -139,8 +139,17 @@ php8.4 -d max_input_vars=5000 deploy/demo/demo-courses.php
 
 Crea sis cursos a «Formació interna» i cinc a «Formació per a la ciutadania», aquests
 a la venda, tots amb caràtula. Els preus, les hores i els crèdits són
-exemples. Es treuen amb la mateixa ordre i `--delete`; **treu-los abans
-d'obrir el campus**.
+exemples.
+
+```bash
+php8.4 -d max_input_vars=5000 deploy/demo/demo-news.php
+```
+
+Crea quatre notícies amb imatge. Són textos explicatius sobre atenció
+intermèdia, cures a domicili i formació, no notícies reals.
+
+Tot es treu amb la mateixa ordre i `--delete`; **treu-ho abans d'obrir el
+campus**.
 
 ## Després
 

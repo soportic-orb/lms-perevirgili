@@ -79,6 +79,18 @@ missatge, tria els destinataris, envia't una prova i envia-la o
 programa-la. Marca-la com a comercial sempre que promocioni cursos.
 → [`COMUNICACIO.md`](COMUNICACIO.md)
 
+## Notícies i «Qui som»
+
+- **Notícies**: *Plugins locals → Gestiona les notícies*. Cada notícia té
+  títol, resum, imatge de portada, text i data. Es pot deixar com a
+  esborrany o posar-hi una data futura perquè surti sola aquell dia. Les
+  quatre últimes surten a la portada, i totes a la pàgina «Notícies» del
+  menú superior.
+- **Qui som**: el text s'escriu a *Aparença → Campus PSPV → Text de «Qui
+  som»*. Mentre sigui buit, la pàgina mostra un text de demostració.
+
+Tots dos blocs es poden amagar a la configuració del tema.
+
 ## Quadre de comandament
 
 *Informes → Quadre de comandament del Campus PSPV*: matrícules,
