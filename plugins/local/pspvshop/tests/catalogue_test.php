@@ -72,6 +72,67 @@ final class catalogue_test extends shop_testcase {
         $this->assertEqualsCanonicalizing(['Accredited', 'Plain'], $this->names(['credits' => 1]));
     }
 
+    public function test_internal_training_is_listed_as_free_courses_for_who_can_see_it(): void {
+        $generator = $this->getDataGenerator();
+        $internal = $generator->create_category(['name' => 'Internal', 'idnumber' => 'shop-internal']);
+        $sub = $generator->create_category(['name' => 'Nursing', 'parent' => $internal->id]);
+        set_config('internalcategory', 'shop-internal', 'local_pspvshop');
+        $now = time();
+        $hygiene = $generator->create_course([
+            'fullname' => 'Hand hygiene', 'category' => $internal->id, 'startdate' => $now + WEEKSECS, 'summary' => 'Mandatory',
+        ]);
+        $generator->create_course(['fullname' => 'Wound care basics', 'category' => $sub->id, 'startdate' => $now - WEEKSECS]);
+        $generator->create_course(['fullname' => 'Hidden internal', 'category' => $internal->id, 'visible' => 0]);
+        $this->create_product(40, ['mode' => 'online'], ['fullname' => 'Paid course', 'startdate' => $now + DAYSECS]);
+        // An internal course that is also on sale is listed once, as a product.
+        $this->create_product(15, [], ['fullname' => 'Internal on sale', 'category' => $internal->id]);
+        $this->setAdminUser();
+
+        $this->assertEqualsCanonicalizing(
+            ['Hand hygiene', 'Wound care basics', 'Paid course', 'Internal on sale'],
+            $this->names(),
+        );
+        // Not started yet first, soonest first, whatever they are.
+        $this->assertSame(['Paid course', 'Hand hygiene'], array_slice($this->names(), 0, 2));
+
+        $cards = array_column(catalogue::search([], 0, 0)['cards'], null, 'name');
+        $card = $cards['Hand hygiene'];
+        $this->assertTrue($card['internal']);
+        $this->assertTrue($card['isfree']);
+        $this->assertFalse($card['haslimit']);
+        $this->assertSame('Internal', $card['category']);
+        $this->assertStringContainsString('/course/view.php?id=' . $hygiene->id, $card['url']);
+        $this->assertFalse($cards['Paid course']['internal']);
+        $this->assertFalse($cards['Internal on sale']['internal']);
+
+        // The internal categories can be chosen in the list of areas.
+        $areas = catalogue::areas();
+        $this->assertSame('Internal', $areas[$internal->id]);
+        $this->assertSame('Nursing', $areas[$sub->id]);
+        $this->assertSame(['Wound care basics'], $this->names(['area' => $sub->id]));
+        $this->assertEqualsCanonicalizing(['Hand hygiene', 'Internal on sale'], $this->names(['area' => $internal->id]));
+
+        // The filters apply to them too; a mode or a paid price range leaves them out.
+        $this->assertSame(['Hand hygiene'], $this->names(['q' => 'mandatory']));
+        $this->assertEqualsCanonicalizing(['Paid course', 'Hand hygiene'], $this->names(['start' => 'upcoming']));
+        $this->assertSame(['Paid course'], $this->names(['mode' => 'online']));
+        $this->assertNotContains('Hand hygiene', $this->names(['price' => '50to150']));
+        $this->assertContains('Hand hygiene', $this->names(['price' => 'upto50']));
+
+        // Who cannot see the internal category does not see its courses or its areas.
+        $guestroles = get_archetype_roles('guest');
+        $context = \core\context\coursecat::instance($internal->id);
+        assign_capability('moodle/category:viewcourselist', CAP_PREVENT, reset($guestroles)->id, $context->id, true);
+        $this->setGuestUser();
+        $this->assertSame(['Paid course'], $this->names());
+        $this->assertArrayNotHasKey($internal->id, catalogue::areas());
+
+        // It can be switched off.
+        $this->setAdminUser();
+        set_config('internalcategory', '', 'local_pspvshop');
+        $this->assertEqualsCanonicalizing(['Paid course', 'Internal on sale'], $this->names());
+    }
+
     public function test_search_lists_what_is_on_sale_and_filters_it(): void {
         $generator = $this->getDataGenerator();
         $nursing = $generator->create_category(['name' => 'Nursing']);
