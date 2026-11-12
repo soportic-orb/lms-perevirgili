@@ -20,7 +20,7 @@ Feature: Internal training is only for the workers of the hospital
     Given I log in as "worker1"
     When I am on course index
     Then I should see "Internal training"
-    And I should see "External training"
+    And I should see "Training for citizens"
     And I follow "Internal training"
     And I should see "Hand hygiene"
 
@@ -29,7 +29,7 @@ Feature: Internal training is only for the workers of the hospital
     When I am on course index
     Then I should not see "Internal training"
     And I should not see "Hand hygiene"
-    And I follow "External training"
+    And I follow "Training for citizens"
     And I should see "Geriatrics update"
 
   Scenario: A visitor who has not logged in only sees the external training
@@ -38,7 +38,7 @@ Feature: Internal training is only for the workers of the hospital
     When I am on course index
     Then I should not see "Internal training"
     And I should not see "Hand hygiene"
-    And I follow "External training"
+    And I follow "Training for citizens"
     And I should see "Geriatrics update"
 
   @javascript @_file_upload
