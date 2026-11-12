@@ -15,6 +15,7 @@ x-volumes: &volumes
   - ./plugins/local/pspvinvoice:/var/www/campus/moodle/public/local/pspvinvoice
   - ./plugins/local/pspvaccredit:/var/www/campus/moodle/public/local/pspvaccredit
   - ./plugins/local/pspvmailing:/var/www/campus/moodle/public/local/pspvmailing
+  - ./plugins/report/pspvdashboard:/var/www/campus/moodle/public/report/pspvdashboard
   - ./plugins/theme/pspv:/var/www/campus/moodle/public/theme/pspv
 
 x-php: &php

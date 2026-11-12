@@ -118,5 +118,7 @@ Si alguna cosa dona un error 500: `tail -n 30 ~/logs/php/error.log`.
   deixen canvis locals al repositori (escriuen dins `moodle/`, que git no
   segueix), i `git reset --hard` no toca `.env`.
 
-- **Còpies de seguretat:** base de dades i `MOODLE_DATAROOT`, amb les còpies de
-  CloudPanel o del servidor. Es documentarà a la fase 6.
+- **Còpies de seguretat:** [`COPIES.md`](COPIES.md). Cal afegir-ne la tasca
+  de cron i una còpia remota.
+- **Monitoratge:** [`MONITORATGE.md`](MONITORATGE.md).
+- **Abans d'obrir producció:** [`PRODUCCIO.md`](PRODUCCIO.md).

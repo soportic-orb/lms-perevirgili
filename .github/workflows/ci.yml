@@ -27,6 +27,7 @@ jobs:
           - local/pspvinvoice
           - local/pspvaccredit
           - local/pspvmailing
+          - report/pspvdashboard
         php: ['8.4', '8.3']
         database: [mariadb]
 
@@ -72,6 +73,10 @@ jobs:
           mkdir extra
           if [ "${{ matrix.plugin }}" = "local/pspvinvoice" ]; then
             cp -r repo/plugins/local/pspvshop extra/pspvshop
+          fi
+          # El quadre de comandament llegeix dels altres plugins: amb ells es proven totes les xifres.
+          if [ "${{ matrix.plugin }}" = "report/pspvdashboard" ]; then
+            cp -r repo/plugins/local/pspvshop repo/plugins/local/pspvaccess repo/plugins/local/pspvaccredit extra/
           fi
           if [ "${{ matrix.plugin }}" = "local/pspvaccredit" ]; then
             read -r _ REPO REF < <(grep '^mod/customcert ' repo/.community-plugins)

@@ -55,6 +55,11 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 - No facis servir les API de `mod_customcert` marcades com a obsoletes (les
   avisa amb `debugging()` i PHPUnit ho dona per error): serveis de
   `mod_customcert\service\*`.
+- Els scripts de `deploy/cloudpanel/` llegeixen `.env` amb `env_value`, sense
+  executar-lo, i s'han de poder tornar a executar. `restore.sh` és l'únic
+  destructiu i demana confirmació.
+- Un test no pot dependre de l'espai de disc, del cron o del correu de la
+  màquina on corre: les comprovacions d'estat es proven amb valors donats.
 - Un test no pot dependre de quins altres plugins propis hi ha instal·lats:
   la CI en prova un de sol, i en local hi són tots. Si un plugin canvia el
   comportament d'un altre, el test ho fixa amb configuració.
@@ -88,11 +93,12 @@ config/config.php        configuració de Moodle; tot surt de .env
 bin/                     moodle-fetch.sh (core, Composer i plugins de la comunitat), sync-plugins.sh
 .community-plugins       plugins de la comunitat i la versió fixada de cadascun
 docker-compose.yml       entorn local: PHP 8.4, MariaDB 11.4, Redis, Mailpit, cron
-deploy/cloudpanel/       install.sh i vhost de Nginx
-scripts/                 ota-keygen.sh, ota-bundle.sh, theme-icons.py
+deploy/cloudpanel/       install.sh, backup.sh, restore.sh i vhost de Nginx
+scripts/                 ota-keygen.sh, ota-bundle.sh, theme-icons.py, loadtest.mjs
 .github/workflows/       ci.yml (moodle-plugin-ci), ota-release.yml
 docs/                    PROPOSTA.md, CLOUDPANEL.md, OTA.md, ACCES.md, VENDA.md, ACREDITACIO.md,
-                         COMUNICACIO.md, maquetes/
+                         COMUNICACIO.md, COPIES.md, MONITORATGE.md, RENDIMENT.md, PRODUCCIO.md,
+                         MANUAL.md (manual d'administració), maquetes/
 moodle/                  core de Moodle (no versionat)
 ```
 
@@ -140,6 +146,11 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
 - `local_pspvmailing`: campanyes per segments (cohort, curs, compres),
   consentiment de `tool_policy` per a les comercials, enviament per tasques
   adhoc en lots i baixa amb enllaç signat. Vegeu `docs/COMUNICACIO.md`.
-- `local_pspvcore`: esquelet de referència per als altres plugins i
-  actualitzador OTA (`classes/ota/updater.php`). Només substitueix carpetes de
-  plugins el nom dels quals comença per `pspv`.
+- `report_pspvdashboard`: quadre de comandament (matrícules, finalitzacions,
+  vendes, ingressos, formació interna per servei i categoria). Només llegeix;
+  cada part desapareix si el plugin d'on surt no és instal·lat.
+- `local_pspvcore`: esquelet de referència per als altres plugins,
+  actualitzador OTA (`classes/ota/updater.php`; només substitueix carpetes de
+  plugins el nom dels quals comença per `pspv`) i monitoratge: comprovacions
+  de la Check API (`classes/check/`), avís als administradors i
+  `health.php` amb token per a un monitor extern. Vegeu `docs/MONITORATGE.md`.

@@ -15,6 +15,11 @@ versió fixada a `.community-plugins`.
 - Venda de cursos i facturació: [`docs/VENDA.md`](docs/VENDA.md)
 - Acreditació i diplomes: [`docs/ACREDITACIO.md`](docs/ACREDITACIO.md)
 - Campanyes de correu: [`docs/COMUNICACIO.md`](docs/COMUNICACIO.md)
+- **Manual d'administració: [`docs/MANUAL.md`](docs/MANUAL.md)**
+- Posada en producció: [`docs/PRODUCCIO.md`](docs/PRODUCCIO.md)
+- Còpies de seguretat: [`docs/COPIES.md`](docs/COPIES.md)
+- Monitoratge: [`docs/MONITORATGE.md`](docs/MONITORATGE.md)
+- Proves de càrrega: [`docs/RENDIMENT.md`](docs/RENDIMENT.md)
 - Regles de desenvolupament: [`CLAUDE.md`](CLAUDE.md)
 
 ## Entorn local
@@ -59,7 +64,9 @@ l'estàndard de codi de Moodle). La CI (`.github/workflows/ci.yml`) executa
 
 ## Estat
 
-Fases 1 (fonaments), 2 (accés i identitat), 3 (imatge gràfica), 4 (venda) i 5 (diplomes, acreditació i comunicació) fetes. Vegeu [`CHANGELOG.md`](CHANGELOG.md).
+Fases 1 (fonaments), 2 (accés i identitat), 3 (imatge gràfica), 4 (venda), 5 (diplomes, acreditació i comunicació) i 6
+(informes i preparació de la producció) fetes. El que falta per obrir és a
+[`docs/PRODUCCIO.md`](docs/PRODUCCIO.md). Vegeu [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Llicència
 

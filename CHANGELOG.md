@@ -1,5 +1,31 @@
 # Registre de canvis
 
+## Fase 6 — Informes i posada en producció (12-11-2026)
+
+### Afegit
+
+- `report_pspvdashboard` 0.1.0: quadre de comandament amb matrícules,
+  finalitzacions, aptes, comandes i ingressos per període i per curs, i
+  formació interna per servei i categoria professional (de la llista de
+  RRHH). Taules exportables. 3 tests PHPUnit i 1 escenari Behat.
+- `local_pspvcore` 0.2.0, monitoratge:
+  - Comprovacions a l'informe d'estat de Moodle: cron, espai de disc,
+    còpies de seguretat, actualitzacions OTA i correu de sortida.
+  - Avís als administradors quan una comprovació passa a error i quan tot
+    torna a funcionar, sense repetir-se.
+  - `/local/pspvcore/health.php`, amb token, per a un monitor extern.
+- `deploy/cloudpanel/backup.sh` i `restore.sh`: còpia diària de base de
+  dades, fitxers i configuració amb retenció configurable, i restauració
+  amb comprovació d'integritat i confirmació.
+- `scripts/loadtest.mjs`: prova de càrrega sense dependències.
+- Documentació: manual d'administració (`docs/MANUAL.md`), posada en
+  producció, còpies, monitoratge i proves de càrrega.
+
+### Pendent per obrir
+
+- Domini de producció, còpia remota, monitor extern i proves de càrrega i
+  de restauració al servidor real. Llista completa a `docs/PRODUCCIO.md`.
+
 ## Fase 5 — Diplomes, acreditació i comunicació (12-11-2026)
 
 ### Afegit
