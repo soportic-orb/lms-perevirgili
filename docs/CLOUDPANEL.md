@@ -1,8 +1,8 @@
 # Instal·lació en un servidor amb CloudPanel
 
-Exemple per a staging (`perevirgili.soportic.es`, usuari de lloc
-`perevirgili`). Per a producció, el mateix amb el seu domini i
-`APP_ENV=production`.
+Exemple per al campus de producció (`perevirgili.soportic.es`, usuari de
+lloc `perevirgili`). Per a un lloc de proves, el mateix amb el seu domini,
+la seva base de dades i `APP_ENV=staging`.
 
 ## Abans de començar
 
@@ -60,7 +60,7 @@ cp .env.example .env && nano .env
 
 A `.env`:
 
-- `APP_ENV=staging` (o `production`), `MOODLE_WWWROOT=https://perevirgili.soportic.es`
+- `APP_ENV=production` (`staging` en un lloc de proves), `MOODLE_WWWROOT=https://perevirgili.soportic.es`
 - `MOODLE_DATAROOT=/home/perevirgili/moodledata` (fora de `htdocs`)
 - `MOODLE_ADMIN_USER`, `MOODLE_ADMIN_PASS`, `MOODLE_ADMIN_EMAIL`: l'administrador inicial
 - `DB_TYPE=mariadb` (o `mysqli` si el servidor és MySQL), `DB_HOST=127.0.0.1`,

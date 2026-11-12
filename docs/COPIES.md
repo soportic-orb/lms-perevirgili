@@ -38,7 +38,7 @@ l'etiqueta de `.moodle-version`.
 3. A CloudPanel, **Cron Jobs** del lloc, cada nit:
 
    ```
-   15 3 * * * bash /home/<usuari>/htdocs/<domini>/deploy/cloudpanel/backup.sh >> /home/<usuari>/logs/backup.log 2>&1
+   15 3 * * * bash /home/<usuari>/htdocs/perevirgili.soportic.es/deploy/cloudpanel/backup.sh >> /home/<usuari>/logs/backup.log 2>&1
    ```
 
 Cada còpia és una carpeta amb la data (`20270112-031500`). Les de més de
@@ -88,7 +88,9 @@ Quan hagis comprovat que tot funciona, esborra la carpeta
 
 Una còpia que no s'ha restaurat mai no és una còpia. Cal provar-ho un cop
 abans d'obrir producció i després periòdicament (proposta: cada sis
-mesos), restaurant la darrera còpia de producció a staging.
+mesos), restaurant la darrera còpia en un lloc de proves o en un servidor
+a part. **No restauris mai de prova sobre el campus real**: `restore.sh`
+en substitueix les dades.
 
 Els scripts s'han provat de punta a punta en local amb una base de dades
 de prova: còpia, restauració, confirmació errònia, còpia malmesa, fallada

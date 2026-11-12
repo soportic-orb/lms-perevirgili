@@ -103,7 +103,7 @@ Cada taula es pot exportar.
 
 - **Plugins del campus**: *Plugins locals → Actualitzacions del Campus
   PSPV*. Quan n'hi ha una de nova surt aquí; «Aplica» la instal·la i
-  «Desfés» torna a l'anterior. Prova-la primer a staging.
+  «Desfés» torna a l'anterior. Aplica-la fora d'hores de feina.
   → [`OTA.md`](OTA.md)
 - **Moodle i plugins de la comunitat**: els fa Soportic per SSH.
   → [`CLOUDPANEL.md`](CLOUDPANEL.md)

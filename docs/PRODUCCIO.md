@@ -1,37 +1,55 @@
 # Posada en producció
 
-Llista de comprovació per obrir el Campus PSPV. Producció serà **un altre
-lloc al mateix servidor CloudPanel** que staging (`perevirgili.soportic.es`),
-amb la seva base de dades, la seva carpeta de dades i el seu `.env`.
+Llista de comprovació per obrir el Campus PSPV. El domini de producció és
+**`perevirgili.soportic.es`**: el mateix lloc de CloudPanel on fins ara
+s'ha desplegat per provar. No hi ha, doncs, un lloc de staging a part.
 
-TODO (hospital): **domini de producció**. Tot el que segueix el fa servir
-com a `<domini>`.
+Això té dues conseqüències que cal decidir abans d'obrir:
 
-## 1. Abans de crear el lloc
+- **Les dades de prova no poden quedar.** Les comandes i factures de prova
+  gasten números de la sèrie de factures, que ha de ser correlativa. Cal
+  començar producció amb una base de dades i una carpeta de dades netes
+  (pas 2).
+- **No hi ha on provar abans.** Sense staging, una actualització OTA, una
+  restauració o una prova de càrrega es fan directament sobre el campus
+  real. Proposta: crear un segon lloc al mateix servidor (per exemple
+  `proves.perevirgili.soportic.es`) seguint [`CLOUDPANEL.md`](CLOUDPANEL.md).
+  TODO (Soportic): decidir si es crea. Mentrestant, les actualitzacions es
+  proven a l'entorn local (`make up`) i s'apliquen a producció fora
+  d'hores de feina, amb el botó «Desfés» a mà.
 
-- [ ] Domini decidit i DNS apuntant al servidor.
+## 1. Abans de començar
+
 - [ ] Secret `OTA_SIGNING_KEY` creat a GitHub i la clau pública a mà
-      ([`OTA.md`](OTA.md)). És la mateixa clau per a staging i producció.
+      ([`OTA.md`](OTA.md)).
 - [ ] Servidor SMTP per al correu de sortida, amb SPF i DKIM del domini
       del remitent. Sense això, els correus de compra, els diplomes i les
       campanyes acaben al correu brossa.
-- [ ] Mida del servidor revisada: staging i producció comparteixen CPU,
-      memòria i disc. Una prova de càrrega a staging pot alentir producció.
+- [ ] Decidit si es crea un lloc de proves a part.
 
-## 2. Crear el lloc
+## 2. Deixar el lloc net
 
-Segueix [`CLOUDPANEL.md`](CLOUDPANEL.md) de dalt a baix amb el domini de
-producció, **una base de dades nova** i un `MOODLE_DATAROOT` nou. Al
-`.env` de producció:
+El lloc ja existeix a CloudPanel. Per començar sense dades de prova:
+
+1. Còpia del que hi ha ara, per si de cas: `bash deploy/cloudpanel/backup.sh`
+   (després de posar `BACKUP_DIR` a `.env`).
+2. A CloudPanel, **crea una base de dades nova** i apunta-hi `DB_NAME`,
+   `DB_USER` i `DB_PASS` a `.env`. Canvia `MOODLE_DATAROOT` a una carpeta
+   nova i buida.
+3. `PHP_BIN=php8.4 bash deploy/cloudpanel/install.sh`: en trobar la base
+   de dades buida, instal·la Moodle de nou amb tots els plugins.
+4. Quan tot funcioni, esborra la base de dades i la carpeta de dades
+   antigues.
+
+Al `.env`:
 
 - [ ] `APP_ENV=production`
-- [ ] `MOODLE_WWWROOT=https://<domini>`
-- [ ] Base de dades i contrasenyes pròpies (no les de staging).
-- [ ] `REDIS_PREFIX` diferent del de staging, si comparteixen Redis.
+- [ ] `MOODLE_WWWROOT=https://perevirgili.soportic.es`
+- [ ] `MOODLE_ADMIN_PASS` nova per a la instal·lació (i esborrada després).
 - [ ] `OTA_PUBLIC_KEY`
 - [ ] `SMTP_*`
-- [ ] `OAUTH_*` amb les aplicacions de producció (les URL de retorn porten
-      el domini: les de staging no serveixen).
+- [ ] `OAUTH_*` amb les aplicacions de l'hospital (URL de retorn amb
+      aquest domini).
 - [ ] `BACKUP_DIR`, `BACKUP_KEEP_DAYS` i `HEALTH_TOKEN`.
 
 Dues tasques de cron al lloc: `cron.php` cada minut i `backup.sh` cada nit
@@ -69,10 +87,11 @@ Cap d'aquests valors s'ha inventat: ara són buits o esborranys.
 - [ ] Un diploma emès i verificat amb el QR des d'un mòbil sense sessió.
 - [ ] Una campanya de prova enviada a un compte extern: arriba, no va al
       correu brossa i l'enllaç de baixa funciona.
-- [ ] `backup.sh` executat i **restaurat a staging** ([`COPIES.md`](COPIES.md)).
+- [ ] `backup.sh` executat i **restaurat de prova** abans d'entrar-hi dades
+      reals ([`COPIES.md`](COPIES.md)).
 - [ ] Informe d'estat sense errors i monitor extern en marxa
       ([`MONITORATGE.md`](MONITORATGE.md)).
-- [ ] Prova de càrrega a staging amb el nombre d'usuaris esperat
+- [ ] Prova de càrrega, abans d'obrir, amb el nombre d'usuaris esperat
       ([`RENDIMENT.md`](RENDIMENT.md)).
 - [ ] Una actualització OTA aplicada a producció i desfeta.
 - [ ] Registre d'activitats de tractament i avaluació de protecció de
@@ -80,9 +99,10 @@ Cap d'aquests valors s'ha inventat: ara són buits o esborranys.
 
 ## 5. Després d'obrir
 
-- Les actualitzacions arriben primer a staging. No apliquis a producció una
-  OTA que no s'hagi provat a staging.
+- Prova cada actualització abans d'aplicar-la: al lloc de proves si n'hi
+  ha, o a l'entorn local. Aplica-la fora d'hores de feina.
 - El core de Moodle 5.3 té correccions de seguretat fins a l'1-10-2029:
   cal anar pujant l'etiqueta de `.moodle-version` a cada versió menor
   (5.3.x) i executar `install.sh` per SSH.
-- Prova de restauració cada sis mesos.
+- Prova de restauració cada sis mesos, al lloc de proves o en un servidor
+  a part: mai sobre el campus real.

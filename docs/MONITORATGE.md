@@ -50,7 +50,7 @@ El token s'envia a la capçalera `X-Health-Token` (recomanat: no queda als
 registres d'accés) o al paràmetre `?token=`. Exemple:
 
 ```bash
-curl -s -H "X-Health-Token: $HEALTH_TOKEN" https://<domini>/local/pspvcore/health.php
+curl -s -H "X-Health-Token: $HEALTH_TOKEN" https://perevirgili.soportic.es/local/pspvcore/health.php
 ```
 
 Configura un monitor (UptimeRobot, Uptime Kuma, Better Stack…) que el

@@ -23,8 +23,9 @@ LOADTEST_USER=usuari LOADTEST_PASS='contrasenya' node scripts/loadtest.mjs https
 
 Acaba amb error si falla més de l'1 % de les peticions.
 
-**Fes-la contra staging, mai contra producció en hores de feina**, i amb un
-usuari de proves, no amb un administrador.
+El campus real és `perevirgili.soportic.es` i no hi ha un lloc de proves a
+part: **fes-la abans d'obrir, o fora d'hores de feina**, i amb un usuari de
+proves, no amb un administrador.
 
 ## Resultats
 
@@ -42,10 +43,10 @@ amb un sol contenidor per a web i PHP.
 
 Pàgina més lenta amb sessió: «Els meus cursos» (p95 1,2 s).
 
-### Staging i producció
+### Servidor
 
-TODO: executar-la a `perevirgili.soportic.es` i al servidor de producció
-abans d'obrir, i anotar aquí els resultats. Objectiu proposat: p95 per sota
+TODO: executar-la a `perevirgili.soportic.es` abans d'obrir i anotar aquí
+els resultats. Objectiu proposat: p95 per sota
 d'1 segon amb el nombre d'usuaris simultanis que l'hospital esperi en una
 convocatòria (TODO: l'hospital ha de dir quants).
 
