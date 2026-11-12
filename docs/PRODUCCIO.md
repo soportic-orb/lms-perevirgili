@@ -83,9 +83,9 @@ Cap d'aquests valors s'ha inventat: ara són buits o esborranys.
 - [ ] Una compra real de prova amb la passarel·la: pagament, matrícula,
       factura, correu. I el seu reemborsament.
 - [ ] Un treballador de prova entra amb Microsoft i veu la formació
-      interna; un extern no la veu.
+      interna; un ciutadà no la veu.
 - [ ] Un diploma emès i verificat amb el QR des d'un mòbil sense sessió.
-- [ ] Una campanya de prova enviada a un compte extern: arriba, no va al
+- [ ] Una campanya de prova enviada a un compte de ciutadà: arriba, no va al
       correu brossa i l'enllaç de baixa funciona.
 - [ ] `backup.sh` executat i **restaurat de prova** abans d'entrar-hi dades
       reals ([`COPIES.md`](COPIES.md)).

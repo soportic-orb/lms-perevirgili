@@ -137,7 +137,7 @@ Per ensenyar el disseny abans de tenir cursos reals, com l'usuari del lloc:
 php8.4 -d max_input_vars=5000 deploy/demo/demo-courses.php
 ```
 
-Crea sis cursos a «Formació interna» i cinc a «Formació externa», aquests
+Crea sis cursos a «Formació interna» i cinc a «Formació per a la ciutadania», aquests
 a la venda, tots amb caràtula. Els preus, les hores i els crèdits són
 exemples. Es treuen amb la mateixa ordre i `--delete`; **treu-los abans
 d'obrir el campus**.

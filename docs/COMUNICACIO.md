@@ -26,7 +26,7 @@ Una campanya enviada no es pot canviar ni tornar a enviar.
 
 | Tipus | A qui s'envia | Enllaç de baixa |
 |---|---|---|
-| **Comunicació comercial** (promoció de cursos) | Externs que han acceptat la política de comunicacions comercials de `tool_policy` i no s'han donat de baixa. Treballadors: sempre, tret que s'hagin donat de baixa | Sí |
+| **Comunicació comercial** (promoció de cursos) | Ciutadans que han acceptat la política de comunicacions comercials de `tool_policy` i no s'han donat de baixa. Treballadors: sempre, tret que s'hagin donat de baixa | Sí |
 | **Avís de servei** (canvis en un curs on s'és matriculat, etc.) | Tothom del segment | No |
 
 Mai no s'escriu a comptes suspesos, esborrats, sense confirmar o que han
@@ -34,7 +34,7 @@ desactivat el correu al seu perfil.
 
 La política que dona el consentiment és, per defecte, la de «comunicacions
 comercials» que crea `local_pspvaccess` com a esborrany: **mentre no es
-publiqui, cap extern l'ha acceptada** i les campanyes comercials només
+publiqui, cap ciutadà l'ha acceptada** i les campanyes comercials només
 arriben als treballadors.
 
 ## Baixa

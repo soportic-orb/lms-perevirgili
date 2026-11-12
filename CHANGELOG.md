@@ -1,5 +1,24 @@
 # Registre de canvis
 
+## Canvis de presentació (12-11-2026)
+
+### Canviat
+
+- El públic de la formació de pagament passa a dir-se **«ciutadà/ana»** en
+  lloc d'«extern» a tots els textos (`local_pspvaccess` 0.2.0, `theme_pspv`
+  0.2.0). La categoria «Formació externa» ja creada es reanomena a
+  «Formació per a la ciutadania» en actualitzar, si no se n'havia canviat
+  el nom.
+- `theme_pspv`: s'amaga el botó flotant «?» de Moodle.
+
+### Afegit
+
+- `theme_pspv`: bloc «Per què formar-te amb el Pere Virgili» a la portada,
+  abans del catàleg, amb quatre motius. Es pot amagar i tots els textos es
+  poden canviar a la configuració del tema.
+- `theme_pspv`: crèdit «Desenvolupat per Octavi Rodríguez» al peu, amb
+  enllaç a soportic.es.
+
 ## Correccions de la primera instal·lació a CloudPanel (12-11-2026)
 
 ### Afegit

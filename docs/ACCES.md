@@ -10,7 +10,7 @@ configuren els inicis de sessió amb Microsoft i Google. Ho fa el plugin
 |---|---|---|
 | Cohort «Treballadors PSPV» | `pspv-workers` | Els treballadors de l'hospital |
 | Categoria «Formació interna» | `pspv-internal` | Només la veuen els membres de la cohort i qui la gestiona |
-| Categoria «Formació externa» | `pspv-external` | Catàleg públic, visible sense iniciar sessió |
+| Categoria «Formació per a la ciutadania» | `pspv-external` | Catàleg públic, visible sense iniciar sessió |
 | Rol «Treballador/a PSPV» | `pspvworker` | Mostra la categoria interna; s'assigna sol als membres de la cohort |
 | Rol «Gestor/a de formació» | `pspvtrainingmanager` | Gestiona cursos i usuaris, sense configuració del lloc |
 | Rol «Gestor/a comercial» | `pspvsalesmanager` | Vendes, descomptes i factures (permisos a `docs/VENDA.md`) |
@@ -20,7 +20,7 @@ identificador.
 
 La categoria interna s'amaga traient el permís
 `moodle/category:viewcourselist` als rols de visitant i d'usuari autenticat
-**només en aquella categoria**, i donant-lo al rol `pspvworker`. Un extern
+**només en aquella categoria**, i donant-lo al rol `pspvworker`. Un ciutadà
 no veu ni la categoria ni els seus cursos, tampoc a les cerques.
 
 Per matricular en un curs intern es fa servir, a cada curs, la
@@ -92,7 +92,7 @@ A totes dues aplicacions, l'URI de redirecció és
 - **Microsoft** (portal d'Entra ID → Registres d'aplicacions). Una sola
   aplicació, amb «Comptes de qualsevol directori organitzatiu i comptes
   personals de Microsoft», serveix per als dos proveïdors que es creen:
-  - **Microsoft**: obert a qualsevol compte, per als externs.
+  - **Microsoft**: obert a qualsevol compte, per als ciutadans.
   - **Compte corporatiu PSPV**: restringit al tenant de `OAUTH_MICROSOFT_TENANT`.
     És el que comprova la regla «Compte Microsoft corporatiu».
 
