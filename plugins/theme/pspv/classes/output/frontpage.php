@@ -30,6 +30,9 @@ class frontpage implements \core\output\renderable, \core\output\templatable {
     /** @var string[] Icon of each reason to train here, in order: there are as many reasons as icons. */
     public const REASON_ICONS = ['building-hospital', 'users', 'device-laptop', 'certificate'];
 
+    /** @var int News shown on the front page when the setting is empty. */
+    public const NEWS_COUNT = 4;
+
     #[\Override]
     public function export_for_template(\core\output\renderer_base $output): array {
         $courses = catalogue::courses(max(0, (int) (get_config('theme_pspv', 'cataloguecount') ?: 6)));
@@ -48,7 +51,27 @@ class frontpage implements \core\output\renderable, \core\output\templatable {
             ];
         }
 
+        // The latest news, from whichever plugin offers them.
+        $news = ['url' => '', 'cards' => []];
+        $shownews = get_config('theme_pspv', 'shownews');
+        if ($shownews === false || !empty($shownews)) {
+            $count = get_config('theme_pspv', 'newscount');
+            $count = $count === false ? self::NEWS_COUNT : max(0, (int) $count);
+            foreach (get_plugins_with_function('theme_pspv_frontpage_news') as $plugins) {
+                foreach ($plugins as $function) {
+                    $offered = (array) $function($count);
+                    if (!empty($offered['cards'])) {
+                        $news = ['url' => (string) ($offered['url'] ?? ''), 'cards' => array_values($offered['cards'])];
+                        break 2;
+                    }
+                }
+            }
+        }
+
         return [
+            'hasnews' => !empty($news['cards']),
+            'news' => $news['cards'],
+            'newsurl' => $news['url'],
             'showwhy' => $showwhy,
             'whytitle' => texts::get('whytitle'),
             'whylead' => texts::get('whylead'),

@@ -1,0 +1,31 @@
+/* Campus PSPV news: what the cards and the article add to the styles of the theme. */
+.pspv-news-date {
+    margin-bottom: .375rem;
+    color: #5b6676;
+    font-size: .8125rem;
+}
+
+.pspv-news-card .pspv-cover {
+    aspect-ratio: 16 / 9;
+}
+
+.local-pspvnews-article {
+    max-width: 50rem;
+}
+
+.local-pspvnews-title {
+    margin-bottom: 1rem;
+}
+
+.local-pspvnews-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem;
+    border-radius: .5rem;
+}
+
+.local-pspvnews-body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}

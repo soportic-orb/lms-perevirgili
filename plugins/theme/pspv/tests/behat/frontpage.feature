@@ -53,3 +53,9 @@ Feature: Public front page of the campus
     Then I should see "Go to my dashboard"
     And I should not see "I am a worker"
     And I should see "Chronic wound care"
+
+  Scenario: The top menu leads to the page about who runs the campus
+    Given I am on site homepage
+    When I follow "About us"
+    Then I should see "Training team" in the "[data-region='pspv-about']" "css_element"
+    And I should see "Sample text"

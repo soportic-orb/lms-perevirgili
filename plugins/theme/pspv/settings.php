@@ -124,6 +124,19 @@ if ($ADMIN->fulltree) {
             PARAM_TEXT,
         ));
     }
+    $settings->add(new admin_setting_configcheckbox(
+        'theme_pspv/shownews',
+        get_string('setting_shownews', 'theme_pspv'),
+        get_string('setting_shownews_desc', 'theme_pspv'),
+        1,
+    ));
+    $settings->add(new admin_setting_configtext(
+        'theme_pspv/newscount',
+        get_string('setting_newscount', 'theme_pspv'),
+        '',
+        \theme_pspv\output\frontpage::NEWS_COUNT,
+        PARAM_INT,
+    ));
     $settings->add(new admin_setting_configtext(
         'theme_pspv/cataloguecategory',
         get_string('setting_cataloguecategory', 'theme_pspv'),
@@ -140,6 +153,25 @@ if ($ADMIN->fulltree) {
     ));
 
     // Footer.
+    // "About us" page.
+    $settings->add(new admin_setting_heading(
+        'theme_pspv/aboutheading',
+        get_string('about', 'theme_pspv'),
+        '',
+    ));
+    $settings->add(new admin_setting_configcheckbox(
+        'theme_pspv/showabout',
+        get_string('setting_showabout', 'theme_pspv'),
+        get_string('setting_showabout_desc', 'theme_pspv'),
+        1,
+    ));
+    $settings->add(new admin_setting_confightmleditor(
+        'theme_pspv/abouttext',
+        get_string('setting_abouttext', 'theme_pspv'),
+        get_string('setting_abouttext_desc', 'theme_pspv'),
+        '',
+    ));
+
     $settings->add(new admin_setting_heading(
         'theme_pspv/footerheading',
         get_string('setting_footer', 'theme_pspv'),

@@ -184,6 +184,39 @@
     font-size: .9375rem;
 }
 
+// Notícies, després del catàleg.
+.pspv-news {
+    padding: 0 0 3rem;
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+.pspv-news-date {
+    margin-bottom: .375rem;
+    color: $pspv-muted;
+    font-size: .8125rem;
+}
+
+.pspv-news-card .pspv-cover {
+    aspect-ratio: 16 / 9;
+}
+
+// Pàgina «Qui som».
+.pspv-about-content {
+    max-width: 50rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+
+    h3 {
+        margin-top: 2rem;
+        font-family: $font-family-sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+}
+
 .pspv-catalogue {
     padding: 2.5rem 0 3rem;
 

@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['about'] = 'Qui som';
+$string['about_default'] = '<p>El Campus del Parc Sanitari Pere Virgili el gestionen les persones de l\'hospital responsables de la docència i de la formació continuada.</p><h3>Direcció de docència</h3><p>Defineix el pla de formació de l\'hospital, aprova els cursos i vetlla perquè compleixin els requisits de qualitat i d\'acreditació.</p><h3>Equip de formació</h3><p>Prepara el calendari, acompanya els docents en el disseny dels cursos i atén l\'alumnat des de la matrícula fins al diploma.</p><h3>Equip docent</h3><p>Professionals de l\'hospital en geriatria, rehabilitació, cures pal·liatives i infermeria que comparteixen el que fan cada dia.</p><h3>Suport tècnic</h3><p>Manté la plataforma en funcionament i ajuda amb l\'accés i amb qualsevol dificultat per fer-la servir.</p><p><em>Text de demostració: substituïu-lo per la descripció real de l\'equip.</em></p>';
+$string['about_disabled'] = 'Aquesta pàgina no és disponible.';
+$string['about_edit'] = 'Escriu el text real';
+$string['about_sample_notice'] = 'Aquest és un text de demostració. Aquest avís només el veuen els administradors.';
 $string['campus'] = 'Campus';
 $string['catalogue'] = 'Catàleg de cursos';
 $string['catalogue_all'] = 'Mira tot el catàleg';
@@ -46,11 +51,15 @@ $string['footer_training'] = 'Formació';
 $string['gotodashboard'] = 'Vés al meu tauler';
 $string['herolead_default'] = 'Cursos acreditats en geriatria, rehabilitació i cures pal·liatives, fets pels professionals del Parc Sanitari Pere Virgili.';
 $string['herotitle_default'] = 'Formació per cuidar millor les persones grans';
+$string['news_all'] = 'Totes les notícies';
+$string['news_title'] = 'Notícies';
 $string['pluginname'] = 'Campus PSPV';
 $string['privacy:metadata'] = 'El tema Campus PSPV no desa cap dada personal.';
 $string['region-side-pre'] = 'Dreta';
 $string['searchcourses'] = 'Cerca cursos';
 $string['searchplaceholder'] = 'Cerca per tema o àrea';
+$string['setting_abouttext'] = 'Text de «Qui som»';
+$string['setting_abouttext_desc'] = 'Qui gestiona el campus. Mentre sigui buit, la pàgina mostra un text de demostració.';
 $string['setting_brandcolor'] = 'Color principal';
 $string['setting_brandcolor_desc'] = 'Es fa servir en botons i elements actius. Els enllaços i el text de color fan servir un to més fosc, calculat automàticament perquè compleixi el contrast WCAG AA.';
 $string['setting_cataloguecategory'] = 'Categoria del catàleg';
@@ -67,10 +76,15 @@ $string['setting_herotext_desc'] = 'Deixeu-ho buit per fer servir el text per de
 $string['setting_herotitle'] = 'Títol de la portada';
 $string['setting_logo'] = 'Logotip';
 $string['setting_logo_desc'] = 'Es mostra a la barra superior i al peu. El millor és SVG. Sense fitxer, es fa servir el logotip que porta el tema.';
+$string['setting_newscount'] = 'Notícies a la portada';
 $string['setting_owner'] = 'Institució';
 $string['setting_owner_desc'] = 'Nom que es fa servir com a text alternatiu del logotip i a la línia de copyright.';
 $string['setting_secondarycolor'] = 'Color secundari';
 $string['setting_secondarycolor_desc'] = 'Es fa servir en fons i detalls decoratius, mai per a text.';
+$string['setting_showabout'] = 'Pàgina «Qui som»';
+$string['setting_showabout_desc'] = 'Mostra la pàgina i el seu enllaç al menú superior.';
+$string['setting_shownews'] = 'Mostra les últimes notícies';
+$string['setting_shownews_desc'] = 'Un bloc a la portada, després del catàleg, amb les últimes notícies del campus.';
 $string['setting_showwhy'] = 'Mostra els motius per formar-s\'hi';
 $string['setting_showwhy_desc'] = 'Un bloc a la portada, abans del catàleg, amb un títol i quatre motius.';
 $string['setting_whylead'] = 'Motius: introducció';

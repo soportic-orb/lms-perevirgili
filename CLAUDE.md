@@ -58,6 +58,9 @@ comentaris de codi en **anglès**, seguint les normes de Moodle.
 - Els scripts de `deploy/cloudpanel/` llegeixen `.env` amb `env_value`, sense
   executar-lo, i s'han de poder tornar a executar. `restore.sh` és l'únic
   destructiu i demana confirmació.
+- **Menú superior:** els elements propis s'hi afegeixen amb el hook
+  `\core\hook\navigation\primary_extend`, abans de `siteadminnode` només si
+  aquest node existeix (un visitant no el té i Moodle dona error).
 - **Amplada del contingut:** una de sola, `$pspv-content-maxwidth`
   (`scss/pspv/_variables.scss`), per a la portada, el peu i totes les pàgines
   de Moodle. Una pàgina nova no ha de fixar la seva.
@@ -138,7 +141,8 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
   categories `pspv-internal` i `pspv-external`, rols, auditoria, i
   configuració d'OAuth 2 i de `tool_policy`. Vegeu `docs/ACCES.md`.
 - `theme_pspv`: tema fill de Boost amb tokens de Tabler, Tabler Icons,
-  logotip i colors de l'hospital, portada pública i peu institucional. Les
+  logotip i colors de l'hospital, portada pública (motius, catàleg i
+  notícies), pàgina «Qui som» (`about.php`) i peu institucional. Les
   icones es regeneren amb `scripts/theme-icons.py`. Vegeu el seu `README.md`.
 - `local_pspvshop`: catàleg públic, fitxa de curs, cistella, descomptes,
   preus per cohort, comandes i matrícula en pagar, sobre `core_payment`
@@ -156,6 +160,10 @@ es queda amb una còpia antiga fins que es recrea (`docker compose up -d --force
 - `local_pspvmailing`: campanyes per segments (cohort, curs, compres),
   consentiment de `tool_policy` per a les comercials, enviament per tasques
   adhoc en lots i baixa amb enllaç signat. Vegeu `docs/COMUNICACIO.md`.
+- `local_pspvnews`: notícies del campus (pàgina pública, article amb
+  portada, gestió amb esborranys i data de publicació). Dona les últimes al
+  tema amb `local_pspvnews_theme_pspv_frontpage_news()` i afegeix «Notícies»
+  al menú superior amb el hook `primary_extend`.
 - `report_pspvdashboard`: quadre de comandament (matrícules, finalitzacions,
   vendes, ingressos, formació interna per servei i categoria). Només llegeix;
   cada part desapareix si el plugin d'on surt no és instal·lat.

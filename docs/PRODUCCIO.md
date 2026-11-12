@@ -76,6 +76,8 @@ Cap d'aquests valors s'ha inventat: ara són buits o esborranys.
 
 ## 4. Abans d'obrir
 
+- [ ] Cursos i notícies d'exemple esborrats (`deploy/demo/*.php --delete`) i
+      text real a «Qui som».
 - [ ] **Mode de proves de la botiga desactivat** (`local_pspvshop/testmode`).
       Amb el mode activat, un administrador pot donar per pagada una comanda.
 - [ ] Contrasenya de l'administrador canviada i `MOODLE_ADMIN_PASS`
