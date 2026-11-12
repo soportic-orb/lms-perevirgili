@@ -24,8 +24,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['check_backup'] = 'Còpies de seguretat del servidor';
+$string['check_backup_last'] = 'L\'última còpia va acabar fa {$a}.';
+$string['check_backup_never'] = 'No ha acabat cap còpia a la carpeta de còpies.';
+$string['check_backup_off'] = 'La carpeta de còpies no és definida (BACKUP_DIR a .env): les còpies no es vigilen.';
+$string['check_cron'] = 'Cron del campus';
+$string['check_cron_last'] = 'El cron va arrencar per última vegada fa {$a}.';
+$string['check_cron_never'] = 'El cron no s\'ha executat mai.';
+$string['check_disk'] = 'Espai lliure al disc';
+$string['check_disk_free'] = '{$a->free} lliures ({$a->percent} %) on Moodle guarda els fitxers.';
+$string['check_disk_unknown'] = 'No es pot llegir l\'espai lliure en aquest servidor.';
+$string['check_mail'] = 'Correu de sortida';
+$string['check_mail_diverted'] = 'Tots els correus es desvien a {$a}.';
+$string['check_mail_nosmtp'] = 'No hi ha cap servidor SMTP definit: el correu surt amb la funció mail de PHP, que sovint acaba al correu brossa.';
+$string['check_mail_off'] = 'El correu és desactivat (noemailever): el campus no envia res.';
+$string['check_mail_ok'] = 'El correu surt per {$a}.';
+$string['check_ota'] = 'Actualitzacions OTA';
+$string['check_ota_available'] = 'L\'actualització {$a} espera que s\'apliqui.';
+$string['check_ota_nokey'] = 'La clau pública no és definida (OTA_PUBLIC_KEY a .env): les actualitzacions no es poden verificar.';
+$string['check_ota_ok'] = 'El lloc està al dia.';
+$string['check_ota_rolledback'] = 'L\'última actualització es va desfer.';
+$string['check_ota_stale'] = 'Fa {$a} que no es busquen actualitzacions.';
 $string['event_ota_applied'] = 'Actualització OTA aplicada';
 $string['event_ota_rolled_back'] = 'Actualització OTA desfeta';
+$string['health_alert_body'] = 'Aquestes comprovacions de {$a->site} fallen:
+
+{$a->checks}
+
+Informe d\'estat: {$a->url}';
+$string['health_alert_subject'] = '{$a}: alguna cosa demana atenció';
+$string['health_recovered_body'] = 'Totes les comprovacions de {$a->site} tornen a funcionar.
+
+Informe d\'estat: {$a->url}';
+$string['health_recovered_subject'] = '{$a}: tot torna a funcionar';
+$string['health_report'] = 'Informe d\'estat';
+$string['messageprovider:healthalert'] = 'Errors de les comprovacions d\'estat del campus';
 $string['ota_action_applied'] = 'Aplicada';
 $string['ota_action_rolledback'] = 'Desfeta';
 $string['ota_applied'] = 'S\'ha aplicat la versió {$a}.';
@@ -71,3 +104,4 @@ $string['pluginname'] = 'Nucli del Campus PSPV';
 $string['privacy:metadata'] = 'El plugin del nucli del Campus PSPV no desa cap dada personal.';
 $string['pspvcore:manageupdates'] = 'Aplicar i desfer actualitzacions del Campus PSPV';
 $string['task_checkupdates'] = 'Cerca actualitzacions del Campus PSPV';
+$string['task_health_alert'] = 'Comprova l\'estat del campus i avisa els administradors';

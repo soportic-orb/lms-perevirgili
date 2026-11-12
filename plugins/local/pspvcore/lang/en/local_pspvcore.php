@@ -24,8 +24,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['check_backup'] = 'Backups of the server';
+$string['check_backup_last'] = 'The last backup finished {$a} ago.';
+$string['check_backup_never'] = 'No backup has finished in the backup folder.';
+$string['check_backup_off'] = 'The backup folder is not set (BACKUP_DIR in .env), so backups are not watched.';
+$string['check_cron'] = 'Cron of the campus';
+$string['check_cron_last'] = 'Cron last started {$a} ago.';
+$string['check_cron_never'] = 'Cron has never run.';
+$string['check_disk'] = 'Free disk space';
+$string['check_disk_free'] = '{$a->free} free ({$a->percent} %) where Moodle keeps its files.';
+$string['check_disk_unknown'] = 'The free space cannot be read on this server.';
+$string['check_mail'] = 'Outgoing email';
+$string['check_mail_diverted'] = 'Every email is being diverted to {$a}.';
+$string['check_mail_nosmtp'] = 'No SMTP server is set: email goes out with the mail function of PHP, which often ends in spam.';
+$string['check_mail_off'] = 'Email is switched off (noemailever): the campus sends nothing.';
+$string['check_mail_ok'] = 'Email goes out through {$a}.';
+$string['check_ota'] = 'OTA updates';
+$string['check_ota_available'] = 'The update {$a} is waiting to be applied.';
+$string['check_ota_nokey'] = 'The public key is not set (OTA_PUBLIC_KEY in .env): updates cannot be verified.';
+$string['check_ota_ok'] = 'The site is up to date.';
+$string['check_ota_rolledback'] = 'The last update was rolled back.';
+$string['check_ota_stale'] = 'No update has been looked for in {$a}.';
 $string['event_ota_applied'] = 'OTA update applied';
 $string['event_ota_rolled_back'] = 'OTA update rolled back';
+$string['health_alert_body'] = 'These checks of {$a->site} are failing:
+
+{$a->checks}
+
+Status report: {$a->url}';
+$string['health_alert_subject'] = '{$a}: something needs attention';
+$string['health_recovered_body'] = 'Every check of {$a->site} works again.
+
+Status report: {$a->url}';
+$string['health_recovered_subject'] = '{$a}: everything works again';
+$string['health_report'] = 'Status report';
+$string['messageprovider:healthalert'] = 'Failures of the health checks of the campus';
 $string['ota_action_applied'] = 'Applied';
 $string['ota_action_rolledback'] = 'Rolled back';
 $string['ota_applied'] = 'Version {$a} has been applied.';
@@ -71,3 +104,4 @@ $string['pluginname'] = 'Campus PSPV core';
 $string['privacy:metadata'] = 'The Campus PSPV core plugin does not store any personal data.';
 $string['pspvcore:manageupdates'] = 'Apply and undo Campus PSPV updates';
 $string['task_checkupdates'] = 'Check for Campus PSPV updates';
+$string['task_health_alert'] = 'Check the health of the campus and warn the administrators';

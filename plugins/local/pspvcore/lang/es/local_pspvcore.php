@@ -24,8 +24,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['check_backup'] = 'Copias de seguridad del servidor';
+$string['check_backup_last'] = 'La última copia terminó hace {$a}.';
+$string['check_backup_never'] = 'No ha terminado ninguna copia en la carpeta de copias.';
+$string['check_backup_off'] = 'La carpeta de copias no está definida (BACKUP_DIR en .env): las copias no se vigilan.';
+$string['check_cron'] = 'Cron del campus';
+$string['check_cron_last'] = 'El cron arrancó por última vez hace {$a}.';
+$string['check_cron_never'] = 'El cron no se ha ejecutado nunca.';
+$string['check_disk'] = 'Espacio libre en disco';
+$string['check_disk_free'] = '{$a->free} libres ({$a->percent} %) donde Moodle guarda los archivos.';
+$string['check_disk_unknown'] = 'No se puede leer el espacio libre en este servidor.';
+$string['check_mail'] = 'Correo de salida';
+$string['check_mail_diverted'] = 'Todos los correos se desvían a {$a}.';
+$string['check_mail_nosmtp'] = 'No hay ningún servidor SMTP definido: el correo sale con la función mail de PHP, que a menudo acaba en el correo basura.';
+$string['check_mail_off'] = 'El correo está desactivado (noemailever): el campus no envía nada.';
+$string['check_mail_ok'] = 'El correo sale por {$a}.';
+$string['check_ota'] = 'Actualizaciones OTA';
+$string['check_ota_available'] = 'La actualización {$a} espera a que se aplique.';
+$string['check_ota_nokey'] = 'La clave pública no está definida (OTA_PUBLIC_KEY en .env): las actualizaciones no se pueden verificar.';
+$string['check_ota_ok'] = 'El sitio está al día.';
+$string['check_ota_rolledback'] = 'La última actualización se deshizo.';
+$string['check_ota_stale'] = 'Hace {$a} que no se buscan actualizaciones.';
 $string['event_ota_applied'] = 'Actualización OTA aplicada';
 $string['event_ota_rolled_back'] = 'Actualización OTA deshecha';
+$string['health_alert_body'] = 'Estas comprobaciones de {$a->site} fallan:
+
+{$a->checks}
+
+Informe de estado: {$a->url}';
+$string['health_alert_subject'] = '{$a}: algo necesita atención';
+$string['health_recovered_body'] = 'Todas las comprobaciones de {$a->site} vuelven a funcionar.
+
+Informe de estado: {$a->url}';
+$string['health_recovered_subject'] = '{$a}: todo vuelve a funcionar';
+$string['health_report'] = 'Informe de estado';
+$string['messageprovider:healthalert'] = 'Errores de las comprobaciones de estado del campus';
 $string['ota_action_applied'] = 'Aplicada';
 $string['ota_action_rolledback'] = 'Deshecha';
 $string['ota_applied'] = 'Se ha aplicado la versión {$a}.';
@@ -71,3 +104,4 @@ $string['pluginname'] = 'Núcleo del Campus PSPV';
 $string['privacy:metadata'] = 'El plugin del núcleo del Campus PSPV no guarda ningún dato personal.';
 $string['pspvcore:manageupdates'] = 'Aplicar y deshacer actualizaciones del Campus PSPV';
 $string['task_checkupdates'] = 'Buscar actualizaciones del Campus PSPV';
+$string['task_health_alert'] = 'Comprobar el estado del campus y avisar a los administradores';

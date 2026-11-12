@@ -1,0 +1,184 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template report_pspvdashboard/dashboard
+
+    Dashboard of the campus.
+
+    Example context (json):
+    {
+        "action": "https://example.com/report/pspvdashboard/index.php",
+        "from": "2027-01-01",
+        "to": "",
+        "hasfilter": true,
+        "enrolments": 320,
+        "completions": 210,
+        "activeusers": 540,
+        "hassales": true,
+        "orders": 45,
+        "revenue": "5.400,00 €",
+        "hasaccreditation": true,
+        "accreditations": 120,
+        "hascourses": true,
+        "courses": [
+            {"name": "Wound care", "url": "https://example.com/course/view.php?id=2", "category": "External training",
+             "enrolments": 40, "completions": 25, "sold": 38, "revenue": "2.850,00 €"}
+        ],
+        "coursesdownload": "",
+        "hasstafflist": true,
+        "breakdowns": [
+            {"key": "department", "title": "Internal training by service", "label": "Service", "hasrows": true,
+             "rows": [{"name": "Geriatrics", "people": 30, "enrolments": 55, "completions": 40, "rate": "73 %"}],
+             "download": ""}
+        ]
+    }
+}}
+<div class="report-pspvdashboard" data-region="pspvdashboard">
+    <form method="get" action="{{action}}" class="row g-2 align-items-end mb-4" data-region="pspvdashboard-filter">
+        <div class="col-auto">
+            <label class="form-label" for="pspvdashboard-from">{{#str}}filter_from, report_pspvdashboard{{/str}}</label>
+            <input class="form-control" type="date" id="pspvdashboard-from" name="from" value="{{from}}">
+        </div>
+        <div class="col-auto">
+            <label class="form-label" for="pspvdashboard-to">{{#str}}filter_to, report_pspvdashboard{{/str}}</label>
+            <input class="form-control" type="date" id="pspvdashboard-to" name="to" value="{{to}}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">{{#str}}filter{{/str}}</button>
+            {{#hasfilter}}<a class="btn btn-secondary" href="{{action}}">{{#str}}filter_clear, report_pspvdashboard{{/str}}</a>{{/hasfilter}}
+        </div>
+    </form>
+
+    <div class="row g-3 mb-4" data-region="pspvdashboard-summary">
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}enrolments, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0" data-region="pspvdashboard-enrolments">{{enrolments}}</div>
+            </div></div>
+        </div>
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}completions, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0" data-region="pspvdashboard-completions">{{completions}}</div>
+            </div></div>
+        </div>
+        {{#hasaccreditation}}
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}accreditations, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0">{{accreditations}}</div>
+            </div></div>
+        </div>
+        {{/hasaccreditation}}
+        {{#hassales}}
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}orders, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0" data-region="pspvdashboard-orders">{{orders}}</div>
+            </div></div>
+        </div>
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}revenue, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0" data-region="pspvdashboard-revenue">{{revenue}}</div>
+            </div></div>
+        </div>
+        {{/hassales}}
+        <div class="col-6 col-lg">
+            <div class="card h-100"><div class="card-body">
+                <div class="text-muted small">{{#str}}activeusers, report_pspvdashboard{{/str}}</div>
+                <div class="h2 mb-0">{{activeusers}}</div>
+            </div></div>
+        </div>
+    </div>
+
+    <section class="mb-4" aria-labelledby="pspvdashboard-courses-title">
+        <h3 id="pspvdashboard-courses-title" class="h5">{{#str}}by_course, report_pspvdashboard{{/str}}</h3>
+        {{#hascourses}}
+        <div class="table-responsive">
+            <table class="table table-sm generaltable" data-region="pspvdashboard-courses">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}course{{/str}}</th>
+                        <th scope="col">{{#str}}category{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}enrolments, report_pspvdashboard{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}completions, report_pspvdashboard{{/str}}</th>
+                        {{#hassales}}
+                        <th scope="col" class="text-end">{{#str}}sold, report_pspvdashboard{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}revenue, report_pspvdashboard{{/str}}</th>
+                        {{/hassales}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#courses}}
+                    <tr>
+                        <th scope="row"><a href="{{url}}">{{{name}}}</a></th>
+                        <td>{{{category}}}</td>
+                        <td class="text-end">{{enrolments}}</td>
+                        <td class="text-end">{{completions}}</td>
+                        {{#hassales}}
+                        <td class="text-end">{{sold}}</td>
+                        <td class="text-end">{{revenue}}</td>
+                        {{/hassales}}
+                    </tr>
+                    {{/courses}}
+                </tbody>
+            </table>
+        </div>
+        {{{coursesdownload}}}
+        {{/hascourses}}
+        {{^hascourses}}<p class="text-muted">{{#str}}nodata, report_pspvdashboard{{/str}}</p>{{/hascourses}}
+    </section>
+
+    {{#hasstafflist}}
+    <div class="row g-4">
+        {{#breakdowns}}
+        <section class="col-lg-6" aria-labelledby="pspvdashboard-{{key}}-title">
+            <h3 id="pspvdashboard-{{key}}-title" class="h5">{{title}}</h3>
+            {{#hasrows}}
+            <div class="table-responsive">
+                <table class="table table-sm generaltable" data-region="pspvdashboard-{{key}}">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{label}}</th>
+                            <th scope="col" class="text-end">{{#str}}people, report_pspvdashboard{{/str}}</th>
+                            <th scope="col" class="text-end">{{#str}}enrolments, report_pspvdashboard{{/str}}</th>
+                            <th scope="col" class="text-end">{{#str}}completions, report_pspvdashboard{{/str}}</th>
+                            <th scope="col" class="text-end">{{#str}}rate, report_pspvdashboard{{/str}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#rows}}
+                        <tr>
+                            <th scope="row">{{name}}</th>
+                            <td class="text-end">{{people}}</td>
+                            <td class="text-end">{{enrolments}}</td>
+                            <td class="text-end">{{completions}}</td>
+                            <td class="text-end">{{rate}}</td>
+                        </tr>
+                        {{/rows}}
+                    </tbody>
+                </table>
+            </div>
+            {{{download}}}
+            {{/hasrows}}
+            {{^hasrows}}<p class="text-muted">{{#str}}nodata_internal, report_pspvdashboard{{/str}}</p>{{/hasrows}}
+        </section>
+        {{/breakdowns}}
+    </div>
+    {{/hasstafflist}}
+</div>

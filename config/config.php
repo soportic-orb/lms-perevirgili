@@ -111,6 +111,9 @@ $CFG->forced_plugin_settings['local_pspvcore'] = [
     'redisport' => $pspvget('REDIS_PORT', '6379'),
     'redispassword' => $pspvget('REDIS_PASSWORD', ''),
     'redisprefix' => $pspvget('REDIS_PREFIX', 'pspv_'),
+    // Monitoratge: token de /local/pspvcore/health.php i carpeta que vigila la comprovació de còpies.
+    'healthtoken' => $pspvget('HEALTH_TOKEN', ''),
+    'backupdir' => $pspvget('BACKUP_DIR', ''),
 ];
 
 // Aplicacions OAuth 2 (Google i Microsoft): local/pspvaccess/cli/setup.php en crea els proveïdors.
