@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['about'] = 'Quiénes somos';
+$string['about_default'] = '<p>El Campus del Parc Sanitari Pere Virgili lo gestionan las personas del hospital responsables de la docencia y de la formación continuada.</p><h3>Dirección de docencia</h3><p>Define el plan de formación del hospital, aprueba los cursos y vela por que cumplan los requisitos de calidad y de acreditación.</p><h3>Equipo de formación</h3><p>Prepara el calendario, acompaña a los docentes en el diseño de los cursos y atiende al alumnado desde la matrícula hasta el diploma.</p><h3>Equipo docente</h3><p>Profesionales del hospital en geriatría, rehabilitación, cuidados paliativos y enfermería que comparten lo que hacen cada día.</p><h3>Soporte técnico</h3><p>Mantiene la plataforma en funcionamiento y ayuda con el acceso y con cualquier dificultad para usarla.</p><p><em>Texto de demostración: sustitúyalo por la descripción real del equipo.</em></p>';
+$string['about_disabled'] = 'Esta página no está disponible.';
+$string['about_edit'] = 'Escribir el texto real';
+$string['about_sample_notice'] = 'Este es un texto de demostración. Este aviso solo lo ven los administradores.';
 $string['campus'] = 'Campus';
 $string['catalogue'] = 'Catálogo de cursos';
 $string['catalogue_all'] = 'Ver todo el catálogo';
@@ -46,11 +51,15 @@ $string['footer_training'] = 'Formación';
 $string['gotodashboard'] = 'Ir a mi tablero';
 $string['herolead_default'] = 'Cursos acreditados en geriatría, rehabilitación y cuidados paliativos, impartidos por los profesionales del Parc Sanitari Pere Virgili.';
 $string['herotitle_default'] = 'Formación para cuidar mejor a las personas mayores';
+$string['news_all'] = 'Todas las noticias';
+$string['news_title'] = 'Noticias';
 $string['pluginname'] = 'Campus PSPV';
 $string['privacy:metadata'] = 'El tema Campus PSPV no guarda ningún dato personal.';
 $string['region-side-pre'] = 'Derecha';
 $string['searchcourses'] = 'Buscar cursos';
 $string['searchplaceholder'] = 'Busca por tema o área';
+$string['setting_abouttext'] = 'Texto de «Quiénes somos»';
+$string['setting_abouttext_desc'] = 'Quién gestiona el campus. Mientras esté vacío, la página muestra un texto de demostración.';
 $string['setting_brandcolor'] = 'Color principal';
 $string['setting_brandcolor_desc'] = 'Se usa en botones y elementos activos. Los enlaces y el texto de color usan un tono más oscuro, calculado automáticamente para que cumpla el contraste WCAG AA.';
 $string['setting_cataloguecategory'] = 'Categoría del catálogo';
@@ -67,10 +76,15 @@ $string['setting_herotext_desc'] = 'Déjelo vacío para usar el texto por defect
 $string['setting_herotitle'] = 'Título de la portada';
 $string['setting_logo'] = 'Logotipo';
 $string['setting_logo_desc'] = 'Se muestra en la barra superior y en el pie. Lo mejor es SVG. Sin fichero, se usa el logotipo que trae el tema.';
+$string['setting_newscount'] = 'Noticias en la portada';
 $string['setting_owner'] = 'Institución';
 $string['setting_owner_desc'] = 'Nombre que se usa como texto alternativo del logotipo y en la línea de copyright.';
 $string['setting_secondarycolor'] = 'Color secundario';
 $string['setting_secondarycolor_desc'] = 'Se usa en fondos y detalles decorativos, nunca para texto.';
+$string['setting_showabout'] = 'Página «Quiénes somos»';
+$string['setting_showabout_desc'] = 'Muestra la página y su enlace en el menú superior.';
+$string['setting_shownews'] = 'Mostrar las últimas noticias';
+$string['setting_shownews_desc'] = 'Un bloque en la portada, después del catálogo, con las últimas noticias del campus.';
 $string['setting_showwhy'] = 'Mostrar los motivos para formarse aquí';
 $string['setting_showwhy_desc'] = 'Un bloque en la portada, antes del catálogo, con un título y cuatro motivos.';
 $string['setting_whylead'] = 'Motivos: introducción';

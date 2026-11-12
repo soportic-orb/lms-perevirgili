@@ -28,6 +28,13 @@
         "workerurl": "https://example.com/login/index.php",
         "externalurl": "https://example.com/login/signup.php",
         "dashboardurl": "https://example.com/my/",
+        "hasnews": true,
+        "newsurl": "https://example.com/local/pspvnews/index.php",
+        "news": [
+            {"url": "https://example.com/local/pspvnews/view.php?id=1", "title": "A new course on home care",
+             "summary": "What the course covers.", "date": "12 November 2026", "isodate": "2026-11-12",
+             "hasimage": false, "image": "", "tone": 2}
+        ],
         "showwhy": true,
         "whytitle": "Why train with Pere Virgili",
         "whylead": "Training designed by the people who care for older people every day.",
@@ -177,4 +184,35 @@
             {{/hascourses}}
         </div>
     </section>
+
+    {{#hasnews}}
+    <section class="pspv-news" aria-labelledby="pspv-news-title" data-region="pspv-news">
+        <div class="pspv-container">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-3">
+                <h2 id="pspv-news-title" class="mb-0">{{#str}}news_title, theme_pspv{{/str}}</h2>
+                <a href="{{newsurl}}">{{#str}}news_all, theme_pspv{{/str}}
+                    <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="row g-3">
+                {{#news}}
+                <div class="col-sm-6 col-lg-3">
+                    <article class="card pspv-course pspv-news-card h-100">
+                        {{#hasimage}}
+                        <div class="pspv-cover pspv-cover-image" style="background-image: url('{{image}}')" aria-hidden="true"></div>
+                        {{/hasimage}}
+                        {{^hasimage}}
+                        <div class="pspv-cover pspv-cover-tone-{{tone}}" aria-hidden="true"><i class="ti ti-news"></i></div>
+                        {{/hasimage}}
+                        <div class="card-body d-flex flex-column">
+                            <p class="pspv-news-date"><time datetime="{{isodate}}">{{date}}</time></p>
+                            <h3 class="pspv-course-title"><a class="stretched-link" href="{{url}}">{{{title}}}</a></h3>
+                            <p class="pspv-course-summary mb-0">{{summary}}</p>
+                        </div>
+                    </article>
+                </div>
+                {{/news}}
+            </div>
+        </div>
+    </section>
+    {{/hasnews}}
 </div>

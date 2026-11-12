@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['about'] = 'About us';
+$string['about_default'] = '<p>The Campus of Parc Sanitari Pere Virgili is run by the people of the hospital who are in charge of teaching and continuing education.</p><h3>Teaching management</h3><p>Sets the training plan of the hospital, approves the courses and makes sure they meet the quality and accreditation requirements.</p><h3>Training team</h3><p>Prepares the calendar, supports the teachers in designing their courses and looks after the students from enrolment to the diploma.</p><h3>Teachers</h3><p>Professionals of the hospital in geriatrics, rehabilitation, palliative care and nursing who share what they do every day.</p><h3>Technical support</h3><p>Keeps the platform running and helps with access and with any problem using it.</p><p><em>Sample text: replace it with the real description of the team.</em></p>';
+$string['about_disabled'] = 'This page is not available.';
+$string['about_edit'] = 'Write the real text';
+$string['about_sample_notice'] = 'This is a sample text. Only administrators see this notice.';
 $string['campus'] = 'Campus';
 $string['catalogue'] = 'Course catalogue';
 $string['catalogue_all'] = 'See the whole catalogue';
@@ -46,11 +51,15 @@ $string['footer_training'] = 'Training';
 $string['gotodashboard'] = 'Go to my dashboard';
 $string['herolead_default'] = 'Accredited courses in geriatrics, rehabilitation and palliative care, taught by the professionals of Parc Sanitari Pere Virgili.';
 $string['herotitle_default'] = 'Training to care better for older people';
+$string['news_all'] = 'All the news';
+$string['news_title'] = 'News';
 $string['pluginname'] = 'Campus PSPV';
 $string['privacy:metadata'] = 'The Campus PSPV theme does not store any personal data.';
 $string['region-side-pre'] = 'Right';
 $string['searchcourses'] = 'Search courses';
 $string['searchplaceholder'] = 'Search by topic or area';
+$string['setting_abouttext'] = 'Text of "About us"';
+$string['setting_abouttext_desc'] = 'Who runs the campus. While it is empty, the page shows a sample text.';
 $string['setting_brandcolor'] = 'Primary colour';
 $string['setting_brandcolor_desc'] = 'Used for buttons and active elements. Links and coloured text use a darker shade of it, worked out automatically so that it meets the WCAG AA contrast.';
 $string['setting_cataloguecategory'] = 'Catalogue category';
@@ -67,10 +76,15 @@ $string['setting_herotext_desc'] = 'Leave it empty to use the default text, whic
 $string['setting_herotitle'] = 'Front page title';
 $string['setting_logo'] = 'Logo';
 $string['setting_logo_desc'] = 'Shown in the top bar and in the footer. SVG is best. Without a file, the logo shipped with the theme is used.';
+$string['setting_newscount'] = 'News on the front page';
 $string['setting_owner'] = 'Institution';
 $string['setting_owner_desc'] = 'Name used as the alternative text of the logo and in the copyright line.';
 $string['setting_secondarycolor'] = 'Secondary colour';
 $string['setting_secondarycolor_desc'] = 'Used for backgrounds and decorative details, never for text.';
+$string['setting_showabout'] = '"About us" page';
+$string['setting_showabout_desc'] = 'Shows the page and its link in the top menu.';
+$string['setting_shownews'] = 'Show the latest news';
+$string['setting_shownews_desc'] = 'A block on the front page, after the catalogue, with the latest news of the campus.';
 $string['setting_showwhy'] = 'Show the reasons to train here';
 $string['setting_showwhy_desc'] = 'A block on the front page, before the catalogue, with a title and four reasons.';
 $string['setting_whylead'] = 'Reasons: introduction';

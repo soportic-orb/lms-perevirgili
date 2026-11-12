@@ -153,4 +153,29 @@ final class frontpage_test extends \advanced_testcase {
         set_config('showwhy', 0, 'theme_pspv');
         $this->assertFalse($this->export()['showwhy']);
     }
+
+    public function test_news_and_the_about_page_have_sensible_defaults(): void {
+        $this->resetAfterTest();
+
+        // The news block is only there when a plugin offers news, and can be switched off.
+        $data = $this->export();
+        $this->assertSame(!empty($data['news']), $data['hasnews']);
+        set_config('shownews', 0, 'theme_pspv');
+        $data = $this->export();
+        $this->assertFalse($data['hasnews']);
+        $this->assertSame([], $data['news']);
+
+        // The page about who runs the campus shows a sample text until one is written.
+        $this->assertTrue(\theme_pspv\local\about::enabled());
+        $this->assertTrue(\theme_pspv\local\about::is_sample());
+        $this->assertSame(get_string('about_default', 'theme_pspv'), \theme_pspv\local\about::content());
+        set_config('abouttext', '<p>Our <strong>team</strong></p>', 'theme_pspv');
+        $this->assertFalse(\theme_pspv\local\about::is_sample());
+        $this->assertStringContainsString('<strong>team</strong>', \theme_pspv\local\about::content());
+        // An editor left with only empty markup counts as empty.
+        set_config('abouttext', '<p><br></p>', 'theme_pspv');
+        $this->assertTrue(\theme_pspv\local\about::is_sample());
+        set_config('showabout', 0, 'theme_pspv');
+        $this->assertFalse(\theme_pspv\local\about::enabled());
+    }
 }
