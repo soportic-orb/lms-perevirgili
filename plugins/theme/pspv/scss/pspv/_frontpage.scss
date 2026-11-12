@@ -132,6 +132,58 @@
     color: $pspv-primary-text;
 }
 
+// Motius per formar-s'hi, abans del catàleg.
+.pspv-why {
+    padding: 2.5rem 0 .5rem;
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: .25rem;
+    }
+}
+
+.pspv-why-head {
+    margin-bottom: 1.25rem;
+}
+
+.pspv-why-lead {
+    max-width: 44rem;
+    margin-bottom: 0;
+    color: $pspv-muted;
+}
+
+.pspv-reason {
+    padding: 1.25rem;
+    border: 1px solid $pspv-border;
+    border-radius: $border-radius-lg;
+    background: $pspv-surface;
+}
+
+.pspv-reason-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: .875rem;
+    border-radius: $border-radius;
+    background: rgba($primary, .1);
+    color: $pspv-primary-text;
+    font-size: 1.5rem;
+}
+
+.pspv-reason-title {
+    margin-bottom: .375rem;
+    font-family: $font-family-sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 700;
+}
+
+.pspv-reason-text {
+    margin-bottom: 0;
+    color: $pspv-muted;
+    font-size: .9375rem;
+}
+
 .pspv-catalogue {
     padding: 2.5rem 0 3rem;
 

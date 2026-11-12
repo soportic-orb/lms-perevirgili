@@ -27,12 +27,32 @@ use theme_pspv\local\texts;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class frontpage implements \core\output\renderable, \core\output\templatable {
+    /** @var string[] Icon of each reason to train here, in order: there are as many reasons as icons. */
+    public const REASON_ICONS = ['building-hospital', 'users', 'device-laptop', 'certificate'];
+
     #[\Override]
     public function export_for_template(\core\output\renderer_base $output): array {
         $courses = catalogue::courses(max(0, (int) (get_config('theme_pspv', 'cataloguecount') ?: 6)));
         $guest = !isloggedin() || isguestuser();
 
+        // Reasons to train here, shown before the catalogue. Texts come from the settings or their defaults.
+        $showwhy = get_config('theme_pspv', 'showwhy');
+        $showwhy = $showwhy === false || !empty($showwhy);
+        $reasons = [];
+        foreach (self::REASON_ICONS as $index => $icon) {
+            $number = $index + 1;
+            $reasons[] = [
+                'icon' => $icon,
+                'title' => texts::get("why{$number}title"),
+                'text' => texts::get("why{$number}text"),
+            ];
+        }
+
         return [
+            'showwhy' => $showwhy,
+            'whytitle' => texts::get('whytitle'),
+            'whylead' => texts::get('whylead'),
+            'reasons' => $reasons,
             'title' => texts::get('herotitle'),
             'lead' => texts::get('herolead'),
             'searchurl' => (new \core\url('/course/search.php'))->out(false),
